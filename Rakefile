@@ -8,3 +8,7 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 
 require 'tasks/rails'
+
+task :delete_meteor do
+  Meteor.delete_all('created_at <  subdate(now(), interval 1 day)')
+end

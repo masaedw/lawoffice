@@ -1,0 +1,16 @@
+<html>
+<head>
+<%= javascript_tag %Q{
+(function(){
+  var channel = #{@channel.to_json};
+  var javascript = #{@javascript.to_json};
+  var execute = function(){
+    var meteorStrike = parent.parent.meteorStrike[channel];
+    if(meteorStrike) meteorStrike.execute(javascript);
+    else setTimeout(execute, 0);
+  }
+  execute();
+})();
+}%>
+</head>
+</html>
