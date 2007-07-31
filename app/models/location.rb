@@ -1,3 +1,3 @@
 class Location < ActiveRecord::Base
-  has_many :person
+  has_many :people
 end

@@ -1,13 +1,19 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+location1:
   id: 1
-  name: MyString
-  color: MyString
+  name: 部屋1
+  color: #123456
   listup: false
   position: 1
-two:
+location2:
   id: 2
-  name: MyString
-  color: MyString
-  listup: false
-  position: 1
+  name: 会議室
+  color: #654321
+  listup: true
+  position: 2
+location3:
+  id: 3
+  name: 広場
+  color: #126543
+  listup: true
+  position: 3

@@ -1,17 +1,25 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-one:
+user1:
   id: 1
-  name: MyString
-  phone: MyString
-  memo: MyString
+  name: user1
+  phone: 12345
+  memo: memomemo
   posx: 1
   posy: 1
   location_id: 1
-two:
+user2:
   id: 2
-  name: MyString
-  phone: MyString
-  memo: MyString
+  name: user2
+  phone: 23456
+  memo: memomome
+  posx: 1
+  posy: 1
+  location_id: 2
+user3:
+  id: 3
+  name: user3
+  phone: 34567
+  memo: 
   posx: 1
   posy: 1
   location_id: 1
