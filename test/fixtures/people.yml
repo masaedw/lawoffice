@@ -1,0 +1,17 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: MyString
+  phone: MyString
+  memo: MyString
+  posx: 1
+  posy: 1
+  location_id: 1
+two:
+  id: 2
+  name: MyString
+  phone: MyString
+  memo: MyString
+  posx: 1
+  posy: 1
+  location_id: 1
