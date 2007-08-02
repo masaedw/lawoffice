@@ -1,5 +1,8 @@
 <div id="locations">
 <table>
+<tbody id="locations-table">
 <%= render :partial => 'item', :collection => @list %>
+</tbody>
 </table>
+<%= sortable_element 'locations-table', :tag => 'tr' %>
 </div>

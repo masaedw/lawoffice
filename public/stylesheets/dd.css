@@ -111,7 +111,8 @@ body {
   top: 2em;
   left: 10px;
   width: 14em;
-  border: 1px solid #888;
+  border-top: 1px solid #888;
+  border-bottom: 1px solid #888;
 }
 
 #locations .name {
@@ -136,7 +137,8 @@ body {
 
 #locations table {
   width: 100%;
-  border-collapse: collapse;
+  border-spacing: 1px 0;
+  background-color: #888;
 }
 
 #locations td {
@@ -148,7 +150,6 @@ body {
 #locations td.name {
   vertical-align: top;
   width: 60%;
-  border-right: 1px solid #888;
 }
 
 #locations .message {

@@ -1,13 +1,12 @@
-<tr style="background-color: <%=h item.color %>">
+<tr id="location_<%=h item.id %>" style="background-color: <%=h item.color %>">
   <td class="name">
     <span class="name"><%=h item.name %></span>
   </td>
   <td class="list">
+  <%- if item.listup -%>
     <ul>
-      <% if item.listup %>
-      <%= render :partial => 'user', :collection => item.people %>
-      <% end %>
+<%= render :partial => 'user', :collection => item.people %>
     </ul>
+  <%- end -%>
   </td>
 </tr>
-
