@@ -4,5 +4,5 @@
 <%= render :partial => 'item', :collection => @list %>
 </tbody>
 </table>
-<%= sortable_element 'locations-table', :tag => 'tr' %>
+<%= sortable_element 'locations-table', :tag => 'tr', :url => {:controller => 'locations', :action => 'sort'} %>
 </div>
