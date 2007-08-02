@@ -9,10 +9,9 @@ class LocationsController < ApplicationController
       Location.update(id, :position => position)
     end
     
-    @list = Location.find(:all, :order => 'position')
-
+    locations = Location.find(:all, :order => 'position')
     js = render_to_string :update do |page|
-      page.replace_html 'locations-table', render(:partial => 'item', :collection => @list)
+      page.replace_html 'locations-table', render(:partial => 'item', :collection => locations)
       page.sortable 'locations-table', :tag => 'tr', :url => {:controller => 'locations', :action => 'sort'}
     end
     
