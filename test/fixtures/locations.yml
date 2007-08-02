@@ -2,18 +2,20 @@
 location1:
   id: 1
   name: 部屋1
-  color: #123456
+  color: "#eedddd"
   listup: false
   position: 1
+
 location2:
   id: 2
   name: 会議室
-  color: #654321
+  color: "#ffffff"
   listup: true
   position: 2
+
 location3:
   id: 3
   name: 広場
-  color: #126543
+  color: "#ddccee"
   listup: true
   position: 3
