@@ -1,0 +1,300 @@
+.sticky {
+  background-color: #ECEEF0;
+  /* min-width: 8em; */
+  /* max-width: 10em; */
+  /* width: 11em; */
+  /* height: 5em; */
+  border: 1px solid #888;
+  padding: 0.2em;
+  margin: 0;
+}
+
+iframe {
+  border-width: 0;
+}
+
+select {
+  font-size: 90%;
+}
+
+option:hover {
+  background-color: #aaf;
+}
+
+.name {
+  font-size: 130%;
+}
+
+.mini {
+  /* width: 6em;
+  height: 3em; */
+  width: 8.6em;
+  height: 4.3em;
+  overflow: hidden;
+  font-size: 70%;
+}
+
+.standard {
+  width: 11em;
+  /*height: 5em;*/
+  max-height: 7em;
+}
+
+.unread {
+  color: #f00;
+  background-color: #fff;
+  white-space: nowrap;
+}
+
+.sticky .unread {
+  font-size: 130%;
+}
+
+.mini .name {
+  font-weight: bold;
+}
+
+input.name {
+  font-size: 130%;
+  border: 1px solid #888;
+  background-color: transparent;
+  width: 5em;
+}
+
+input.phone {
+  border: 1px solid #888;
+  background-color: transparent;
+  width: 3em;
+}
+
+input.message {
+  border: 1px solid #888;
+  background-color: transparent;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#control {
+  width: 100%;
+  border-bottom: 1px solid #888;
+  text-align: right;
+  padding: 0.2em 0;
+  margin: 0;
+  background-color: #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#edit_menu {
+  text-align: left;
+  width: 10em;
+  float: left;
+  padding-left: 10px;
+}
+
+#edit_menu1 {
+  width: 10em;
+  border: 1px solid #888;
+  background-color: #eee;
+  position: absolute;
+  text-align: left;
+  top: 1.5em;
+  left: 0;
+}
+
+#locations {
+  position: absolute;
+  top: 2em;
+  left: 10px;
+  width: 14em;
+  border: 1px solid #888;
+}
+
+#locations .name {
+  font-size: 100%;
+  font-weight: bold;
+}
+
+#locations input.text {
+  padding: 0;
+  margin: -1px;
+  border: 1px solid #888;
+  width: 36%;
+  background-color: transparent;
+}
+
+#locations ul {
+  font-size: 95%;
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+}
+
+#locations table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#locations td {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#locations td.name {
+  vertical-align: top;
+  width: 60%;
+  border-right: 1px solid #888;
+}
+
+#locations .message {
+  font-size: 75%;
+  color: #f57;
+}
+
+#template_window {
+  position: absolute;
+  z-index: 20;
+  top: 100px;
+  left: 100px;
+  border: 1px solid #000;
+  background-color: #eee;
+  width: 500px;
+}
+
+#template_window textarea {
+  border: none;
+  width: 100%;
+}
+
+#to_window div {
+  overflow: scroll;
+  height: 250px;
+  width: 500px;
+}
+
+#memo_window {
+  position: absolute;
+  z-index: 20;
+  border: 1px solid #888;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.memo_window_top {
+  background-color: #fff;
+  padding: 3px;
+  text-align: right;
+}
+
+#location_window {
+  position: absolute;
+  z-index: 20;
+  border: 1px solid #000;
+  background-color: #eee;
+}
+
+#debug_window {
+  position: absolute;
+  left: 500px;
+  bottom: 10px;
+}
+
+.note {
+  font-size: 80%;
+}
+
+.memo {
+  margin: 10px;
+  border: 1px solid #000;
+  clear: both;
+}
+
+.memo textarea {
+  width: 100%;
+  border-left-style: none;
+  border-right-style: none;
+}
+
+.memo input {
+  font-size: 90%;
+}
+
+.memo .print {
+  font-size: 95%;
+  padding: 0;
+  margin: 0;
+  float: right;
+  background-color: #fff;
+}
+
+.memo .time {
+  font-size: 95%;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+}
+
+.memo .inner {
+  overflow: scroll;
+  width: 100%;
+  height: 150px;
+}
+
+.memo .content { margin-top: 0; }
+
+.memo .footer {
+  text-align: right;
+}
+
+.memo_navi {
+  text-align: center;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.memo textarea {
+  margin-bottom: 0;
+}
+
+.res {
+  margin: 0;
+  background-color: #fff;
+  padding-left: 10px;
+  font-size: 90%;
+}
+
+.memo .person {
+  font-weight: bold;
+}
+
+/* 確認済み */
+.memo .cperson {
+  color: #999;
+}
+
+/* 未確認 */
+.memo .uperson {
+  color: #000;
+}
+
+.checked {
+  color: #f55;
+  font-size: 80%;
+}
+
+.memo table {
+  width: 90%;
+}
+
+/****** don't edit ******/
+.basic {}
+.edit {}
+.bbs {}
+/****** don't edit ******/

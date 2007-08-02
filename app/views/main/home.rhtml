@@ -1,2 +1,13 @@
-<h1>Main#home</h1>
-<p>Find me in app/views/main/home.rhtml</p>
+<div id="control">
+  <span id="schedule">
+    <span class="basic">
+      <a id="bbs_button" href="javascript:void(0);">回覧掲示板</a>&nbsp;
+      <span class="unread" id="bbs_checked"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="" id="schedule_link0">予定表A</a>
+      <a href="" id="schedule_link1">予定表B</a>
+    </span>
+  </span>
+  <input type="radio" name="mode" checked="checked">通常</input>
+  <input type="radio" name="mode">編集</input>
+</div>
+<%= render_component :controller => 'locations', :action => 'list' %>
