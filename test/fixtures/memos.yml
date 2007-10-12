@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  content: MyString
+  ctime: 2007-10-12 16:00:59
+  read: false
+two:
+  id: 2
+  content: MyString
+  ctime: 2007-10-12 16:00:59
+  read: false
