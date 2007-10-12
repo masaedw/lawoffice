@@ -1,4 +1,7 @@
 <div id="control">
+  <div id="edit_menu">
+    <%= link_to "編集モードへ", :controller => 'main', :action => 'edit' %>
+  </div>
   <span id="schedule">
     <span class="basic">
       <a id="bbs_button" href="javascript:void(0);">回覧掲示板</a>&nbsp;
@@ -7,7 +10,6 @@
       <a href="" id="schedule_link1">予定表B</a>
     </span>
   </span>
-  <input type="radio" name="mode" checked="checked">通常</input>
-  <input type="radio" name="mode">編集</input>
 </div>
 <%= render_component :controller => 'locations', :action => 'list' %>
+<%= meteor_strike 'lawoffice-view' %>

@@ -3,10 +3,6 @@
     <span class="name"><%=h item.name %></span>
   </td>
   <td class="list">
-  <%- if item.listup -%>
-    <ul>
-<%= render :partial => 'user', :collection => item.people %>
-    </ul>
-  <%- end -%>
+<%= user_list item %>
   </td>
 </tr>

@@ -1,0 +1,20 @@
+<div id="control">
+  <div id="edit_menu">
+    <a href="javascript:Element.toggle('edit_menu1');">編集メニュー</a>
+    <div id="edit_menu1" class="edit" onclick="Element.hide('edit_menu1');">
+      <a href="javascript:void(0);">テンプレート編集</a><br/>
+      <a href="javascript:void(0);">人の追加</a><br/>
+      <a href="javascript:void(0);">場所の追加</a><br/>
+    </div>
+    <%= javascript_tag "Element.hide('edit_menu1');" %>
+  </div>
+  <span id="schedule">
+    <%- form_for :schedule do |f| -%>
+    <span class="note">予定表のURLを記入して下さい</span>
+    <%= f.text_field "URLA", :size => "25", :title => "予定表AのURLを記入して下さい" %>
+    <%= f.text_field "URLB", :size => "25", :title => "予定表BのURLを記入して下さい" %>
+    <%- end -%>
+  </span>
+</div>
+<%= render_component :controller => 'locations', :action => 'edit' %>
+<%= meteor_strike 'lawoffice-edit' %>

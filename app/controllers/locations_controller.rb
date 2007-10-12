@@ -27,6 +27,7 @@ class LocationsController < ApplicationController
   end
 
   def edit
+    @list = Location.find(:all, :order => 'position')
   end
 
   def update

@@ -1,2 +1,4 @@
-<h1>Locations#edit</h1>
-<p>Find me in app/views/locations/edit.rhtml</p>
+<div id="locations">
+<%= render :partial => 'edit', :collection => @list %>
+</div>
+<%= sortable_element 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'} %>
