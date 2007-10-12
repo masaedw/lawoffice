@@ -3,6 +3,7 @@ class CreateMemos < ActiveRecord::Migration
     create_table :memos do |t|
       t.column :person_id, :integer
       t.column :template_id, :integer
+      t.column :color, :string
       t.column :content, :text
       t.column :ctime, :datetime
       t.column :read, :boolean
