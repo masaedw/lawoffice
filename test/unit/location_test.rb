@@ -6,7 +6,20 @@ class LocationTest < Test::Unit::TestCase
   def test_association
     assert_kind_of(Location, locations(:location1))
 
-    assert_equal(2, locations(:location1).people.size)
+    assert_equal(1, locations(:location1).people.size)
     assert_kind_of(Person, locations(:location1).people[0])
+  end
+
+  def test_association2
+    user2 = people(:user2)
+
+    assert_equal(user2.location, locations(:location2))
+
+    location2_people_size = locations(:location2).people.size
+    user2.location = locations(:location1)
+    user2.save!
+
+    assert_equal(2, locations(:location1).people.size)
+    assert_equal(location2_people_size-1, locations(:location2).people.size)
   end
 end

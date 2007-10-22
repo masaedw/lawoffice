@@ -7,6 +7,7 @@ user1:
   posx: 1
   posy: 1
   location_id: 1
+
 user2:
   id: 2
   name: user2
@@ -15,11 +16,39 @@ user2:
   posx: 1
   posy: 1
   location_id: 2
+
 user3:
   id: 3
   name: user3
   phone: 34567
-  memo: 
+  memo: hgoehgoeh
   posx: 1
   posy: 1
-  location_id: 1
+  location_id: 2
+
+user4:
+  id: 4
+  name: user4
+  phone: 45678
+  memo: memomemo
+  posx: 1
+  posy: 1
+  location_id: 3
+
+user5:
+  id: 5
+  name: user5
+  phone: 56789
+  memo: memomome
+  posx: 1
+  posy: 1
+  location_id: 3
+
+user6:
+  id: 6
+  name: user6
+  phone: 67890
+  memo: hgoehgoeh
+  posx: 1
+  posy: 1
+  location_id: 3

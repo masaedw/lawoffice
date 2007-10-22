@@ -1,10 +1,14 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BBSMemoTest < Test::Unit::TestCase
-  fixtures :bbs_memos
+class BbsMemoTest < Test::Unit::TestCase
+  fixtures :bbs_memos, :templates, :interested_people, :people
 
-  # Replace this with your real tests.
-  def test_truth
-    assert true
+  def test_association
+    assert_kind_of(BbsMemo, bbs_memos(:one))
+
+    assert_equal(5, bbs_memos(:one).interested_people.size)
+    assert_kind_of(InterestedPerson, bbs_memos(:one).interested_people[0])
+    assert_equal(5, bbs_memos(:one).people.size)
+    assert_kind_of(Person, bbs_memos(:one).people[0])
   end
 end

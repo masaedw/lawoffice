@@ -1,11 +1,36 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-  content: MyString
+  person_id: 1
+  template_id: 1
+  content: "This is memo one"
   ctime: 2007-10-12 16:00:59
   read: false
+  color: #e4a59f
+
 two:
   id: 2
-  content: MyString
+  person_id: 1
+  template_id: 2
+  content: "This is memo two"
   ctime: 2007-10-12 16:00:59
   read: false
+  color: #d083ac
+
+three:
+  id: 3
+  person_id: 3
+  template_id: 2
+  content: "This is memo three"
+  ctime: 2007-10-12 16:00:59
+  read: false
+  color: #95c1b4
+
+four:
+  id: 5
+  person_id: 5
+  template_id: 2
+  content: "This is memo four"
+  ctime: 2007-10-12 16:00:59
+  read: false
+  color: #8c91b2
