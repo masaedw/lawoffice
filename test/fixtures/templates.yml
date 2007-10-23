@@ -1,11 +1,12 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
-  name: MyString
-  color: MyString
-  content: MyText
+  name: template1
+  color: "#e4a59f"
+  content: "this is template content of template1"
+
 two:
   id: 2
-  name: MyString
-  color: MyString
-  content: MyText
+  name: template2
+  color: "#d083ac"
+  content: "this is template content of template2"
