@@ -4,32 +4,32 @@ one:
   template_id: 1
   content: "This is content of one"
   ctime: 2007-10-12 17:14:11
-  color: #e4a59f
+  color: "#e4a59f"
 
 two:
   id: 2
   template_id: 2
   content: "This is content of two"
   ctime: 2007-10-12 17:14:11
-  color: #d083ac
+  color: "#d083ac"
 
 three:
   id: 3
   template_id: 2
   content: "This is content of three"
   ctime: 2007-10-12 17:14:11
-  color: #95c1b4
+  color: "#95c1b4"
 
 four:
   id: 4
   template_id: 3
   content: "This is content of four"
   ctime: 2007-10-12 17:14:11
-  color: #8c91b2
+  color: "#8c91b2"
 
 five:
   id: 5
   template_id: 3
   content: "This is content of five"
   ctime: 2007-10-12 17:14:11
-  color: #fffa15
+  color: "#fffa15"

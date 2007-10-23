@@ -21,8 +21,11 @@ class InterestedPersonTest < Test::Unit::TestCase
   def test_read
     assert_kind_of(InterestedPerson, interested_people(:interested_person_1))
 
-    assert(!interested_people(:interested_person_1).read?)
-    interested_people(:interested_person_1).read!
-    assert(interested_people(:interested_person_1).read?)
+    assoc1 = interested_people(:interested_person_1)
+
+    assert(!assoc1.read?)
+    assoc1.read = true
+    assert(assoc1.save)
+    assert(assoc1.read?)
   end
 end

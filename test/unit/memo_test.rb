@@ -13,8 +13,24 @@ class MemoTest < Test::Unit::TestCase
   def test_read
     assert_kind_of(Memo, memos(:one))
 
-    assert(!memos(:one).read?)
-    memos(:one).read!
-    assert(memos(:one).read?)
+    one = memos(:one)
+
+    assert(!one.read?)
+    one.read = true
+    assert(one.save)
+    assert(one.read?)
+  end
+
+  def test_assert_color
+    assert_kind_of(Memo, memos(:one))
+
+    assert_equal("#e4a59f", memos(:one).color)
+
+    one = Memo.update(1, :color => "hoge")
+    assert(!one.valid?)
+    one.color = "#ffeeaa"
+    assert(one.valid?)
+    assert(one.save)
   end
 end
+

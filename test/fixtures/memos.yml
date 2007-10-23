@@ -6,7 +6,7 @@ one:
   content: "This is memo one"
   ctime: 2007-10-12 16:00:59
   read: false
-  color: #e4a59f
+  color: "#e4a59f"
 
 two:
   id: 2
@@ -15,7 +15,7 @@ two:
   content: "This is memo two"
   ctime: 2007-10-12 16:00:59
   read: false
-  color: #d083ac
+  color: "#d083ac"
 
 three:
   id: 3
@@ -24,7 +24,7 @@ three:
   content: "This is memo three"
   ctime: 2007-10-12 16:00:59
   read: false
-  color: #95c1b4
+  color: "#95c1b4"
 
 four:
   id: 5
@@ -33,4 +33,4 @@ four:
   content: "This is memo four"
   ctime: 2007-10-12 16:00:59
   read: false
-  color: #8c91b2
+  color: "#8c91b2"
