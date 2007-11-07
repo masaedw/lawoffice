@@ -91,26 +91,20 @@ body {
 
 #edit_menu {
   text-align: left;
-  width: 10em;
+  width: 18em;
   float: left;
   padding-left: 10px;
 }
 
 #edit_menu1 {
   width: 10em;
-  border: 1px solid #888;
-  background-color: #eee;
-  position: absolute;
-  text-align: left;
-  top: 1.5em;
-  left: 0;
 }
 
 #locations {
   position: absolute;
   top: 2em;
   left: 10px;
-  width: 14em;
+  width: 18em;
   border-top: 1px solid #888;
   border-bottom: 1px solid #888;
 }

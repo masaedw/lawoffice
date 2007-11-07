@@ -1,5 +1,6 @@
 <div id="location_<%=h edit.id %>" style="background-color: <%=h edit.color %>">
 <%- form_for :location, edit do |f| -%>
+  ●
 <%= f.text_field :name, :class => 'text' -%>
 <%= f.text_field :color, :class => 'text' -%>
 <%= f.check_box :listup -%>

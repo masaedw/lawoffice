@@ -1,12 +1,12 @@
 <div id="control">
   <div id="edit_menu">
-    <a href="javascript:Element.toggle('edit_menu1');">編集メニュー</a>
-    <div id="edit_menu1" class="edit" onclick="Element.hide('edit_menu1');">
-      <a href="javascript:void(0);">テンプレート編集</a><br/>
-      <a href="javascript:void(0);">人の追加</a><br/>
-      <a href="javascript:void(0);">場所の追加</a><br/>
-    </div>
-    <%= javascript_tag "Element.hide('edit_menu1');" %>
+    <select id="edit_menu1">
+      <option id="edit_option1" value="0">編集メニュー</option>
+      <option onclick="$('edit_option1').selected=true" value="1">テンプレート編集</option>
+      <option onclick="$('edit_option1').selected=true" value="2">人の追加</option>
+      <option onclick="$('edit_option1').selected=true" value="3">場所の追加</option>
+    </select>
+    <%= link_to "閲覧モードへ", :controller => 'main', :action => 'home' %>
   </div>
   <span id="schedule">
     <%- form_for :schedule do |f| -%>
