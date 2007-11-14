@@ -1,9 +1,7 @@
 class PeopleController < ApplicationController
 
   def list
-  end
-
-  def sort
+    @list = Person.find(:all)
   end
 
   def new

@@ -3,52 +3,52 @@ user1:
   id: 1
   name: user1
   phone: 12345
-  memo: memomemo
-  posx: 1
-  posy: 1
+  message: memomemo
+  posx: 300
+  posy: 100
   location_id: 1
 
 user2:
   id: 2
   name: user2
   phone: 23456
-  memo: memomome
-  posx: 1
-  posy: 1
+  message: memomome
+  posx: 500
+  posy: 100
   location_id: 2
 
 user3:
   id: 3
   name: user3
   phone: 34567
-  memo: hgoehgoeh
-  posx: 1
-  posy: 1
+  message: hgoehgoeh
+  posx: 700
+  posy: 100
   location_id: 2
 
 user4:
   id: 4
   name: user4
   phone: 45678
-  memo: memomemo
-  posx: 1
-  posy: 1
+  message: memomemo
+  posx: 300
+  posy: 200
   location_id: 3
 
 user5:
   id: 5
   name: user5
   phone: 56789
-  memo: memomome
-  posx: 1
-  posy: 1
+  message: memomome
+  posx: 500
+  posy: 200
   location_id: 3
 
 user6:
   id: 6
   name: user6
   phone: 67890
-  memo: hgoehgoeh
-  posx: 1
-  posy: 1
+  message: hgoehgoeh
+  posx: 700
+  posy: 200
   location_id: 3

@@ -25,4 +25,30 @@ class PersonTest < Test::Unit::TestCase
     assert_kind_of(InterestedPerson, people(:user1).interested_people[0])
     assert_kind_of(BbsMemo, people(:user1).bbs_memos[0])
   end
+
+  def test_bgcolor
+    user1 = people(:user1)
+    assert_equal("#eedddd", user1.location.color)
+    assert_equal(user1.location.color, user1.bgcolor)
+  end
+
+  def test_position
+    user1 = people(:user1)
+
+    assert_equal(300, user1.posx)
+    assert_equal(user1.posx, user1.left)
+
+    assert_equal(100, user1.posy)
+    assert_equal(user1.posy, user1.top)
+  end
+
+  def test_unread
+    user1 = people(:user1)
+
+    assert_equal(false, user1.memos[0].read)
+    assert_equal(false, user1.memos[1].read)
+
+
+    assert_equal(2, user1.unread)
+  end
 end
