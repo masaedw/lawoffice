@@ -19,4 +19,12 @@ class Person < ActiveRecord::Base
   def unread
     memos.count(:all, :conditions => ["read = ?", false])
   end
+
+  def monitoring_id type = :view
+    if type == :view
+      "lawoffice-person-#{id}-view"
+    else
+      "lawoffice-person-#{id}-edit"
+    end
+  end
 end

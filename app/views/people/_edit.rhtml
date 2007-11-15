@@ -1,0 +1,27 @@
+<div class="sticky" id="<%=h edit.element_id %>"
+     onclick="<%# update_remote %>"
+     style="position: absolute;
+            background-color: <%=h edit.bgcolor %>;
+            left: <%=h edit.left %>px;
+            top: <%=h edit.top %>px;">
+  <div class="mini">
+    <span class="name"><%=h edit.name %></span>
+    <%- if edit.unread != 0 -%>
+    <span class="unread"><%=h edit.unread %></span>
+    <%- end -%>
+    <br/>
+    <span class="phone"><%=h edit.phone %></span>
+    <br/>
+    <span class="message"><%=h edit.message %></span>
+    <form name="position" style="display: none;"
+          action="">
+      <input type="hidden" name="top">
+      <input type="hidden" name="left">
+    </form>
+  </div>
+  <script type="text/javascript">
+    var d = new Draggable('<%=h edit.element_id %>');
+    d.remote_id = <%= edit.id %>;
+  </script>
+  <%= meteor_strike edit.monitoring_id(:edit) %>
+</div>

@@ -1,3 +1,8 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
 .sticky {
   background-color: #ECEEF0;
   /* min-width: 8em; */
@@ -107,6 +112,10 @@ body {
   width: 14em;
   border-top: 1px solid #888;
   border-bottom: 1px solid #888;
+}
+
+#locations.edit {
+  width: 18em;
 }
 
 #locations .name {

@@ -1,2 +1,24 @@
-<h1>People#edit</h1>
-<p>Find me in app/views/people/edit.rhtml</p>
+<div id="people" class="edit">
+  <script type="text/javascript">
+    var PeopleObserver = Class.create();
+    PeopleObserver.prototype = {
+      initialize: function() {},
+
+      onEnd: function(eventName, draggable, event) {
+        if (!draggable.remote_id ||
+            !draggable.remote_id.match(/^person/)) return;
+
+        console.log("drag end!: " + draggable.remote_id);
+        console.log("  left: " + draggable.element.style.left);
+        console.log("  top : " + draggable.element.style.top);
+
+        new Ajax.Request('/people/update/'+draggable.remote_id,
+                         {asynchronous:true, evalScripts:true,
+                          parameters:{left: draggable.element.style.left,
+                                      top:  draggable.element.style.top}});
+      }
+    };
+    Draggables.addObserver(new PeopleObserver);
+  </script>
+<%= render :partial => 'edit', :collection => @list %>
+</div>

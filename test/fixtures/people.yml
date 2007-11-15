@@ -13,7 +13,7 @@ user2:
   name: user2
   phone: 23456
   message: memomome
-  posx: 500
+  posx: 400
   posy: 100
   location_id: 2
 
@@ -22,7 +22,7 @@ user3:
   name: user3
   phone: 34567
   message: hgoehgoeh
-  posx: 700
+  posx: 500
   posy: 100
   location_id: 2
 
@@ -32,7 +32,7 @@ user4:
   phone: 45678
   message: memomemo
   posx: 300
-  posy: 200
+  posy: 170
   location_id: 3
 
 user5:
@@ -40,8 +40,8 @@ user5:
   name: user5
   phone: 56789
   message: memomome
-  posx: 500
-  posy: 200
+  posx: 400
+  posy: 170
   location_id: 3
 
 user6:
@@ -49,6 +49,6 @@ user6:
   name: user6
   phone: 67890
   message: hgoehgoeh
-  posx: 700
-  posy: 200
+  posx: 500
+  posy: 170
   location_id: 3

@@ -12,10 +12,14 @@ class LocationsController < ApplicationController
     locations = Location.find(:all, :order => 'position')
     js = render_to_string :update do |page|
       page.replace_html 'locations-table', render(:partial => 'item', :collection => locations)
-      page.sortable 'locations-table', :tag => 'tr', :url => {:controller => 'locations', :action => 'sort'}
     end
+    Meteor.shoot('lawoffice-locations-view', js)
 
-    Meteor.shoot('lawoffice', js)
+    js = render_to_string :update do |page|
+      page.replace_html 'locations', render(:partial => 'edit', :collection => locations)
+      page.sortable 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'}
+    end
+    Meteor.shoot('lawoffice-locations-edit', js)
 
     render :nothing => true
   end

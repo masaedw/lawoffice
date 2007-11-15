@@ -14,5 +14,5 @@
     <br/>
     <span class="message"><%=h person.message %></span>
   </div>
-  <%= meteor_strike 'lawoffice-person-'+person.id.to_s+'-view' %>
+  <%= meteor_strike person.monitoring_id(:view) %>
 </div>
