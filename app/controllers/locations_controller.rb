@@ -13,13 +13,13 @@ class LocationsController < ApplicationController
     js = render_to_string :update do |page|
       page.replace_html 'locations-table', render(:partial => 'item', :collection => locations)
     end
-    Meteor.shoot('lawoffice-locations-view', js)
+    Meteor.shoot('lawoffice-view', js)
 
     js = render_to_string :update do |page|
       page.replace_html 'locations', render(:partial => 'edit', :collection => locations)
       page.sortable 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'}
     end
-    Meteor.shoot('lawoffice-locations-edit', js)
+    Meteor.shoot('lawoffice-edit', js)
 
     render :nothing => true
   end

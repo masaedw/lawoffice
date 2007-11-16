@@ -21,12 +21,15 @@ class PeopleController < ApplicationController
     person.posx = params[:left].to_i
     person.posy = params[:top ].to_i
     if person.save
-      js = <<-EOJ
-        $('#{person.element_id}').style.left = #{person.left};
-        $('#{person.element_id}').style.top = #{person.top};
-      EOJ
-      Meteor.shoot(person.monitoring_id(:view), js)
-      Meteor.shoot(person.monitoring_id(:edit), js)
+
+      js = render_to_string :update do |page|
+        page << <<-EOJ
+          $("#{person.element_id}").style.top = "#{person.top}px"
+          $("#{person.element_id}").style.left = "#{person.left}px"
+        EOJ
+      end
+      Meteor.shoot('lawoffice-view', js)
+      Meteor.shoot('lawoffice-edit', js)
     end
 
     render :nothing => true

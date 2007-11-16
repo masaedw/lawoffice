@@ -1,4 +1,4 @@
-<div class="sticky" id="person_<%=h person.id %>"
+<div class="sticky" id="<%=h person.element_id %>"
      onclick="<%# update_remote %>"
      style="position: absolute;
             background-color: <%=h person.bgcolor %>;
@@ -6,13 +6,13 @@
             top: <%=h person.top %>px;">
   <div class="mini">
     <span class="name"><%=h person.name %></span>
-    <%- if person.unread != 0 -%>
-    <span class="unread"><%=h person.unread %></span>
+    <%- unread = person.unread -%>
+    <%- if unread != 0 -%>
+    <span class="unread"><%=h unread %></span>
     <%- end -%>
     <br/>
     <span class="phone"><%=h person.phone %></span>
     <br/>
     <span class="message"><%=h person.message %></span>
   </div>
-  <%= meteor_strike person.monitoring_id(:view) %>
 </div>

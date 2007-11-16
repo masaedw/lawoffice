@@ -5,14 +5,13 @@
       initialize: function() {},
 
       onEnd: function(eventName, draggable, event) {
-        if (!draggable.remote_id ||
-            !draggable.remote_id.match(/^person/)) return;
+        if (!draggable.element.id.match(/^person/)) return;
 
-        console.log("drag end!: " + draggable.remote_id);
+        console.log("drag end!: " + draggable.element.id);
         console.log("  left: " + draggable.element.style.left);
         console.log("  top : " + draggable.element.style.top);
 
-        new Ajax.Request('/people/update/'+draggable.remote_id,
+        new Ajax.Request('/people/update/'+draggable.element.id.replace(/person_/, ''),
                          {asynchronous:true, evalScripts:true,
                           parameters:{left: draggable.element.style.left,
                                       top:  draggable.element.style.top}});
