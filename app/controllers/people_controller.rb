@@ -1,7 +1,7 @@
 class PeopleController < ApplicationController
 
   def list
-    @list = Person.find(:all)
+    @list = Person.find(:all, :include => :location)
   end
 
   def new
@@ -11,7 +11,7 @@ class PeopleController < ApplicationController
   end
 
   def edit
-    @list = Person.find(:all)
+    @list = Person.find(:all, :include => :location)
     # update_remote のときに Draggable#destroy を呼ぶべきか調べる。
     # 必要なら呼ぶようにする。
   end
