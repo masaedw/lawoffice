@@ -17,7 +17,19 @@ class Person < ActiveRecord::Base
   end
 
   def unread
-    memos.count(:all, :conditions => ["read = ?", false])
+    if @unread
+      @unread
+    else
+      @unread = memos.count(:all, :conditions => ["read = ?", false])
+    end
+  end
+
+  def bbs_unread
+    if @bbs_unread
+      @bbs_unread
+    else
+      @bbs_unread = interested_people.count(:all, :conditions => ["read = ?", false])
+    end
   end
 
   def monitoring_id type = :view
