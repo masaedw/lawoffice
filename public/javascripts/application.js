@@ -2,9 +2,10 @@
 // This file is automatically included by javascript_include_tag :defaults
 var ZINDEXTOP = 100;
 
-Element.Methods.popup = function(element) {
-    $(element).setStyle({"zIndex": ZINDEXTOP++});
-    return element;
+Element.Methods.popup = function(element)
+{
+  $(element).setStyle({"zIndex": ZINDEXTOP++});
+  return element;
 };
 
 Element.addMethods();
@@ -26,7 +27,8 @@ Element.addMethods();
 //
 
 // クリックされたのがエレメント内か？
-Event.inElement = function(event, elem) {
+Event.inElement = function(event, elem)
+{
   var element = Event.element(event);
   while (element != elem) {
     if (element.parentNode)
@@ -44,7 +46,8 @@ var Window = Class.create();
 Window.initialized = false;
 Window.listeners_ = $A([]);
 
-Window.init = function() {
+Window.init = function()
+{
   if (Window.initialized) return;
   Window.initialized = true;
 
@@ -63,19 +66,22 @@ Window.init = function() {
   }.bindAsEventListener(Window));
 };
 
-Window.add = function(window) {
+Window.add = function(window)
+{
   this.listeners_.push(window);
 };
 
-Window.remove = function(window) {
- this.listeners_ =
-   this.listeners_.reject(function(i) {
-     return i == window;
-   });
+Window.remove = function(window)
+{
+  this.listeners_ =
+    this.listeners_.reject(function(i) {
+      return i == window;
+    });
 };
 
 Window.prototype = {
-  initialize: function(elem) {
+  initialize: function(elem)
+  {
     Window.init();
 
     this.elem_id = $(elem).id;

@@ -2,20 +2,21 @@ var Person = Class.create();
 
 Person.update_text = function(id, klass, content)
 {
-    var elem = $(id);
-    var elems = elem.getElementsByClassName(klass);
-    var i;
+  var elem = $(id);
+  var elems = elem.getElementsByClassName(klass);
+  var i;
 
-    for (i = 0; i < elems.length; i++) {
-        if (elems[i].tagName.toUpperCase() == "INPUT")
-            elems[i].value = content;
-        else
-            elems[i].innerHTML = content;
-    }
+  for (i = 0; i < elems.length; i++) {
+    if (elems[i].tagName.toUpperCase() == "INPUT")
+      elems[i].value = content;
+    else
+      elems[i].innerHTML = content;
+  }
 };
 
 Person.prototype = {
-  initialize: function(id) {
+  initialize: function(id)
+  {
     this.elem_id = id;
 
     this.window = new Window(id);
@@ -31,23 +32,27 @@ Person.prototype = {
     });
   },
 
-  focus_handler: function(event) {
+  focus_handler: function(event)
+  {
     this.maximize();
     console.log("focus: "+this.elem_id);
   },
 
-  unfocus_handler: function(event) {
+  unfocus_handler: function(event)
+  {
     this.minimize();
     console.log("unfocus: "+this.elem_id);
   },
 
-  maximize: function() {
+  maximize: function()
+  {
     $(this.elem_id+"_mini").hide();
     $(this.elem_id+"_standard").show();
   },
 
-  minimize: function() {
+  minimize: function()
+  {
     $(this.elem_id+"_standard").hide();
     $(this.elem_id+"_mini").show();
-  },
+  }
 };
