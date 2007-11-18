@@ -11,6 +11,7 @@ class LocationsController < ApplicationController
     end
 
     locations = Location.find(:all, :order => 'position')
+
     js = render_to_string :update do |page|
       page.replace_html 'locations-table', render(:partial => 'item', :collection => locations)
     end
@@ -42,12 +43,18 @@ class LocationsController < ApplicationController
     @location.listup = !params[:listup].blank?
     if @location.save
       js = render_to_string :update do |page|
-        page.replace_html @location.element_id, render(:partial => 'item', :object => @location)
+        page.replace @location.element_id, render(:partial => 'item', :object => @location)
+        @location.people.each do |person|
+          page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}')"
+        end
       end
       Meteor.shoot('lawoffice-view', js)
 
       js = render_to_string :update do |page|
-        page.replace_html @location.element_id, render(:partial => 'edit', :object => @location)
+        page.replace @location.element_id, render(:partial => 'edit', :object => @location)
+        @location.people.each do |person|
+          page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}')"
+        end
       end
       Meteor.shoot('lawoffice-edit', js)
     end

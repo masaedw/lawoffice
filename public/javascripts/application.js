@@ -1,5 +1,6 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
+
 var ZINDEXTOP = 100;
 
 Element.Methods.popup = function(element)
@@ -98,4 +99,27 @@ Window.prototype = {
         return this.onfocus(event);
     }.bindAsEventListener(this));
   }
+};
+
+
+//------------------------------------------------------------
+// ObjectPool
+// idと一対一対応をもつオブジェクトを溜めておくしくみ
+var ObjectPool = new Object;
+
+ObjectPool.find = function(id)
+{
+  return this.objectpool__[id];
+};
+
+ObjectPool.register = function(id, object)
+{
+  if (!this.objectpool__)
+    this.objectpool__ = $H({});
+  this.objectpool__[id] = object;
+};
+
+ObjectPool.remove = function(id)
+{
+  this.objectpool__.remove(id);
 };

@@ -4,7 +4,7 @@
 <%= text_field_tag "name", edit.name, :class => 'text' -%>
 <%= text_field_tag "color", edit.color, :class => 'text' -%>
 <%= check_box_tag "listup", "true", edit.listup -%>
-<%= link_to "削除", :controller => 'location', :action => 'delete', :id => edit -%>
+<%= link_to "削除", :controller => 'location', :action => 'delete', :id => edit, :method => 'post' -%>
 <%- end %>
 <%= observe_form("location_#{h edit.id}_form",
                  :frequency => 0.5,

@@ -1,5 +1,4 @@
 <div class="sticky" id="<%=h person.element_id %>"
-     onclick="<%# update_remote %>"
      style="position: absolute;
             background-color: <%=h person.bgcolor %>;
             left: <%=h person.left %>px;
@@ -26,5 +25,5 @@
     <select>
     </select>
   </div>
+  <script type="text/javascript">new Person("<%=h person.element_id %>");</script>
 </div>
-<script type="text/javascript">new Person("<%=h person.element_id %>");</script>
