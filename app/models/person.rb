@@ -31,12 +31,4 @@ class Person < ActiveRecord::Base
       @bbs_unread = interested_people.count(:all, :conditions => ["read = ?", false])
     end
   end
-
-  def monitoring_id type = :view
-    if type == :view
-      "lawoffice-person-#{id}-view"
-    else
-      "lawoffice-person-#{id}-edit"
-    end
-  end
 end
