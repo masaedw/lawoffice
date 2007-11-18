@@ -5,14 +5,14 @@
             left: <%=h edit.left %>px;
             top: <%=h edit.top %>px;">
   <div class="mini">
-    <span class="name"><%=h edit.name %></span>
+    <%= span_class edit, "name" %>
     <%- if edit.unread != 0 -%>
     <span class="unread"><%=h edit.unread %></span>
     <%- end -%>
     <br/>
-    <span class="phone"><%=h edit.phone %></span>
+    <%= span_class edit, "phone" %>
     <br/>
-    <span class="message"><%=h edit.message %></span>
+    <%= span_class edit, "message" %>
     <form name="position" style="display: none;"
           action="">
       <input type="hidden" name="top">

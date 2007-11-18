@@ -16,7 +16,7 @@ class PeopleController < ApplicationController
     # 必要なら呼ぶようにする。
   end
 
-  def update
+  def update_position
     person = Person.find(params[:id])
     person.posx = params[:left].to_i
     person.posy = params[:top ].to_i
