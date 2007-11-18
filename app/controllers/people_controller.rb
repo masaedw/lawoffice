@@ -37,8 +37,8 @@ class PeopleController < ApplicationController
     if person.save
       js = render_to_string :update do |page|
         page << <<-EOJ
-          $("#{person.element_id}").style.top = "#{person.top}px"
-          $("#{person.element_id}").style.left = "#{person.left}px"
+          $("#{person.element_id}").style.top = "#{person.top}px";
+          $("#{person.element_id}").style.left = "#{person.left}px";
         EOJ
       end
       Meteor.shoot('lawoffice-view', js)
