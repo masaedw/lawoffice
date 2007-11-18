@@ -16,12 +16,25 @@ class PeopleController < ApplicationController
     # 必要なら呼ぶようにする。
   end
 
+  def update_message
+    person = Person.find(params[:id])
+    person.message = params[:message]
+    if person.save
+      js = render_to_string :update do |page|
+        page << "Person.update_text('#{person.element_id}', 'message', '#{h person.message}');"
+      end
+      Meteor.shoot('lawoffice-view', js)
+      Meteor.shoot('lawoffice-edit', js)
+    end
+
+    render :nothing => true
+  end
+
   def update_position
     person = Person.find(params[:id])
     person.posx = params[:left].to_i
     person.posy = params[:top ].to_i
     if person.save
-
       js = render_to_string :update do |page|
         page << <<-EOJ
           $("#{person.element_id}").style.top = "#{person.top}px"

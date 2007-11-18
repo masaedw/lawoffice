@@ -1,15 +1,34 @@
 var Person = Class.create();
 
-Person.prototype = {
-  initialize: function(elem) {
-    var elem = $(elem);
-    this.elem_id = elem.id;
+Person.update_text = function(id, klass, content)
+{
+    var elem = $(id);
+    var elems = elem.getElementsByClassName(klass);
+    var i;
 
-    this.window = new Window(elem)
+    for (i = 0; i < elems.length; i++) {
+        if (elems[i].tagName.toUpperCase() == "INPUT")
+            elems[i].value = content;
+        else
+            elems[i].innerHTML = content;
+    }
+};
+
+Person.prototype = {
+  initialize: function(id) {
+    this.elem_id = id;
+
+    this.window = new Window(id);
     this.window.onfocus = this.focus_handler.bindAsEventListener(this);
     this.window.onunfocus = this.unfocus_handler.bindAsEventListener(this);
 
     this.minimize();
+
+    Event.observe(id+"_message_input", "change", function(event) {
+      new Ajax.Request('/people/update_message/'+id.replace(/person_/, ''),
+                       {asynchronous:true, evalScripts:true,
+                        parameters:{message: $(id+"_message_input").value}});
+    });
   },
 
   focus_handler: function(event) {
