@@ -1,7 +1,8 @@
 class LocationsController < ApplicationController
+  before_filter :find_all, :only => [:list, :edit]
 
   def list
-    @list = Location.find(:all, :order => 'position')
+    @list
   end
 
   def sort
@@ -31,12 +32,35 @@ class LocationsController < ApplicationController
   end
 
   def edit
-    @list = Location.find(:all, :order => 'position')
+    @list
   end
 
   def update
+    @location = Location.find(params[:id])
+    @location.name = params[:name]
+    @location.color = params[:color]
+    @location.listup = !params[:listup].blank?
+    if @location.save
+      js = render_to_string :update do |page|
+        page.replace_html @location.element_id, render(:partial => 'item', :object => @location)
+      end
+      Meteor.shoot('lawoffice-view', js)
+
+      js = render_to_string :update do |page|
+        page.replace_html @location.element_id, render(:partial => 'edit', :object => @location)
+      end
+      Meteor.shoot('lawoffice-edit', js)
+    end
+
+    render :nothing => true
   end
 
   def destroy
+  end
+
+  private
+
+  def find_all
+    @list = Location.find(:all, :order => 'position')
   end
 end

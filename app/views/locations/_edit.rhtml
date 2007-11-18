@@ -1,9 +1,12 @@
 <div id="location_<%=h edit.id %>" style="background-color: <%=h edit.color %>">
-<%- form_for :location, edit do |f| -%>
+<%- form_tag('javascript:void(0)', :id => "location_#{h edit.id}_form") do -%>
   ●
-<%= f.text_field :name, :class => 'text' -%>
-<%= f.text_field :color, :class => 'text' -%>
-<%= f.check_box :listup -%>
+<%= text_field_tag "name", edit.name, :class => 'text' -%>
+<%= text_field_tag "color", edit.color, :class => 'text' -%>
+<%= check_box_tag "listup", "true", edit.listup -%>
 <%= link_to "削除", :controller => 'location', :action => 'delete', :id => edit -%>
-<%- end -%>
+<%- end %>
+<%= observe_form("location_#{h edit.id}_form",
+                 :frequency => 0.5,
+                 :url       => {:controller => "locations", :action => "update", :id => edit.id}) %>
 </div>
