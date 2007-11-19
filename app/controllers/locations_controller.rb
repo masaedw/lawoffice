@@ -13,15 +13,15 @@ class LocationsController < ApplicationController
     locations = Location.find(:all, :order => 'position')
 
     js = render_to_string :update do |page|
+      page << "console.log(edit_mode);"
+      page << "if (!edit_mode) {"
       page.replace_html 'locations-table', render(:partial => 'item', :collection => locations)
-    end
-    Meteor.shoot('lawoffice-view', js)
-
-    js = render_to_string :update do |page|
+      page << "} else {"
       page.replace_html 'locations', render(:partial => 'edit', :collection => locations)
       page.sortable 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'}
+      page << "}"
     end
-    Meteor.shoot('lawoffice-edit', js)
+    shoot_both js
 
     render :nothing => true
   end
@@ -43,20 +43,16 @@ class LocationsController < ApplicationController
     @location.listup = !params[:listup].blank?
     if @location.save
       js = render_to_string :update do |page|
+        page << "if (!edit_mode) {"
         page.replace @location.element_id, render(:partial => 'item', :object => @location)
-        @location.people.each do |person|
-          page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}')"
-        end
-      end
-      Meteor.shoot('lawoffice-view', js)
-
-      js = render_to_string :update do |page|
+        page << "} else {"
         page.replace @location.element_id, render(:partial => 'edit', :object => @location)
+        page << "}"
         @location.people.each do |person|
           page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}')"
         end
       end
-      Meteor.shoot('lawoffice-edit', js)
+      shoot_both js
     end
 
     render :nothing => true

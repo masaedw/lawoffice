@@ -11,6 +11,12 @@ Element.Methods.popup = function(element)
 
 Element.addMethods();
 
+// IE でも動くの？これ
+Abstract.EventObserver.prototype.updateLastValue = function()
+{
+  this.lastValue = this.getValue();
+};
+
 //------------------------------------------------------------
 // Window
 // エレメントの外側をクリックされたことの検知をするためのしくみ

@@ -1,3 +1,6 @@
+<script type="text/javascript">
+edit_mode = false;
+</script>
 <div id="control">
   <div id="edit_menu">
     <%= link_to "編集モードへ", :controller => 'main', :action => 'edit' %>
@@ -14,4 +17,4 @@
 
 <%= render_component :controller => 'locations', :action => 'list' %>
 <%= render_component :controller => 'people', :action => 'list' %>
-<%= meteor_strike 'lawoffice-view' %>
+<%= meteor_strike 'lawoffice', {:tag => ["view"]} %>

@@ -1,3 +1,6 @@
+<script type="text/javascript">
+edit_mode = true;
+</script>
 <div id="control">
   <div id="edit_menu">
     <select id="edit_menu1">
@@ -18,4 +21,4 @@
 </div>
 <%= render_component :controller => 'locations', :action => 'edit' %>
 <%= render_component :controller => 'people', :action => 'edit' %>
-<%= meteor_strike 'lawoffice-edit' %>
+<%= meteor_strike 'lawoffice', {:tag => ["edit"]} %>

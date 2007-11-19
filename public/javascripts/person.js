@@ -31,14 +31,29 @@ Person.prototype = {
       this.edit = true;
       this.draggable = new Draggable(id);
     } else {
+      // メッセージの変更を監視する
       Event.observe(id+"_message_input", "change", function(event) {
-        new Ajax.Request('/people/update_message/'+id.replace(/person_/, ''),
-                         {asynchronous:true, evalScripts:true,
-                          parameters:{message: $(id+"_message_input").value}});
-      });
+        new Ajax.Request('/people/update_message/'+this.id_number(),
+                         { asynchronous: true,
+                           evalScripts:  true,
+                           parameters:   {message: $(id+"_message_input").value}});
+      }.bind(this));
+
+      // 場所変更を監視する
+      this.select_observer = new Form.Element.EventObserver(id+'_select', function(element, value) {
+        new Ajax.Request('/people/update_location/'+this.id_number(),
+                         { asynchronous: true,
+                           evalScripts:  true,
+                           parameters:   'location='+value});
+      }.bind(this));
     }
 
     Person.register(id, this);
+  },
+
+  id_number: function()
+  {
+    return this.elem_id.replace(/person_/, '');
   },
 
   focus_handler: function(event)
@@ -72,5 +87,18 @@ Person.prototype = {
   update_location: function(id)
   {
     $(this.elem_id).style.backgroundColor = $(id).style.backgroundColor;
+
+    var select = $(this.elem_id+"_select");
+    if (select) {
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value == id.replace(/location_/,'')) {
+          if (!select.options[i].selected == true) {
+            select.options[i].selected = true;
+            this.select_observer.updateLastValue();
+          }
+          return;
+        }
+      }
+    }
   }
 };

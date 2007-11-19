@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   before_filter :find_all, :only => [:list, :edit]
-  before_filter :find_id, :only => [:update_message, :update_position]
+  before_filter :find_id, :only => [:update_message, :update_position, :update_location]
 
   def list
     @list
@@ -24,8 +24,7 @@ class PeopleController < ApplicationController
       js = render_to_string :update do |page|
         page << "Person.update_text('#{@person.element_id}', 'message', '#{h @person.message}');"
       end
-      Meteor.shoot('lawoffice-view', js)
-      Meteor.shoot('lawoffice-edit', js)
+      shoot_both(js)
     end
 
     render :nothing => true
@@ -38,10 +37,27 @@ class PeopleController < ApplicationController
       js = render_to_string :update do |page|
         page.visual_effect :move, @person.element_id, :x => @person.left, :y => @person.top, :mode => '"absolute"'
       end
-      Meteor.shoot('lawoffice-view', js)
-      Meteor.shoot('lawoffice-edit', js)
+      shoot_both(js)
     end
 
+    render :nothing => true
+  end
+
+  def update_location
+    location = Location.find(params[:location])
+    @person.location = location
+    @person.message = ""
+    locations = Location.find(:all, :order => 'position')
+    if @person.save
+      js = render_to_string :update do |page|
+        page << "if (!edit_mode) {"
+        page.replace_html 'locations-table', render(:partial => 'locations/item', :collection => locations)
+        page << "}"
+        page << "Person.find('#{@person.element_id}').update_location('#{location.element_id}');"
+        page << "Person.update_text('#{@person.element_id}', 'message', '');"
+      end
+      shoot_both(js)
+    end
     render :nothing => true
   end
 
