@@ -4,7 +4,9 @@
 <%= text_field_tag "name", edit.name, :class => 'text' -%>
 <%= text_field_tag "color", edit.color, :class => 'text' -%>
 <%= check_box_tag "listup", "true", edit.listup -%>
-<%= link_to "削除", :controller => 'location', :action => 'delete', :id => edit, :method => 'post' -%>
+<input type="button" value="削除"
+       onclick="<%= remote_function :url => {:controller => 'locations', :action => 'destroy', :id => edit},
+                                    :confirm => "「#{h edit.name}」を削除します。この操作は元に戻せません。" %>"/>
 <%- end %>
 <%= observe_form("location_#{h edit.id}_form",
                  :frequency => 0.5,

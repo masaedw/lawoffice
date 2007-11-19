@@ -22,4 +22,19 @@ class LocationTest < Test::Unit::TestCase
     assert_equal(2, locations(:location1).people.size)
     assert_equal(location2_people_size-1, locations(:location2).people.size)
   end
+
+  def test_association2
+    location3 = locations(:location3)
+
+    assert_equal(3, location3.people.size)
+    assert_equal(people(:user4).location, location3)
+    assert_equal(people(:user5).location, location3)
+    assert_equal(people(:user6).location, location3)
+
+    location3.destroy
+
+    assert_equal(people(:user4).reload.location, nil)
+    assert_equal(people(:user5).reload.location, nil)
+    assert_equal(people(:user6).reload.location, nil)
+  end
 end

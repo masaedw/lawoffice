@@ -3,12 +3,9 @@ edit_mode = true;
 </script>
 <div id="control">
   <div id="edit_menu">
-    <select id="edit_menu1">
-      <option id="edit_option1" value="0">編集メニュー</option>
-      <option onclick="$('edit_option1').selected=true" value="1">テンプレート編集</option>
-      <option onclick="$('edit_option1').selected=true" value="2">人の追加</option>
-      <option onclick="$('edit_option1').selected=true" value="3">場所の追加</option>
-    </select>
+    [<a href="javascript:void(0)">tp編集</a> 追加:
+    <%= link_to_remote "人", :url => {:controller => 'people', :action => 'create'}, :method => :post %>
+    <%= link_to_remote "場所", :url => {:controller => 'locations', :action => 'create'}, :method => :post  %>]
     <%= link_to "閲覧モードへ", :controller => 'main', :action => 'home' %>
   </div>
   <span id="schedule">

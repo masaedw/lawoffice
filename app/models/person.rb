@@ -5,7 +5,7 @@ class Person < ActiveRecord::Base
   has_many :bbs_memos, :through => :interested_people
 
   def bgcolor
-    location.color
+    location ? location.color : "#eceef0"
   end
 
   def left

@@ -23,7 +23,12 @@
     <input class="message" id="<%= person.element_id %>_message_input" type="text" value="<%=h person.message %>"/>
     <br/>
     <select id="<%=h person.element_id %>_select">
+      <%- if person.location -%>
       <%= options_from_collection_for_select Location.find(:all, :order => 'position'), "id", "name", person.location.id %>
+      <%- else -%>
+      <option id="<%=h person.element_id %>_null_location"></option>
+      <%= options_from_collection_for_select Location.find(:all, :order => 'position'), "id", "name"%>
+      <%- end -%>
     </select>
   </div>
   <script type="text/javascript">new Person("<%=h person.element_id %>");</script>
