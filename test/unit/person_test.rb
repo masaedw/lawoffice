@@ -45,9 +45,8 @@ class PersonTest < Test::Unit::TestCase
   def test_unread
     user1 = people(:user1)
 
-    assert_equal(false, user1.memos[0].read)
-    assert_equal(false, user1.memos[1].read)
-
+    assert_equal(false, user1.memos[0].checked)
+    assert_equal(false, user1.memos[1].checked)
 
     assert_equal(2, user1.unread)
   end

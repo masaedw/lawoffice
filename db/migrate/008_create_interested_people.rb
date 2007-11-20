@@ -3,7 +3,7 @@ class CreateInterestedPeople < ActiveRecord::Migration
     create_table :interested_people do |t|
       t.column :person_id, :integer
       t.column :bbs_memo_id, :integer
-      t.column :read, :boolean
+      t.column :checked, :boolean
     end
   end
 

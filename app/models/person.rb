@@ -20,7 +20,7 @@ class Person < ActiveRecord::Base
     if @unread
       @unread
     else
-      @unread = memos.count(:all, :conditions => ["read = ?", false])
+      @unread = memos.count(:all, :conditions => ["checked = ?", false])
     end
   end
 
@@ -28,7 +28,7 @@ class Person < ActiveRecord::Base
     if @bbs_unread
       @bbs_unread
     else
-      @bbs_unread = interested_people.count(:all, :conditions => ["read = ?", false])
+      @bbs_unread = interested_people.count(:all, :conditions => ["checked = ?", false])
     end
   end
 end

@@ -1,11 +1,11 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+# Checked about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 one:
   id: 1
   person_id: 1
   template_id: 1
   content: "This is memo one"
   ctime: 2007-10-12 16:00:59
-  read: false
+  checked: false
   color: "#e4a59f"
 
 two:
@@ -14,7 +14,7 @@ two:
   template_id: 2
   content: "This is memo two"
   ctime: 2007-10-12 16:00:59
-  read: false
+  checked: false
   color: "#d083ac"
 
 three:
@@ -23,7 +23,7 @@ three:
   template_id: 2
   content: "This is memo three"
   ctime: 2007-10-12 16:00:59
-  read: false
+  checked: false
   color: "#95c1b4"
 
 four:
@@ -32,5 +32,5 @@ four:
   template_id: 2
   content: "This is memo four"
   ctime: 2007-10-12 16:00:59
-  read: false
+  checked: false
   color: "#8c91b2"

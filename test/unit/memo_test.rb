@@ -10,15 +10,15 @@ class MemoTest < Test::Unit::TestCase
     assert_kind_of(Template, memos(:one).template)
   end
 
-  def test_read
+  def test_checked
     assert_kind_of(Memo, memos(:one))
 
     one = memos(:one)
 
-    assert(!one.read?)
-    one.read = true
+    assert(!one.checked?)
+    one.checked = true
     assert(one.save)
-    assert(one.read?)
+    assert(one.checked?)
   end
 
   def test_assert_color

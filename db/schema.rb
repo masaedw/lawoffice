@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(:version => 9) do
   create_table "interested_people", :force => true do |t|
     t.column "person_id",   :integer
     t.column "bbs_memo_id", :integer
-    t.column "read",        :boolean
+    t.column "checked",     :boolean
   end
 
   create_table "locations", :force => true do |t|
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "color",       :string
     t.column "content",     :text
     t.column "ctime",       :datetime
-    t.column "read",        :boolean
+    t.column "checked",     :boolean
   end
 
   create_table "meteors", :force => true do |t|
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(:version => 9) do
     t.column "updated_at", :datetime
   end
 
-  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
+  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "templates", :force => true do |t|
     t.column "name",    :string

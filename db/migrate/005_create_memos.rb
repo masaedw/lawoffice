@@ -6,7 +6,7 @@ class CreateMemos < ActiveRecord::Migration
       t.column :color, :string
       t.column :content, :text
       t.column :ctime, :datetime
-      t.column :read, :boolean
+      t.column :checked, :boolean
     end
   end
 
