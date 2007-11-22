@@ -11,11 +11,19 @@ class LocationsController < ApplicationController
     end
 
     locations = Location.find(:all, :order => 'position')
+    people = Person.find(:all)
 
     js = render_to_string :update do |page|
-      page << "console.log(edit_mode);"
+      select0 = options_from_collection_for_select(locations, "id", "name")
       page << "if (!edit_mode) {"
       page.replace_html 'locations-table', render(:partial => 'item', :collection => locations)
+      people.each do |person|
+        if (person.location)
+          page.replace_html person.element_id+"_select", options_from_collection_for_select(locations, "id", "name", person.location.id)
+        else
+          page.replace_html person.element_id+"_select", %q{<option id="#{h person.element_id}_null_location"></option>}+select0
+        end
+      end
       page << "} else {"
       page.replace_html 'locations', render(:partial => 'edit', :collection => locations)
       page.sortable 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'}
