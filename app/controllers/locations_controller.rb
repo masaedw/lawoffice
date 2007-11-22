@@ -21,7 +21,7 @@ class LocationsController < ApplicationController
         if (person.location)
           page.replace_html person.element_id+"_select", options_from_collection_for_select(locations, "id", "name", person.location.id)
         else
-          page.replace_html person.element_id+"_select", %q{<option id="#{h person.element_id}_null_location"></option>}+select0
+          page.replace_html person.element_id+"_select", %Q{<option id="#{h person.element_id}_null_location"></option>}+select0
         end
       end
       page << "} else {"
@@ -40,10 +40,14 @@ class LocationsController < ApplicationController
   def create
     max = Location.maximum('position')
     location = Location.create(:name => "新規", :listup => false, :color => "#eceef0", :position => max+1)
+    people = Person.find(:all)
 
     js = render_to_string :update do |page|
       page << "if (!edit_mode) {"
       page.insert_html :bottom, 'locations-table', render(:partial => 'item', :object => location)
+      people.each do |person|
+        page.insert_html :bottom, person.element_id+"_select", %Q{<option value="#{h location.id}">#{h location.name}</option>}
+      end
       page << "} else {"
       page.insert_html :bottom, 'locations', render(:partial => 'edit', :object => location)
       page.sortable 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'}
