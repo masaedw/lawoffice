@@ -89,6 +89,7 @@ class LocationsController < ApplicationController
     @location.destroy
     js = render_to_string :update do |page|
       page.remove @location.element_id
+      page << "j$(\"option[@value=#{@location.id}]\").remove()"
     end
     shoot_both js
 
