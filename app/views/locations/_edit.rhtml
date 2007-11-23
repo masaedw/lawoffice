@@ -9,6 +9,6 @@
                                     :confirm => "「#{h edit.name}」を削除します。この操作は元に戻せません。" %>"/>
 <%- end %>
 <%= observe_form("location_#{h edit.id}_form",
-                 :frequency => 0.5,
+                 :frequency => 1,
                  :url       => {:controller => "locations", :action => "update", :id => edit.id}) %>
 </div>

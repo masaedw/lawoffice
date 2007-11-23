@@ -75,8 +75,9 @@ class LocationsController < ApplicationController
         page.replace @location.element_id, render(:partial => 'edit', :object => @location)
         page << "}"
         @location.people.each do |person|
-          page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}')"
+          page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}');"
         end
+        page << "j$(\"option[@value=#{@location.id}]\").html(\"#{h @location.name}\");"
       end
       shoot_both js
     end
@@ -89,7 +90,7 @@ class LocationsController < ApplicationController
     @location.destroy
     js = render_to_string :update do |page|
       page.remove @location.element_id
-      page << "j$(\"option[@value=#{@location.id}]\").remove()"
+      page << "j$(\"option[@value=#{@location.id}]\").remove();"
     end
     shoot_both js
 
