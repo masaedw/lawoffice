@@ -10,6 +10,18 @@ class PeopleController < ApplicationController
   end
 
   def create
+    person = Person.create(:name => "新規", :phone => "", :message => "", :posx => 100, :posy => 100)
+
+    js = render_to_string :update do |page|
+      page << "if (!edit_mode) {"
+      page.insert_html :bottom, 'people', render(:partial => 'person', :object => person)
+      page << "} else {"
+      page.insert_html :bottom, 'people', render(:partial => 'edit', :object => person)
+      page << "}"
+    end
+    shoot_both js
+
+    render :nothing => true
   end
 
   def edit
