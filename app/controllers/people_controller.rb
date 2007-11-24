@@ -1,3 +1,5 @@
+require 'json'
+
 class PeopleController < ApplicationController
   before_filter :find_all, :only => [:list, :edit]
   before_filter :find_id, :only => [:update_message, :update_position, :update_location]
@@ -73,7 +75,34 @@ class PeopleController < ApplicationController
     render :nothing => true
   end
 
+  def update_text
+    @person = Person.find(params[:id])
+    @person.name = params[:name]
+    @person.phone = params[:phone]
+
+    if @person.save
+      js = render_to_string :update do |page|
+        page << "Person.update_text('#{@person.element_id}', 'name', #{@person.name.to_json});"
+        page << "Person.update_text('#{@person.element_id}', 'phone', #{@person.phone.to_json});"
+      end
+      shoot_both js
+    end
+
+    render :nothing => true
+  end
+
   def destroy
+    @person = Person.find(params[:id], :include => "location")
+    @person.destroy
+    js = render_to_string :update do |page|
+      page.remove @person.element_id
+      page << "if (!edit_mode) {"
+      page.replace @person.location.element_id, render(:partial => 'locations/item', :object => @person.location)
+      page << "}"
+    end
+    shoot_both js
+
+    render :nothing => true
   end
 
   private

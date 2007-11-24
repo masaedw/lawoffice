@@ -45,6 +45,13 @@ option:hover {
   max-height: 7em;
 }
 
+.edit .standard {
+  width: 8.6em;
+  height: 4.3em;
+  overflow: hidden;
+  font-size: 70%;
+}
+
 .unread {
   color: #f00;
   background-color: #fff;
@@ -60,13 +67,14 @@ option:hover {
 }
 
 input.name {
-  font-size: 130%;
+  font-size: 150%;
   border: 1px solid #888;
   background-color: transparent;
   width: 5em;
 }
 
 input.phone {
+  font-size: 130%;
   border: 1px solid #888;
   background-color: transparent;
   width: 3em;

@@ -3,20 +3,12 @@
             background-color: <%=h edit.bgcolor %>;
             left: <%=h edit.left %>px;
             top: <%=h edit.top %>px;">
-  <div class="mini" id="<%=h edit.element_id %>_mini">
-    <%= span_class edit, "name" %>
-    <%- if edit.unread != 0 -%>
-    <span class="unread"><%=h edit.unread %></span>
-    <%- end -%>
-    <br/>
-    <%= span_class edit, "phone" %>
-    <br/>
-    <%= span_class edit, "message" %>
-  </div>
   <div class="standard" id="<%=h edit.element_id %>_standard">
-    <input class="name" id="<%= edit.element_id %>_name_input" type="text" value="<%=h edit.name %>"/>
+    <input class="name" id="<%= edit.element_id %>_name_input" type="text" value="<%=h edit.name %>"/><br/>
     <input class="phone" id="<%= edit.element_id %>_phone_input" type="text" value="<%=h edit.phone %>"/>
-    <%= link_to "削除", :controller => 'people', :action => 'delete', :id => edit, :method => 'post' %>
+    <input type="button" value="削除"
+           onclick="<%= remote_function :url => {:controller => 'people', :action => 'destroy', :id => edit},
+                                        :confirm => "「#{h edit.name}」を削除します。この操作は元に戻せません。" %>"/>
   </div>
   <script type="text/javascript">new Person("<%=h edit.element_id %>", true);</script>
 </div>

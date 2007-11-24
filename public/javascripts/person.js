@@ -25,12 +25,18 @@ Person.prototype = {
     this.window.onfocus = this.focus_handler.bindAsEventListener(this);
     this.window.onunfocus = this.unfocus_handler.bindAsEventListener(this);
 
-    this.minimize();
-
     if (edit) {
       this.edit = true;
       this.draggable = new Draggable(id);
+      // 名前と電話の変更を監視する
+//       Event.observe(id+"_message_input", "change", function(event) {
+//         new Ajax.Request('/people/update_message/'+this.id_number(),
+//                          { asynchronous: true,
+//                            evalScripts:  true,
+//                            parameters:   {message: $(id+"_message_input").value}});
     } else {
+      this.minimize();
+
       // メッセージの変更を監視する
       Event.observe(id+"_message_input", "change", function(event) {
         new Ajax.Request('/people/update_message/'+this.id_number(),
@@ -91,7 +97,7 @@ Person.prototype = {
     if (id == null) {
       $(this.elem_id).style.backgroundColor = "#eceef0";
       j$("#"+this.elem_id+"_select").prepend("<option id=\""+this.elem_id+"_null_location\"></option>");
-      if (!edit_mode) {
+      if (!this.edit) {
         $(this.elem_id+"_null_location").selected = true;
         this.select_observer.updateLastValue();
       }
