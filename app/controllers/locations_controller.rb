@@ -86,11 +86,14 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    @location = Location.find(params[:id])
+    @location = Location.find(params[:id], :include => "people")
     @location.destroy
     js = render_to_string :update do |page|
       page.remove @location.element_id
       page << "j$(\"option[@value=#{@location.id}]\").remove();"
+      @location.people.each do |person|
+        page << "Person.find('#{person.element_id}').update_location(null);"
+      end
     end
     shoot_both js
 

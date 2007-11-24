@@ -83,20 +83,32 @@ Person.prototype = {
   },
 
   // person は自分の location を知っておくべきな気がする。
-  // 今は知らないので、location の idをもらう。
+  // 今は知らないので、location の id をもらう。
+  //
+  // id が null ならデフォルトに戻す。
   update_location: function(id)
   {
-    $(this.elem_id).style.backgroundColor = $(id).style.backgroundColor;
+    if (id == null) {
+      $(this.elem_id).style.backgroundColor = "#eceef0";
+      j$("#"+this.elem_id+"_select").prepend("<option id=\""+this.elem_id+"_null_location\"></option>");
+      if (!edit_mode) {
+        $(this.elem_id+"_null_location").selected = true;
+        this.select_observer.updateLastValue();
+      }
+    } else {
+      $(this.elem_id).style.backgroundColor = $(id).style.backgroundColor;
+      j$("#"+this.elem_id+"_null_location").remove();
 
-    var select = $(this.elem_id+"_select");
-    if (select) {
-      for (var i = 0; i < select.options.length; i++) {
-        if (select.options[i].value == id.replace(/location_/,'')) {
-          if (!select.options[i].selected == true) {
-            select.options[i].selected = true;
-            this.select_observer.updateLastValue();
+      var select = $(this.elem_id+"_select");
+      if (select) {
+        for (var i = 0; i < select.options.length; i++) {
+          if (select.options[i].value == id.replace(/location_/,'')) {
+            if (!select.options[i].selected == true) {
+              select.options[i].selected = true;
+              this.select_observer.updateLastValue();
+            }
+            return;
           }
-          return;
         }
       }
     }
