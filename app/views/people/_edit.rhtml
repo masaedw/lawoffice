@@ -4,11 +4,17 @@
             left: <%=h edit.left %>px;
             top: <%=h edit.top %>px;">
   <div class="standard" id="<%=h edit.element_id %>_standard">
-    <input class="name" id="<%= edit.element_id %>_name_input" type="text" value="<%=h edit.name %>"/><br/>
-    <input class="phone" id="<%= edit.element_id %>_phone_input" type="text" value="<%=h edit.phone %>"/>
+    <%- form_tag('javascript:void(0)', :id => edit.element_id+"_form") do -%>
+    <%= text_field_tag "name", edit.name, :class => 'text', :id => edit.element_id+"_name_input", :class => "name" -%><br/>
+    <%= text_field_tag "phone", edit.phone, :class => 'text', :id => edit.element_id+"_phone_input", :class => "phone" -%>
     <input type="button" value="削除"
            onclick="<%= remote_function :url => {:controller => 'people', :action => 'destroy', :id => edit},
                                         :confirm => "「#{h edit.name}」を削除します。この操作は元に戻せません。" %>"/>
+    <%- end -%>
   </div>
   <script type="text/javascript">new Person("<%=h edit.element_id %>", true);</script>
+  <%= observe_form(edit.element_id+"_form",
+                   :frequency => 1,
+                   :url       => {:controller => "people", :action => "update_text", :id => edit.id}) %>
+
 </div>

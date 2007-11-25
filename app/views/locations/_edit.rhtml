@@ -1,5 +1,5 @@
 <div id="location_<%=h edit.id %>" style="background-color: <%=h edit.color %>">
-<%- form_tag('javascript:void(0)', :id => "location_#{h edit.id}_form") do -%>
+<%- form_tag('javascript:void(0)', :id => edit.element_id+"_form") do -%>
   ●
 <%= text_field_tag "name", edit.name, :class => 'text' -%>
 <%= text_field_tag "color", edit.color, :class => 'text' -%>
@@ -8,7 +8,7 @@
        onclick="<%= remote_function :url => {:controller => 'locations', :action => 'destroy', :id => edit},
                                     :confirm => "「#{h edit.name}」を削除します。この操作は元に戻せません。" %>"/>
 <%- end %>
-<%= observe_form("location_#{h edit.id}_form",
+<%= observe_form(edit.element_id+"_form",
                  :frequency => 1,
                  :url       => {:controller => "locations", :action => "update", :id => edit.id}) %>
 </div>
