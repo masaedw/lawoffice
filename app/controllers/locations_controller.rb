@@ -55,7 +55,10 @@ class LocationsController < ApplicationController
     end
     shoot_both js
 
-    render :nothing => true
+    render :update do |page|
+      page.insert_html :bottom, 'locations', render(:partial => 'edit', :object => location)
+      page.sortable 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'}
+    end
   end
 
   def edit
@@ -71,18 +74,25 @@ class LocationsController < ApplicationController
       js = render_to_string :update do |page|
         page << "if (!edit_mode) {"
         page.replace @location.element_id, render(:partial => 'item', :object => @location)
+        page << "j$(\"option[@value=#{@location.id}]\").html(\"#{h @location.name}\");"
         page << "} else {"
         page.replace @location.element_id, render(:partial => 'edit', :object => @location)
         page << "}"
         @location.people.each do |person|
           page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}');"
         end
-        page << "j$(\"option[@value=#{@location.id}]\").html(\"#{h @location.name}\");"
       end
       shoot_both js
-    end
 
-    render :nothing => true
+      render :update do |page|
+        page << "$('#{@location.element_id}').style.backgroundColor = '#{@location.color}'"
+        @location.people.each do |person|
+          page << "Person.find('#{person.element_id}').update_location('#{@location.element_id}');"
+        end
+      end
+    else
+      render :nothing => true
+    end
   end
 
   def destroy
@@ -97,7 +107,12 @@ class LocationsController < ApplicationController
     end
     shoot_both js
 
-    render :nothing => true
+    render :update do |page|
+      page.remove @location.element_id
+      @location.people.each do |person|
+        page << "Person.find('#{person.element_id}').update_location(null);"
+      end
+    end
   end
 
   private
