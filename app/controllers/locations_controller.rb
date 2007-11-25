@@ -34,9 +34,6 @@ class LocationsController < ApplicationController
     render :nothing => true
   end
 
-  def new
-  end
-
   def create
     max = Location.maximum('position')
     location = Location.create(:name => "新規", :listup => false, :color => "#eceef0", :position => max+1)
