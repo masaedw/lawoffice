@@ -23,7 +23,9 @@ class PeopleController < ApplicationController
     end
     shoot_both js
 
-    render :nothing => true
+    render :update do |page|
+      page.insert_html :bottom, 'people', render(:partial => 'edit', :object => person)
+    end
   end
 
   def edit
@@ -39,9 +41,13 @@ class PeopleController < ApplicationController
         page << "Person.update_text('#{@person.element_id}', 'message', '#{h @person.message}');"
       end
       shoot_both(js)
-    end
 
-    render :nothing => true
+      render :update do |page|
+        page << "j$('##{@person.element_id} span.message').html(#{@person.message.to_json});"
+      end
+    else
+      render :nothing => true
+    end
   end
 
   def update_position
@@ -71,8 +77,15 @@ class PeopleController < ApplicationController
         page << "Person.update_text('#{@person.element_id}', 'message', '');"
       end
       shoot_both(js)
+
+      render :update do |page|
+        page.replace_html 'locations-table', render(:partial => 'locations/item', :collection => locations)
+        page << "Person.find('#{@person.element_id}').update_location('#{location.element_id}');"
+        page << "Person.update_text('#{@person.element_id}', 'message', '');"
+      end
+    else
+      render :nothing => true
     end
-    render :nothing => true
   end
 
   def update_text
@@ -96,13 +109,17 @@ class PeopleController < ApplicationController
     @person.destroy
     js = render_to_string :update do |page|
       page.remove @person.element_id
-      page << "if (!edit_mode) {"
-      page.replace @person.location.element_id, render(:partial => 'locations/item', :object => @person.location)
-      page << "}"
+      if @person.location
+        page << "if (!edit_mode) {"
+        page.replace @person.location.element_id, render(:partial => 'locations/item', :object => @person.location)
+        page << "}"
+      end
     end
     shoot_both js
 
-    render :nothing => true
+    render :update do |page|
+      page.remove @person.element_id
+    end
   end
 
   private
