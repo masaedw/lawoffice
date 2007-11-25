@@ -4,16 +4,10 @@ Object.extend(Person, ObjectPool);
 
 Person.update_text = function(id, klass, content)
 {
-  var elem = $(id);
-  var elems = elem.getElementsByClassName(klass);
-  var i;
-
-  for (i = 0; i < elems.length; i++) {
-    if (elems[i].tagName.toUpperCase() == "INPUT")
-      elems[i].value = content;
-    else
-      elems[i].innerHTML = content;
-  }
+  j$("span."+klass, $(id)).html(content);
+  j$("input."+klass, $(id)).attr("value", content);
+  if (!edit_mode)
+    Person.find(id).message_observer.updateLastValue();
 };
 
 Person.prototype = {
@@ -38,11 +32,11 @@ Person.prototype = {
       this.minimize();
 
       // メッセージの変更を監視する
-      Event.observe(id+"_message_input", "change", function(event) {
+      this.message_observer = new Form.Element.Observer(id+'_message_input', 1, function(element, value) {
         new Ajax.Request('/people/update_message/'+this.id_number(),
                          { asynchronous: true,
                            evalScripts:  true,
-                           parameters:   {message: $(id+"_message_input").value}});
+                           parameters:   'message='+value});
       }.bind(this));
 
       // 場所変更を監視する

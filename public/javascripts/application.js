@@ -17,6 +17,11 @@ Abstract.EventObserver.prototype.updateLastValue = function()
   this.lastValue = this.getValue();
 };
 
+Abstract.TimedObserver.prototype.updateLastValue = function()
+{
+  this.lastValue = this.getValue();
+};
+
 //------------------------------------------------------------
 // Window
 // エレメントの外側をクリックされたことの検知をするためのしくみ
