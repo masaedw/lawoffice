@@ -18,4 +18,4 @@ edit_mode = true;
 </div>
 <%= render_component :controller => 'locations', :action => 'edit' %>
 <%= render_component :controller => 'people', :action => 'edit' %>
-<%= meteor_strike 'lawoffice' %>
+<%= meteor_strike 'lawoffice', :uid => session.session_id %>

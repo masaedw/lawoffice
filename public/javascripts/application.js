@@ -129,3 +129,12 @@ ObjectPool.remove = function(id)
 {
   this.objectpool__.remove(id);
 };
+
+
+//------------------------------------------------------------
+// 自分が発行したイベントに対応するJSの実行を防ぐためのしくみ
+//
+function sid_is(sid)
+{
+  return sid__ == sid;
+}

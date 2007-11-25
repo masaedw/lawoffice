@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   private
 
   def shoot_both js
+    js = "if(!sid_is(#{session.session_id.to_json})){#{js}}"
     Meteor.shoot('lawoffice', js)
   end
 end

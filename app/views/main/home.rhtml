@@ -17,4 +17,4 @@ edit_mode = false;
 
 <%= render_component :controller => 'locations', :action => 'list' %>
 <%= render_component :controller => 'people', :action => 'list' %>
-<%= meteor_strike 'lawoffice' %>
+<%= meteor_strike 'lawoffice', :uid => session.session_id %>
