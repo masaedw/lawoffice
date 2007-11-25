@@ -12,8 +12,5 @@
                                         :confirm => "「#{h edit.name}」を削除します。この操作は元に戻せません。" %>"/>
     <%- end -%>
   </div>
-  <script type="text/javascript">new Person("<%=h edit.element_id %>", true);</script>
-  <%= observe_form(edit.element_id+"_form",
-                   :frequency => 1,
-                   :url       => {:controller => "people", :action => "update_text", :id => edit.id}) %>
+  <%= javascript_tag "new Person('#{edit.element_id}', true);" %>
 </div>

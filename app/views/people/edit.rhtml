@@ -1,5 +1,5 @@
 <div id="people" class="edit">
-  <script type="text/javascript">
+  <%= javascript_tag %Q{
     var PeopleObserver = Class.create();
     PeopleObserver.prototype = {
       initialize: function() {},
@@ -18,6 +18,6 @@
       }
     };
     Draggables.addObserver(new PeopleObserver);
-  </script>
+  } %>
 <%= render :partial => 'edit', :collection => @list %>
 </div>

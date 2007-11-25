@@ -8,6 +8,8 @@ Person.update_text = function(id, klass, content)
   j$("input."+klass, $(id)).attr("value", content);
   if (!edit_mode)
     Person.find(id).message_observer.updateLastValue();
+  else
+    Person.find(id).name_phone_observer.updateLastValue();
 };
 
 Person.prototype = {
@@ -22,12 +24,14 @@ Person.prototype = {
     if (edit) {
       this.edit = true;
       this.draggable = new Draggable(id);
+
       // 名前と電話の変更を監視する
-//       Event.observe(id+"_message_input", "change", function(event) {
-//         new Ajax.Request('/people/update_message/'+this.id_number(),
-//                          { asynchronous: true,
-//                            evalScripts:  true,
-//                            parameters:   {message: $(id+"_message_input").value}});
+      this.name_phone_observer = new Form.Observer(id+'_form', 1, function(element, value) {
+        new Ajax.Request('/people/update_text/'+this.id_number(),
+                         { asynchronous: true,
+                           evalScripts:  true,
+                           parameters:   value});
+      }.bind(this));
     } else {
       this.minimize();
 
