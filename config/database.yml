@@ -1,11 +1,12 @@
 # SQLite version 3.x
 #   gem install sqlite3-ruby
 sster: &sster
-  server:
-    - localhost:8080
-  shooter:
-    - druby://localhost:7123
-  random_subdomain: false
+  shooting_star:
+    server:
+      - 192.168.100.4:8080
+    shooter:
+      - druby://localhost:7123
+    random_subdomain: false
 
 development:
   adapter: mysql
