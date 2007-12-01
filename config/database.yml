@@ -3,7 +3,7 @@
 sster: &sster
   shooting_star:
     server:
-      - 192.168.100.4:8080
+      - elros.local:8080
     shooter:
       - druby://localhost:7123
     random_subdomain: false
