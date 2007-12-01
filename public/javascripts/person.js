@@ -116,5 +116,10 @@ Person.prototype = {
         }
       }
     }
+  },
+
+  toString: function()
+  {
+    return "#<Person "+this.elem_id+">";
   }
 };
