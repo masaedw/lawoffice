@@ -1,6 +1,11 @@
 // Place your application-specific JavaScript functions and classes here
 // This file is automatically included by javascript_include_tag :defaults
 
+if (typeof console == "undefined") {
+  console = new Object;
+  console.log = function() {};
+}
+
 var ZINDEXTOP = 100;
 
 Element.Methods.popup = function(element)
