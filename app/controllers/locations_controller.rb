@@ -69,8 +69,10 @@ class LocationsController < ApplicationController
     @location.listup = !params[:listup].blank?
     if @location.save
       js = render_to_string :update do |page|
+        update_params = {"name" => @location.name, "color" => @location.color, "list" => user_list(@location)}
+
         page << "if (!edit_mode) {"
-        page.replace @location.element_id, render(:partial => 'item', :object => @location)
+        page << "Location.update('#{@location.element_id}', #{update_params.to_json});"
         page << "j$(\"option[@value=#{@location.id}]\").html(\"#{h @location.name}\");"
         page << "} else {"
         page.replace @location.element_id, render(:partial => 'edit', :object => @location)
