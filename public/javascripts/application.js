@@ -40,6 +40,12 @@ Abstract.TimedObserver.prototype.updateLastValue = function()
 };
 
 
+function id_number(id)
+{
+  return id.replace(/.*_/, '');
+}
+
+
 //------------------------------------------------------------
 // IE のバグ対策
 // display: none; な要素の子要素のselectをJSで変更すると、

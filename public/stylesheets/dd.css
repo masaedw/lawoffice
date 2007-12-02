@@ -195,6 +195,7 @@ body {
   border: 1px solid #888;
   background-color: #eee;
   overflow: hidden;
+  width: 370px;
 }
 
 .memo_window_top {

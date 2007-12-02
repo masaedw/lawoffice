@@ -17,11 +17,10 @@
     <%= span_class person, "name" %>
     <%= span_class person, "phone" %>
     <br/>
-    <a href="javascript:void(0);">未読 <%= person.unread %></a>
+    <a href="javascript:void(MemoWindow.open('<%= person.element_id %>'));">未読 <%= person.unread %></a>
     <span>回覧 <%= person.bbs_unread %></span>
     <br/>
     <input class="message" id="<%= person.element_id %>_message_input" type="text" value="<%=h person.message %>"/>
-    <br/>
     <select id="<%=h person.element_id %>_select">
       <%- if person.location -%>
       <%= options_from_collection_for_select Location.find(:all, :order => 'position'), "id", "name", person.location.id %>

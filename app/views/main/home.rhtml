@@ -1,6 +1,5 @@
-<script type="text/javascript">
-edit_mode = false;
-</script>
+<%= javascript_tag "edit_mode = false;" %>
+
 <div id="control">
   <div id="edit_menu">
     <%= link_to "編集モードへ", :controller => 'main', :action => 'edit' %>
@@ -14,6 +13,59 @@ edit_mode = false;
     </span>
   </span>
 </div>
+
+<div id="memo_window" style="display: none;"
+     onclick="Element.popup('memo_window');">
+  <div class="memo_window_top">
+    <div style="float: left;">
+      <span id="memo_window_name">namae</span>
+    </div>
+    <div style="text-align: right;">
+      <select name="memo_mode">
+        <option>表示</option>
+        <option>日付</option>
+        <option>新規</option>
+      </select>
+    </div>
+    <div style="clear: both;"></div>
+  </div>
+
+  <span id="template" style="display: none;">
+    テンプレート選択: 
+    <select id="template_select1">
+      <option>----</option>
+    </select>
+    <a id="memo_to" class="bbs" href="javascript:void(0);">宛先</a>
+  </span>
+
+  <div id="to_window" style="display: none;"><div id="to_window_inner"></div></div>
+
+  <div id="memo_window_show">
+    <input id="memo_window_radio1" type="radio" name="unread" value="unread" checked="checked"/>未読
+    <input id="memo_window_radio2" type="radio" name="unread" value="both"/>全部<br/>
+    検索 <input type="text" name="search" id="memo_winodow_search"/>
+  </div>
+
+  <div id="memo_window_date" style="display: none;">
+    <input type="text" name="year" size="4"/>年
+    <input type="text" name="month" size="2"/>月
+    <input type="text" name="day" size="2"/>日
+    <div class="memo_navi">
+      <a href="javascript:void(0);">&lt;前の日</a> |
+      <a href="javascript:void(0);">次の日&gt</a>
+    </div>
+  </div>
+
+  <div id="memo_window_new" style="display: none;">
+    <textarea rows="10" style="width: 100%;" id="memo_window_new_area"></textarea><br/>
+    <input type="button" value="メモ追加"/>
+  </div>
+
+  <div id="memo_window_display">
+  </div>
+  <a href="javascript:void(0);" onclick="MemoWindow.close();">閉じる</a>
+</div>
+<%= javascript_tag "var memo_window = new Draggable('memo_window');" %>
 
 <%= render_component :controller => 'locations', :action => 'list' %>
 <%= render_component :controller => 'people', :action => 'list' %>
