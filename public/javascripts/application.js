@@ -14,6 +14,18 @@ Element.Methods.popup = function(element)
   return element;
 };
 
+// pred はDOMエレメントを引数にとる述語
+// elementのparentNodeを辿り、predが真になる要素を返す。
+// elementそのものもpredによってチェックされる。
+Element.Methods.outer_find = function(element, pred) {
+  while (!pred($(element))) {
+    element = $(element).parentNode;
+    if (!element || element == document.body)
+      return false;
+  }
+  return element;
+};
+
 Element.addMethods();
 
 // IE でも動くの？これ
@@ -26,6 +38,56 @@ Abstract.TimedObserver.prototype.updateLastValue = function()
 {
   this.lastValue = this.getValue();
 };
+
+
+//------------------------------------------------------------
+// IE のバグ対策
+// display: none; な要素の子要素のselectをJSで変更すると、
+// 非表示だったはずのselect要素が画面上にポツンと表示されてしまう
+//
+if (document.all) {
+Element.Methods.update_orig = Element.Methods.update;
+
+Element.Methods.update = function(element, html) {
+  Element.update_orig(element, html);
+
+  var select = Element.outer_find(element, function(elem) {
+    return elem.tagName.toUpperCase() == "SELECT";
+  });
+  if (!select) return element;
+
+  var hidden = Element.outer_find(select, function(elem) {
+    return !Element.visible(elem);
+  });
+
+  if (hidden) {
+    select.form_hidden__ = true;
+    Element.hide(select);
+  }
+
+  return element;
+};
+
+Element.Methods.show_orig = Element.Methods.show;
+
+Element.Methods.show = function(element)
+{
+  Element.show_orig(element);
+
+  var selects = $(element).getElementsByTagName("SELECT");
+
+  for (var i = 0; i < selects.length; i++) {
+    if (selects[i].form_hidden__) {
+      Element.show(selects[i]);
+      selects[i].form_hidden__ = false;
+    }
+  }
+  return element;
+};
+
+Element.addMethods();
+Object.extend(Element, Element.Methods);
+}
 
 //------------------------------------------------------------
 // Window

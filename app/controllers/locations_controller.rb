@@ -73,7 +73,7 @@ class LocationsController < ApplicationController
 
         page << "if (!edit_mode) {"
         page << "Location.update('#{@location.element_id}', #{update_params.to_json});"
-        page << "j$(\"option[@value=#{@location.id}]\").html(\"#{h @location.name}\");"
+        page << "$A(j$(\"option[@value=#{@location.id}]\")).each(function(i){$(i).update(\"#{h @location.name}\");});"
         page << "} else {"
         page.replace @location.element_id, render(:partial => 'edit', :object => @location)
         page << "}"
