@@ -92,8 +92,8 @@ Element.Methods.show = function(element)
 };
 
 Element.addMethods();
-Object.extend(Element, Element.Methods);
 }
+Object.extend(Element, Element.Methods);
 
 //------------------------------------------------------------
 // Window
