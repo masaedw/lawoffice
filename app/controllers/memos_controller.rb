@@ -9,6 +9,15 @@ class MemosController < ApplicationController
   end
 
   def create
+    memo = Memo.new
+    memo.content = params[:content]
+    memo.person_id = params[:id]
+    memo.color = "#ffffff"
+    if params[:template].to_i != 0
+      memo.template = Template.find(params[:template])
+    end
+    memo.save
+    render :nothing => true
   end
 
   def update
