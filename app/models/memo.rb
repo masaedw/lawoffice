@@ -7,6 +7,7 @@ class Memo < ActiveRecord::Base
   validates_color_format_of :color
 
   before_save :fix_time
+  before_save :fix_read
 
   private
 
@@ -17,5 +18,12 @@ class Memo < ActiveRecord::Base
     end
 
     self.mtime = now
+  end
+
+  def fix_read
+    if self.checked == nil
+      self.checked = false
+    end
+    true
   end
 end

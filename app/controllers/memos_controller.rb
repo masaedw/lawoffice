@@ -17,7 +17,19 @@ class MemosController < ApplicationController
       memo.template = Template.find(params[:template])
     end
     memo.save
-    render :nothing => true
+
+    memo_list
+
+    js = render_to_string :update do |page|
+      page << "if (!edit_mode) {"
+      page << "Person.update_unread('#{@person.element_id}', #{@person.unread});"
+      page << "}"
+    end
+    shoot_both js
+
+    render :update do |page|
+      page.replace_html "memo_window_display", render(:partial => 'view_item', :collection => @memos)
+    end
   end
 
   def update

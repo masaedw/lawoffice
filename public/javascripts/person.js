@@ -132,5 +132,10 @@ Person.prototype = {
   name: function()
   {
     return j$("#"+this.elem_id+" .mini .name").html();
+  },
+
+  unread: function()
+  {
+    return parseInt(j$("#"+this.elem_id+" .mini .unread").html());
   }
 };

@@ -67,6 +67,7 @@ Object.extend(MemoWindow, {
     this.show_mode();
     $('memo_window_new_area').value = "";
     j$('#memo_template_select option[@value=0]')[0].selected = true;
+    Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
   }
 });
 
