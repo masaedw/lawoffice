@@ -21,10 +21,10 @@
       <span id="memo_window_name">namae</span>
     </div>
     <div style="text-align: right;">
-      <select name="memo_mode">
-        <option>表示</option>
-        <option>日付</option>
-        <option>新規</option>
+      <select id="memo_mode" onchange="MemoWindow.mode_handler();">
+        <option value="1">表示</option>
+        <option value="2">日付</option>
+        <option value="3">新規</option>
       </select>
     </div>
     <div style="clear: both;"></div>

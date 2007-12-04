@@ -12,6 +12,12 @@ Person.update_text = function(id, klass, content)
     Person.find(id).name_phone_observer.updateLastValue();
 };
 
+Person.update_unread = function(id, content)
+{
+  j$("#"+id+" .unread")[0][content == 0 ? "hide" : "show"]();
+  Person.update_text(id, "unread", content);
+};
+
 Person.prototype = {
   initialize: function(id, edit)
   {
@@ -121,5 +127,10 @@ Person.prototype = {
   toString: function()
   {
     return "#<Person "+this.elem_id+">";
+  },
+
+  name: function()
+  {
+    return j$("#"+this.elem_id+" .mini .name").html();
   }
 };

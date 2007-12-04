@@ -5,9 +5,7 @@
             top: <%=h person.top %>px;">
   <div class="mini" id="<%=h person.element_id %>_mini">
     <%= span_class person, "name" %>
-    <%- if person.unread != 0 -%>
-    <span class="unread"><%=h person.unread %></span>
-    <%- end -%>
+    <span class="unread" <%= person.unread == 0 ? 'style="display:none;"' : ""%>><%=h person.unread %></span>
     <br/>
     <%= span_class person, "phone" %>
     <br/>
