@@ -19,13 +19,7 @@ class MemosController < ApplicationController
     memo.save
 
     memo_list
-
-    js = render_to_string :update do |page|
-      page << "if (!edit_mode) {"
-      page << "Person.update_unread('#{@person.element_id}', #{@person.unread});"
-      page << "}"
-    end
-    shoot_both js
+    notice_unread(@person)
 
     render :update do |page|
       page.replace_html "memo_window_display", render(:partial => 'view_item', :collection => @memos)
@@ -33,12 +27,27 @@ class MemosController < ApplicationController
   end
 
   def update
+
   end
 
   def check
+    memo = Memo.find(params[:id])
+    memo.checked = true
+    memo.save
+
+    notice_unread(memo.person)
+
+    render :nothing => true
   end
 
   def reset
+    memo = Memo.find(params[:id])
+    memo.checked = false
+    memo.save
+
+    notice_unread(memo.person)
+
+    render :nothing => true
   end
 
   def print
@@ -52,5 +61,14 @@ class MemosController < ApplicationController
   def memo_list
     @person = Person.find(params[:id])
     @memos = @person.memos.find(:all, :order => 'ctime DESC', :page => {:size => 10, :current => params[:page]})
+  end
+
+  def notice_unread person
+    js = render_to_string :update do |page|
+      page << "if (!edit_mode) {"
+      page << "Person.update_unread('#{person.element_id}', #{person.unread});"
+      page << "}"
+    end
+    shoot_both js
   end
 end

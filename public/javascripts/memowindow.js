@@ -80,5 +80,17 @@ Object.extend(Memo, {
                      { asynchronous: true,
                        evalScripts:  true,
                        parameters:   {"content": content, "template": template_id}});
+  },
+
+  update_checked: function(person_id, memo_id_number, checked) {
+    if (checked) {
+      var diff = -1;
+      var method = "check/"
+    } else {
+      var diff = 1;
+      var method = "reset/"
+    }
+    Person.update_unread(person_id, Person.find(person_id).unread()+diff);
+    new Ajax.Request('/memos/'+method+memo_id_number, {asynchronous: true, evalScripts: true});
   }
 });

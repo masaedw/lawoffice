@@ -14,7 +14,9 @@ Person.update_text = function(id, klass, content)
 
 Person.update_unread = function(id, content)
 {
-  j$("#"+id+" .unread")[0][content == 0 ? "hide" : "show"]();
+  j$("#"+id+" .mini .unread")[0][content == 0 ? "hide" : "show"]();
+  j$("#"+id+" .standard .unread").html("未読 "+content);
+  console.log("update_unread: "+content);
   Person.update_text(id, "unread", content);
 };
 
@@ -136,6 +138,6 @@ Person.prototype = {
 
   unread: function()
   {
-    return parseInt(j$("#"+this.elem_id+" .mini .unread").html());
+    return parseInt(j$("#"+this.elem_id+" .mini .unread").html()) || 0;
   }
 };

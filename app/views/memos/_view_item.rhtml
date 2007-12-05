@@ -8,6 +8,6 @@
   </div>
   <textarea rows="4" style="background-color: <%=h view_item.color %>;"><%=h view_item.content %></textarea>
   <div class="footer">
-    ababa
+    確認済み<%=check_box_tag "checked", "0", view_item.checked, {:onchange => "Memo.update_checked('#{view_item.person.element_id}', #{view_item.id}, this.checked);"} %>
   </div>
 </div>

@@ -52,14 +52,11 @@ option:hover {
   font-size: 70%;
 }
 
-.unread {
+.sticky .mini .unread {
+  font-size: 130%;
   color: #f00;
   background-color: #fff;
   white-space: nowrap;
-}
-
-.sticky .unread {
-  font-size: 130%;
 }
 
 .mini .name {
