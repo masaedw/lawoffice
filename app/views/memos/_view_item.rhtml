@@ -4,9 +4,10 @@
   </div>
   <div class="time">
     <%=date view_item.ctime %>
-    <input type="button" value="保存" style="display: none;"/>
+    <input type="button" id="<%= view_item.element_id %>_button" value="保存" style="display: none;" onclick="Memo.save('<%= view_item.element_id %>');"/>
   </div>
-  <textarea rows="4" style="background-color: <%=h view_item.color %>;"><%=h view_item.content %></textarea>
+  <textarea rows="4" style="background-color: <%=h view_item.color %>;" id="<%= view_item.element_id %>_area"><%=h view_item.content %></textarea>
+  <%= javascript_tag "new Form.Element.Observer('#{view_item.element_id}_area', 1, function(element, value) {Memo.change_area('#{view_item.element_id}');});" %>
   <div class="footer">
     確認済み<%=check_box_tag "checked", "0", view_item.checked, {:onchange => "Memo.update_checked('#{view_item.person.element_id}', #{view_item.id}, this.checked);"} %>
   </div>

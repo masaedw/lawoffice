@@ -92,5 +92,17 @@ Object.extend(Memo, {
     }
     Person.update_unread(person_id, Person.find(person_id).unread()+diff);
     new Ajax.Request('/memos/'+method+memo_id_number, {asynchronous: true, evalScripts: true});
+  },
+
+  change_area: function(memo_id) {
+    if (!$(memo_id+"_button").visible()) {
+      Effect.Appear(memo_id+"_button");
+    }
+  },
+
+  save: function(memo_id) {
+    new Ajax.Request('/memos/update/'+id_number(memo_id),
+                     { asynchronous: true, evalScripts: true, parameters: {"content": $F(memo_id+"_area")}});
+    Effect.Fade(memo_id+"_button");
   }
 });

@@ -27,7 +27,11 @@ class MemosController < ApplicationController
   end
 
   def update
-    
+    memo = Memo.find(params[:id])
+    memo.content = params[:content]
+    memo.save
+
+    render :nothing => true
   end
 
   def check
@@ -35,7 +39,7 @@ class MemosController < ApplicationController
   end
 
   def reset
-    check_or_rest false
+    check_or_reset false
   end
 
   def print
