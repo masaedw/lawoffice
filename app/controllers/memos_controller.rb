@@ -27,27 +27,15 @@ class MemosController < ApplicationController
   end
 
   def update
-
+    
   end
 
   def check
-    memo = Memo.find(params[:id])
-    memo.checked = true
-    memo.save
-
-    notice_unread(memo.person)
-
-    render :nothing => true
+    check_or_reset true
   end
 
   def reset
-    memo = Memo.find(params[:id])
-    memo.checked = false
-    memo.save
-
-    notice_unread(memo.person)
-
-    render :nothing => true
+    check_or_rest false
   end
 
   def print
@@ -70,5 +58,15 @@ class MemosController < ApplicationController
       page << "}"
     end
     shoot_both js
+  end
+
+  def check_or_reset flag
+    memo = Memo.find(params[:id])
+    memo.checked = flag
+    memo.save
+
+    notice_unread(memo.person)
+
+    render :nothing => true
   end
 end
