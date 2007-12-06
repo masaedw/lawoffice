@@ -208,6 +208,14 @@ ObjectPool.remove = function(id)
   this.objectpool__.remove(id);
 };
 
+ObjectPool.invoke = function(name)
+{
+  this.objectpool__.values().each(function(i) {
+    if (typeof i[name] == "function")
+      i[name]();
+  });
+}
+
 
 //------------------------------------------------------------
 // 自分が発行したイベントに対応するJSの実行を防ぐためのしくみ
