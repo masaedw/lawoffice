@@ -5,7 +5,7 @@ Object.extend(MemoWindow, {
     this.person_id = id;
 
     j$("#memo_window_name").html(Person.find(id).name());
-    j$("#memo_window_display").html("");
+    this.clear_display();
 
     this.update_display();
     this.show_mode();
@@ -15,9 +15,7 @@ Object.extend(MemoWindow, {
 
   update_display: function() {
     var idn = id_number(this.person_id);
-    new Ajax.Updater('memo_window_display', '/memos/view/'+idn,
-                     { asynchronous: true,
-                       evalScripts:  true});
+    new Ajax.Request('/memos/view/'+idn, {asynchronous: true, evalScripts: true});
   },
 
   close: function(id) {
@@ -26,7 +24,7 @@ Object.extend(MemoWindow, {
   },
 
   clear_display: function() {
-    $('memo_window_display').update('');
+    MemoDisplay.invoke('clear');
   },
 
   mode_handler: function() {
@@ -92,17 +90,52 @@ Object.extend(Memo, {
     }
     Person.update_unread(person_id, Person.find(person_id).unread()+diff);
     new Ajax.Request('/memos/'+method+memo_id_number, {asynchronous: true, evalScripts: true});
-  },
-
-  change_area: function(memo_id) {
-    if (!$(memo_id+"_button").visible()) {
-      Effect.Appear(memo_id+"_button");
-    }
-  },
-
-  save: function(memo_id) {
-    new Ajax.Request('/memos/update/'+id_number(memo_id),
-                     { asynchronous: true, evalScripts: true, parameters: {"content": $F(memo_id+"_area")}});
-    Effect.Fade(memo_id+"_button");
   }
 });
+
+
+var MemoDisplay = Class.create();
+
+Object.extend(MemoDisplay, ObjectPool);
+
+MemoDisplay.prototype = {
+  initialize: function(id) {
+    this.elem_id = id;
+    this.memo_id = null;
+
+    Event.observe(id+"_button", "click", function(e) {
+      new Ajax.Request('/memos/update/'+id_number(this.memo_id),
+                       { asynchronous: true, evalScripts: true, parameters: {"content": $F(id+"_area")}});
+      Effect.Fade(this.elem_id+"_button");
+    }.bindAsEventListener(this));
+
+    Event.observe(id+"_check", "change", function(e) {
+      Memo.update_checked(MemoWindow.person_id, id_number(this.memo_id), Event.element(e).checked);
+    }.bindAsEventListener(this));
+
+    this.observer = new Form.Element.Observer(id+"_area", 1, function(element, value) {
+      if (!$(id+"_button").visible()) {
+        Effect.Appear(id+"_button");
+      }
+    });
+
+    MemoDisplay.register(id, this);
+  },
+
+  display: function(id, date, content, color, read) {
+    this.memo_id = id;
+    $(this.elem_id+"_area").value = content;
+    this.observer.updateLastValue();
+
+    j$("#"+this.elem_id+" .date").html(date);
+    $(this.elem_id+"_area").style.backgroundColor = color;
+    $(this.elem_id+"_check").checked = read;
+    $(this.elem_id).show();
+  },
+
+  clear: function() {
+    this.memo_id = null;
+    $(this.elem_id).hide();
+    $(this.elem_id+"_button").hide();
+  }
+};

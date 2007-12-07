@@ -1,8 +1,17 @@
 class MemosController < ApplicationController
 
+  def self.view_num
+    10
+  end
+
   def view
     memo_list
-    render :partial => 'view_item', :collection => @memos
+
+    render :update do |page|
+      @memos.each_with_index do |memo, i|
+        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
+      end
+    end
   end
 
   def new
@@ -52,7 +61,7 @@ class MemosController < ApplicationController
 
   def memo_list
     @person = Person.find(params[:id])
-    @memos = @person.memos.find(:all, :order => 'ctime DESC', :page => {:size => 10, :current => params[:page]})
+    @memos = @person.memos.find(:all, :order => 'ctime DESC', :page => {:size => MemosController.view_num, :current => params[:page]})
   end
 
   def notice_unread person
