@@ -10,6 +10,7 @@ class MemosController < ApplicationController
     render :update do |page|
       @memos.each_with_index do |memo, i|
         page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
+        page.replace_html 'memo_paginate', paginating_links(@memos)
       end
     end
   end
