@@ -35,28 +35,19 @@ Person.prototype = {
 
       // 名前と電話の変更を監視する
       this.name_phone_observer = new Form.Observer(id+'_form', 1, function(element, value) {
-        new Ajax.Request('/people/update_text/'+this.id_number(),
-                         { asynchronous: true,
-                           evalScripts:  true,
-                           parameters:   value});
+        new Ajax.Request('/people/update_text/'+this.id_number(), {parameters: value});
       }.bind(this));
     } else {
       this.minimize();
 
       // メッセージの変更を監視する
       this.message_observer = new Form.Element.Observer(id+'_message_input', 1, function(element, value) {
-        new Ajax.Request('/people/update_message/'+this.id_number(),
-                         { asynchronous: true,
-                           evalScripts:  true,
-                           parameters:   'message='+value});
+        new Ajax.Request('/people/update_message/'+this.id_number(), {parameters: 'message='+value});
       }.bind(this));
 
       // 場所変更を監視する
       this.select_observer = new Form.Element.EventObserver(id+'_select', function(element, value) {
-        new Ajax.Request('/people/update_location/'+this.id_number(),
-                         { asynchronous: true,
-                           evalScripts:  true,
-                           parameters:   'location='+value});
+        new Ajax.Request('/people/update_location/'+this.id_number(), {parameters: 'location='+value});
       }.bind(this));
     }
 

@@ -12,8 +12,7 @@
         console.log("  top : " + draggable.element.style.top);
 
         new Ajax.Request('/people/update_position/'+draggable.element.id.replace(/person_/, ''),
-                         {asynchronous:true, evalScripts:true,
-                          parameters:{left: draggable.element.style.left,
+                         {parameters:{left: draggable.element.style.left,
                                       top:  draggable.element.style.top}});
       }
     };

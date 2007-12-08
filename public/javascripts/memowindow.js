@@ -15,7 +15,7 @@ Object.extend(MemoWindow, {
 
   update_display: function() {
     var idn = id_number(this.person_id);
-    new Ajax.Request('/memos/view/'+idn, {asynchronous: true, evalScripts: true});
+    new Ajax.Request('/memos/view/'+idn);
   },
 
   close: function(id) {
@@ -25,6 +25,7 @@ Object.extend(MemoWindow, {
 
   clear_display: function() {
     MemoDisplay.invoke('clear');
+    $('memo_paginate').update('');
   },
 
   mode_handler: function() {
@@ -74,10 +75,7 @@ var Memo = new Object;
 
 Object.extend(Memo, {
   create: function(person_id, content, template_id) {
-    new Ajax.Request('/memos/create/'+person_id,
-                     { asynchronous: true,
-                       evalScripts:  true,
-                       parameters:   {"content": content, "template": template_id}});
+    new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id}});
   },
 
   update_checked: function(person_id, memo_id_number, checked) {
@@ -89,7 +87,7 @@ Object.extend(Memo, {
       var method = "reset/"
     }
     Person.update_unread(person_id, Person.find(person_id).unread()+diff);
-    new Ajax.Request('/memos/'+method+memo_id_number, {asynchronous: true, evalScripts: true});
+    new Ajax.Request('/memos/'+method+memo_id_number);
   }
 });
 
@@ -104,8 +102,7 @@ MemoDisplay.prototype = {
     this.memo_id = null;
 
     Event.observe(id+"_button", "click", function(e) {
-      new Ajax.Request('/memos/update/'+id_number(this.memo_id),
-                       { asynchronous: true, evalScripts: true, parameters: {"content": $F(id+"_area")}});
+      new Ajax.Request('/memos/update/'+id_number(this.memo_id), {parameters: {"content": $F(id+"_area")}});
       Effect.Fade(this.elem_id+"_button");
     }.bindAsEventListener(this));
 
