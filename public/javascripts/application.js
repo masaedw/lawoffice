@@ -193,27 +193,25 @@ var ObjectPool = new Object;
 
 ObjectPool.find = function(id)
 {
-  return this.objectpool__[id];
+  return this.objectpool__.get(id);
 };
 
 ObjectPool.register = function(id, object)
 {
   if (!this.objectpool__)
-    this.objectpool__ = $H({});
-  this.objectpool__[id] = object;
+    this.objectpool__ = $H();
+  this.objectpool__.set(id, object);
 };
 
 ObjectPool.remove = function(id)
 {
-  this.objectpool__.remove(id);
+  this.objectpool__.unset(id);
 };
 
-ObjectPool.invoke = function(name)
+ObjectPool.invoke = function()
 {
-  this.objectpool__.values().each(function(i) {
-    if (typeof i[name] == "function")
-      i[name]();
-  });
+  var values = this.objectpool__.values();
+  return values.invoke.apply(values, arguments);
 }
 
 
