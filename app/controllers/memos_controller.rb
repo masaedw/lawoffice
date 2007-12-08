@@ -32,7 +32,10 @@ class MemosController < ApplicationController
     notice_unread(@person)
 
     render :update do |page|
-      page.replace_html "memo_window_display", render(:partial => 'view_item', :collection => @memos)
+      @memos.each_with_index do |memo, i|
+        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
+        page.replace_html 'memo_paginate', paginating_links(@memos)
+      end
     end
   end
 

@@ -61,12 +61,25 @@ Object.extend(MemoWindow, {
   },
 
   create_memo: function() {
-    Memo.create(id_number(this.person_id), $F('memo_window_new_area'), $F('memo_template_select'));
+    // clear_new_forms の先に値を取得しておかなければいけない
+    var content = $F('memo_window_new_area');
+    var template_id = $F('memo_template_select');
+
     j$('#memo_mode option[@value=1]')[0].selected = true;
+
+    this.clear_display(); /* Memo.create の先でなければいけない */
+    this.clear_new_forms();
     this.show_mode();
+
+    // create のレスポンスで memo_window_display が書き替わるので、
+    // Memo.create の呼びだしは clear_display の後でなければいけない。
+    Memo.create(id_number(this.person_id), content, template_id);
+    Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
+  },
+
+  clear_new_forms: function() {
     $('memo_window_new_area').value = "";
     j$('#memo_template_select option[@value=0]')[0].selected = true;
-    Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
   }
 });
 
