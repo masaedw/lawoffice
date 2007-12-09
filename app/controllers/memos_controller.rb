@@ -9,9 +9,6 @@ class MemosController < ApplicationController
     render_list
   end
 
-  def new
-  end
-
   def create
     memo = Memo.new
     memo.content = params[:content]
