@@ -1,6 +1,6 @@
 class CreateMemos < ActiveRecord::Migration
   def self.up
-    create_table :memos do |t|
+    create_table :memos, :options => "ENGINE=MyISAM DEFAULT CHARSET=utf8" do |t|
       t.column :person_id, :integer
       t.column :template_id, :integer
       t.column :color, :string

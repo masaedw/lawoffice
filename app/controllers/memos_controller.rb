@@ -43,15 +43,17 @@ class MemosController < ApplicationController
   def print
   end
 
-  def search
-  end
-
   private
 
   def memo_list
     @person = Person.find(params[:id])
     opts = {:order => 'ctime DESC', :page => {:size => MemosController.view_num, :current => params[:page]}}
-    if params[:unread] == "true"
+    case
+    when !params[:query].blank? && params[:unread] != "true"
+      opts[:conditions] = ["match(content) against(?)", params[:query]]
+    when !params[:query].blank? && params[:unread] == "true"
+      opts[:conditions] = ["checked = ? AND match(content) against(?)", false, params[:query]]
+    when params[:query].blank? && params[:unread] == "true"
       opts[:conditions] = ["checked = ?", false]
     end
     @memos = @person.memos.find(:all, opts)

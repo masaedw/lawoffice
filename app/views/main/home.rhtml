@@ -35,7 +35,7 @@
     <select id="memo_template_select">
       <option value="0">----</option>
     </select>
-    <a id="memo_to" class="bbs" href="javascript:void(0);">宛先</a>
+    <a id="memo_dests" class="bbs" href="javascript:void(0);">宛先</a>
   </span>
 
   <div id="to_window" style="display: none;"><div id="to_window_inner"></div></div>
@@ -45,7 +45,7 @@
            onclick="MemoWindow.unchecked_set(true);"/>未読
     <input id="memo_window_all" type="radio" name="unread" value="both"
            onclick="MemoWindow.unchecked_set(false);"/>全部<br/>
-    検索 <input type="text" name="search" id="memo_winodow_search"/>
+    検索 <input type="text" name="search" id="memo_window_search"/>
   </div>
 
   <div id="memo_window_date" style="display: none;">
@@ -85,7 +85,7 @@
   </div>
   <a href="javascript:void(0);" onclick="MemoWindow.close();">閉じる</a>
 </div>
-<%= javascript_tag "var memo_window = new Draggable('memo_window');" %>
+<%= javascript_tag "MemoWindow.init();" %>
 
 <%= render_component :controller => 'locations', :action => 'list' %>
 <%= render_component :controller => 'people', :action => 'list' %>

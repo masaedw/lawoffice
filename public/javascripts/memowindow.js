@@ -1,12 +1,22 @@
 var MemoWindow = new Object;
 
 Object.extend(MemoWindow, {
+  init: function() {
+    this.search_observer = new Form.Element.Observer("memo_window_search", 1, function(element, value) {
+      this.query = value;
+      this.page();
+    }.bind(this));
+    this.draggable = new Draggable('memo_window');
+  },
+
   open: function(id) {
     this.person_id = id;
     this.unchecked = true;
+    this.query = "";
 
     j$("#memo_window_name").html(Person.find(id).name());
     this.clear_display();
+    this.clear_search();
 
     this.page();
     this.show_mode();
@@ -17,11 +27,18 @@ Object.extend(MemoWindow, {
   close: function(id) {
     Element.hide('memo_window');
     this.clear_display();
+    this.clear_search();
   },
 
   clear_display: function() {
     MemoDisplay.pool().invoke('clear');
     $('memo_paginate').update('');
+  },
+
+  clear_search: function() {
+    $('memo_window_search').value = "";
+    this.search_observer.updateLastValue();
+    this.query = "";
   },
 
   mode_handler: function() {
@@ -65,6 +82,7 @@ Object.extend(MemoWindow, {
     j$('#memo_mode option[@value=1]')[0].selected = true;
 
     this.clear_display(); /* Memo.create の先でなければいけない */
+    this.clear_search();
     this.clear_new_forms();
     this.show_mode();
 
@@ -84,7 +102,7 @@ Object.extend(MemoWindow, {
 //     if (MemoDisplay.pool().pluck("changed").any() &&
 //         confirm("まだ保存されていない伝言がありますが、破棄されます。") == false)
 //       return;
-    var params = $H({page: n, unread: this.unchecked});
+    var params = $H({page: n, unread: this.unchecked, query: this.query});
     new Ajax.Request('/memos/view/#{person_id}?#{params}'.interpolate({person_id: id_number(this.person_id), params: params.toQueryString()}));
   },
 
