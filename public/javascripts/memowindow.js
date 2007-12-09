@@ -3,6 +3,7 @@ var MemoWindow = new Object;
 Object.extend(MemoWindow, {
   open: function(id) {
     this.person_id = id;
+    this.unchecked = true;
 
     j$("#memo_window_name").html(Person.find(id).name());
     this.clear_display();
@@ -32,6 +33,7 @@ Object.extend(MemoWindow, {
   },
 
   show_mode: function() {
+    $("memo_window_unchecked").checked = true;
     $('memo_window_show').show();
     $('memo_window_date').hide();
     $('memo_window_display').show();
@@ -82,8 +84,14 @@ Object.extend(MemoWindow, {
 //     if (MemoDisplay.pool().pluck("changed").any() &&
 //         confirm("まだ保存されていない伝言がありますが、破棄されます。") == false)
 //       return;
-    new Ajax.Request('/memos/view/#{person_id}?page=#{page}'.interpolate({person_id: id_number(this.person_id), page: n}));
-  }
+    var params = $H({page: n, unread: this.unchecked});
+    new Ajax.Request('/memos/view/#{person_id}?#{params}'.interpolate({person_id: id_number(this.person_id), params: params.toQueryString()}));
+  },
+
+  unchecked_set: function(param) {
+    this.unchecked = param;
+    this.page();
+  },
 });
 
 

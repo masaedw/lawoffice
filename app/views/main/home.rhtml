@@ -41,8 +41,10 @@
   <div id="to_window" style="display: none;"><div id="to_window_inner"></div></div>
 
   <div id="memo_window_show">
-    <input id="memo_window_radio1" type="radio" name="unread" value="unread" checked="checked"/>未読
-    <input id="memo_window_radio2" type="radio" name="unread" value="both"/>全部<br/>
+    <input id="memo_window_unchecked" type="radio" name="unread" value="unread" checked="checked"
+           onclick="MemoWindow.unchecked_set(true);"/>未読
+    <input id="memo_window_all" type="radio" name="unread" value="both"
+           onclick="MemoWindow.unchecked_set(false);"/>全部<br/>
     検索 <input type="text" name="search" id="memo_winodow_search"/>
   </div>
 

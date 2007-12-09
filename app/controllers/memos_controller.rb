@@ -50,7 +50,11 @@ class MemosController < ApplicationController
 
   def memo_list
     @person = Person.find(params[:id])
-    @memos = @person.memos.find(:all, :order => 'ctime DESC', :page => {:size => MemosController.view_num, :current => params[:page]})
+    opts = {:order => 'ctime DESC', :page => {:size => MemosController.view_num, :current => params[:page]}}
+    if params[:unread] == "true"
+      opts[:conditions] = ["checked = ?", false]
+    end
+    @memos = @person.memos.find(:all, opts)
   end
 
   def notice_unread person
