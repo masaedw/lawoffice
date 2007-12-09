@@ -208,10 +208,9 @@ ObjectPool.remove = function(id)
   this.objectpool__.unset(id);
 };
 
-ObjectPool.invoke = function()
+ObjectPool.pool = function()
 {
-  var values = this.objectpool__.values();
-  return values.invoke.apply(values, arguments);
+  return this.objectpool__.values();
 }
 
 

@@ -24,7 +24,7 @@ Object.extend(MemoWindow, {
   },
 
   clear_display: function() {
-    MemoDisplay.invoke('clear');
+    MemoDisplay.pool().invoke('clear');
     $('memo_paginate').update('');
   },
 
@@ -80,6 +80,10 @@ Object.extend(MemoWindow, {
   clear_new_forms: function() {
     $('memo_window_new_area').value = "";
     j$('#memo_template_select option[@value=0]')[0].selected = true;
+  },
+
+  page: function(n) {
+    new Ajax.Request('/memos/view/#{person_id}?page=#{page}'.interpolate({person_id: id_number(this.person_id), page: n}));
   }
 });
 

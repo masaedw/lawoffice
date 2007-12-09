@@ -6,17 +6,7 @@ class MemosController < ApplicationController
 
   def view
     memo_list
-
-    render :update do |page|
-      page << "MemoWindow.clear_display();"
-      @memos.each_with_index do |memo, i|
-        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
-      end
-      links = paginating_links_each(@memos) do |n|
-        link_to_remote n, :url => { :action => "view", :page => n }
-      end
-      page.replace_html 'memo_paginate', links
-    end
+    render_list
   end
 
   def new
@@ -34,17 +24,7 @@ class MemosController < ApplicationController
 
     memo_list
     notice_unread(@person)
-
-    render :update do |page|
-      page << "MemoWindow.clear_display();"
-      @memos.each_with_index do |memo, i|
-        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
-      end
-      links = paginating_links_each(@memos) do |n|
-        link_to_remote n, :url => { :action => "view", :page => n }
-      end
-      page.replace_html 'memo_paginate', links
-    end
+    render_list
   end
 
   def update
@@ -93,5 +73,18 @@ class MemosController < ApplicationController
     notice_unread(memo.person)
 
     render :nothing => true
+  end
+
+  def render_list
+    render :update do |page|
+      page << "MemoWindow.clear_display();"
+      @memos.each_with_index do |memo, i|
+        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
+      end
+      links = paginating_links_each(@memos) do |n|
+        link_to_function n, "MemoWindow.page(#{n})"
+      end
+      page.replace_html 'memo_paginate', links
+    end
   end
 end
