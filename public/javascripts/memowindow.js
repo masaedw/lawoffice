@@ -7,15 +7,10 @@ Object.extend(MemoWindow, {
     j$("#memo_window_name").html(Person.find(id).name());
     this.clear_display();
 
-    this.update_display();
+    this.page();
     this.show_mode();
     j$('#memo_mode option[@value=1]')[0].selected = true;
     $('memo_window').show().popup();
-  },
-
-  update_display: function() {
-    var idn = id_number(this.person_id);
-    new Ajax.Request('/memos/view/'+idn);
   },
 
   close: function(id) {
@@ -83,6 +78,10 @@ Object.extend(MemoWindow, {
   },
 
   page: function(n) {
+    if (Object.isUndefined(n)) n = 1;
+//     if (MemoDisplay.pool().pluck("changed").any() &&
+//         confirm("まだ保存されていない伝言がありますが、破棄されます。") == false)
+//       return;
     new Ajax.Request('/memos/view/#{person_id}?page=#{page}'.interpolate({person_id: id_number(this.person_id), page: n}));
   }
 });
@@ -117,9 +116,11 @@ MemoDisplay.prototype = {
   initialize: function(id) {
     this.elem_id = id;
     this.memo_id = null;
+    this.changed = false;
 
     Event.observe(id+"_button", "click", function(e) {
       new Ajax.Request('/memos/update/'+id_number(this.memo_id), {parameters: {"content": $F(id+"_area")}});
+      this.changed = false;
       Effect.Fade(this.elem_id+"_button");
     }.bindAsEventListener(this));
 
@@ -129,9 +130,10 @@ MemoDisplay.prototype = {
 
     this.observer = new Form.Element.Observer(id+"_area", 1, function(element, value) {
       if (!$(id+"_button").visible()) {
+        this.changed = true;
         Effect.Appear(id+"_button");
       }
-    });
+    }.bind(this));
 
     MemoDisplay.register(id, this);
   },
@@ -148,6 +150,7 @@ MemoDisplay.prototype = {
   },
 
   clear: function() {
+    this.changed = false;
     this.memo_id = null;
     $(this.elem_id).hide();
     $(this.elem_id+"_button").hide();
