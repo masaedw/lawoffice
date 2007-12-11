@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 10) do
+ActiveRecord::Schema.define(:version => 11) do
 
   create_table "bbs_memos", :force => true do |t|
     t.integer  "template_id"
@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.datetime "ctime"
     t.text     "color"
   end
+
+  add_index "bbs_memos", ["content"], :name => "index_bbs_memos_on_content"
 
   create_table "interested_people", :force => true do |t|
     t.integer "person_id"
@@ -40,6 +42,8 @@ ActiveRecord::Schema.define(:version => 10) do
     t.boolean  "checked"
     t.datetime "mtime"
   end
+
+  add_index "memos", ["content"], :name => "index_memos_on_content"
 
   create_table "meteors", :force => true do |t|
     t.text     "javascript"
