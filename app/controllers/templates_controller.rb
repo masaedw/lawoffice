@@ -34,5 +34,14 @@ class TemplatesController < ApplicationController
   end
 
   def delete
+    template = Template.find(params[:id])
+    template.destroy
+
+    js = render_to_string :update do |page|
+      page << "TemplateWindow.destroy(#{template.element_id.to_json});"
+    end
+    shoot_both js
+
+    render :nothing => true
   end
 end

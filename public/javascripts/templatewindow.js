@@ -11,6 +11,7 @@ Object.extend(TemplateWindow, {
   },
 
   open: function(id) {
+    this.template_id = "";
     this.new_mode();
     $("template_select_none").selected = true;
     $("template_window").show();
@@ -57,7 +58,10 @@ Object.extend(TemplateWindow, {
   select_handler: function() {
     var id = $F("template_select");
     if (id == 0) {
+      this.template_id = "";
+      this.new_mode();
     } else {
+      this.template_id = "template_"+id;
       this.edit_mode();
       this.show(MemoTemplate.find("template_"+id));
     }
@@ -86,7 +90,21 @@ Object.extend(TemplateWindow, {
   },
 
   delete_template: function() {
+    if (confirm("「#{name}」を削除します。この操作は元に戻せません。".interpolate({name:MemoTemplate.find(this.template_id).name}))) {
+      MemoTemplate.destroy(this.template_id);
+      this.destroy(this.template_id);
+    }
+  },
 
+  destroy: function(template_id) {
+    var idn = id_number(template_id);
+    var elem = j$("#template_select option[@value=#{id}]".interpolate({id:idn}))[0];
+    $(elem).remove();
+    MemoTemplate.remove(template_id);
+    if (this.template_id == template_id) {
+      this.template_id = "";
+      this.new_mode();
+    }
   }
 });
 
@@ -112,6 +130,11 @@ var MemoTemplate = Class.create({
 MemoTemplate.create = function(name, color, content)
 {
   new Ajax.Request('/templates/create/', {parameters: {"memo[name]": name, "memo[color]": color, "memo[content]": content}});
+};
+
+MemoTemplate.destroy = function(template_id)
+{
+  new Ajax.Request('/templates/delete/'+id_number(template_id));
 };
 
 Object.extend(MemoTemplate, ObjectPool);
