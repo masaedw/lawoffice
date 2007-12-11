@@ -53,6 +53,21 @@ Person.prototype = {
       this.select_observer = new Form.Element.EventObserver(id+'_select', function(element, value) {
         new Ajax.Request('/people/update_location/'+this.id_number(), {parameters: 'location='+value});
       }.bind(this));
+
+      // マウスが来たら色替える。
+      var default_border = "1px solid #888"
+      var highlight_border = "1px solid yellow"
+
+      Event.observe(id, "mouseover", function() {
+        if (this.is_mini())
+          $(id).style.border = highlight_border;
+        else
+          $(id).style.border = default_border;
+      }.bindAsEventListener(this));
+
+      Event.observe(id, "mouseout",  function() {
+        $(id).style.border = default_border;
+      }.bindAsEventListener(this));
     }
 
     Person.register(id, this);
@@ -79,14 +94,21 @@ Person.prototype = {
 
   maximize: function()
   {
+    this.mini__ = false;
     $(this.elem_id+"_mini").hide();
     $(this.elem_id+"_standard").show();
   },
 
   minimize: function()
   {
+    this.mini__ = true;
     $(this.elem_id+"_standard").hide();
     $(this.elem_id+"_mini").show();
+  },
+
+  is_mini: function()
+  {
+    return this.mini__;
   },
 
   // person は自分の location を知っておくべきな気がする。
