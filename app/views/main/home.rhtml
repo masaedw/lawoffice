@@ -23,8 +23,7 @@
     <div style="text-align: right;">
       <select id="memo_mode" onchange="MemoWindow.mode_handler();">
         <option value="1">表示</option>
-        <option value="2">日付</option>
-        <option value="3">新規</option>
+        <option value="2">新規</option>
       </select>
     </div>
     <div style="clear: both;"></div>
@@ -41,21 +40,22 @@
   <div id="to_window" style="display: none;"><div id="to_window_inner"></div></div>
 
   <div id="memo_window_show">
-    <input id="memo_window_unchecked" type="radio" name="unread" value="unread" checked="checked"
-           onclick="MemoWindow.unchecked_set(true);"/>未読
-    <input id="memo_window_all" type="radio" name="unread" value="both"
-           onclick="MemoWindow.unchecked_set(false);"/>全部<br/>
+    未読 <input id="memo_window_unchecked" type="radio" name="unread" value="unread" checked="checked"
+               onclick="MemoWindow.unchecked_set(true);"/>
+    全部 <input id="memo_window_all" type="radio" name="unread" value="both"
+               onclick="MemoWindow.unchecked_set(false);"/><br/>
     検索 <input type="text" name="search" id="memo_window_search"/>
-  </div>
-
-  <div id="memo_window_date" style="display: none;">
-    <input type="text" name="year" size="4"/>年
-    <input type="text" name="month" size="2"/>月
-    <input type="text" name="day" size="2"/>日
-    <div class="memo_navi">
-      <a href="javascript:void(0);">&lt;前の日</a> |
-      <a href="javascript:void(0);">次の日&gt</a>
-    </div>
+    <br/>
+    <form id="memo_window_date">
+      日付<input type="checkbox" id="memo_window_date_enable" name="enable"/>
+      <input type="text" id="memo_window_year"  name="year"  size="4"/>年
+      <input type="text" id="memo_window_month" name="month" size="2"/>月
+      <input type="text" id="memo_window_day"   name="day"   size="2"/>日
+      <span class="memo_navi">
+        <%= link_to_function "&lt;前の日", "MemoWindow.prev_date()" %>
+        <%= link_to_function "次の日&gt", "MemoWindow.next_date()" %>
+      </span>
+    </form>
   </div>
 
   <div id="memo_window_new" style="display: none;">

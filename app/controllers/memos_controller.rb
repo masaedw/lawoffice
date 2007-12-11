@@ -48,14 +48,21 @@ class MemosController < ApplicationController
   def memo_list
     @person = Person.find(params[:id])
     opts = {:order => 'ctime DESC', :page => {:size => MemosController.view_num, :current => params[:page]}}
-    case
-    when !params[:query].blank? && params[:unread] != "true"
-      opts[:conditions] = ["match(content) against(?)", params[:query]]
-    when !params[:query].blank? && params[:unread] == "true"
-      opts[:conditions] = ["checked = ? AND match(content) against(?)", false, params[:query]]
-    when params[:query].blank? && params[:unread] == "true"
-      opts[:conditions] = ["checked = ?", false]
+    unless params[:query].blank?
+      add_condition(opts, ["match(content) against(?)", params[:query]])
     end
+    if params[:unread] == "true"
+      add_condition(opts, ["checked = ?", false])
+    end
+    if !params[:year].blank? && !params[:month].blank? && !params[:day].blank?
+      begin
+        add_condition(opts, ["DATE(ctime) = ?", Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)])
+      rescue ArgumentError
+      end
+    end
+    logger.debug(params[:unread].inspect)
+    logger.debug(params.inspect)
+    logger.debug(opts.inspect)
     @memos = @person.memos.find(:all, opts)
   end
 
@@ -89,5 +96,15 @@ class MemosController < ApplicationController
       end
       page.replace_html 'memo_paginate', links
     end
+  end
+
+  def add_condition param, conds
+    if param.include?(:conditions)
+      param[:conditions][0] += " AND #{conds[0]}"
+      param[:conditions].concat conds[1..-1]
+    else
+      param[:conditions] = conds
+    end
+    param
   end
 end

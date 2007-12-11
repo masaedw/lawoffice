@@ -7,12 +7,15 @@ Object.extend(MemoWindow, {
       this.page();
     }.bind(this));
     this.draggable = new Draggable('memo_window');
+
+    this.date_observer = new Form.Observer("memo_window_date",  1.5, function(element, value) {MemoWindow.date_handler();});
   },
 
   open: function(id) {
     this.person_id = id;
     this.unchecked = true;
     this.query = "";
+    this.date = $H();
 
     j$("#memo_window_name").html(Person.find(id).name());
     this.clear_display();
@@ -39,28 +42,24 @@ Object.extend(MemoWindow, {
     $('memo_window_search').value = "";
     this.search_observer.updateLastValue();
     this.query = "";
+    var date = new Date;
+    $("memo_window_year").value  = date.getYear()+1900;
+    $("memo_window_month").value = date.getMonth()+1;
+    $("memo_window_day").value   = date.getDate();
+    $("memo_window_date_enable").checked = false;
+    this.date_observer.updateLastValue();
   },
 
   mode_handler: function() {
     switch($F('memo_mode')) {
       case '1': this.show_mode(); break;
-      case '2': this.date_mode(); break;
-      case '3': this.new_mode();  break;
+      case '2': this.new_mode();  break;
     }
   },
 
   show_mode: function() {
     $("memo_window_unchecked").checked = true;
     $('memo_window_show').show();
-    $('memo_window_date').hide();
-    $('memo_window_display').show();
-    $('memo_window_new').hide();
-    $('memo_window_template').hide();
-  },
-
-  date_mode: function() {
-    $('memo_window_show').hide();
-    $('memo_window_date').show();
     $('memo_window_display').show();
     $('memo_window_new').hide();
     $('memo_window_template').hide();
@@ -68,7 +67,6 @@ Object.extend(MemoWindow, {
 
   new_mode: function() {
     $('memo_window_show').hide();
-    $('memo_window_date').hide();
     $('memo_window_display').hide();
     $('memo_window_new').show();
     $('memo_window_template').show();
@@ -103,6 +101,8 @@ Object.extend(MemoWindow, {
 //         confirm("まだ保存されていない伝言がありますが、破棄されます。") == false)
 //       return;
     var params = $H({page: n, unread: this.unchecked, query: this.query});
+    if ($("memo_window_date_enable").checked)
+      params.update(this.date);
     new Ajax.Request('/memos/view/#{person_id}?#{params}'.interpolate({person_id: id_number(this.person_id), params: params.toQueryString()}));
   },
 
@@ -110,6 +110,42 @@ Object.extend(MemoWindow, {
     this.unchecked = param;
     this.page();
   },
+
+  date_handler: function() {
+    var year  = $F('memo_window_year');
+    var month = $F('memo_window_month');
+    var day   = $F('memo_window_day');
+    function X(x){return parseInt(x) || "";}
+
+    this.date = $H({year: X(year), month: X(month), day: X(day)});
+    this.page();
+  },
+
+  date_set: function(date) {
+    $("memo_window_year").value  = date.getYear()+1900;
+    $("memo_window_month").value = date.getMonth()+1;
+    $("memo_window_day").value   = date.getDate();
+    this.date_observer.updateLastValue();
+    this.date_handler();
+  },
+
+  date_add: function(addend) {
+    var year  = $F('memo_window_year');
+    var month = $F('memo_window_month');
+    var day   = $F('memo_window_day');
+    var date  = new Date(parseInt(year), parseInt(month)-1, parseInt(day));
+    if (isNaN(date.getYear()))
+      return;
+    this.date_set(new Date(date.getYear()+1900, date.getMonth(), date.getDate()+addend));
+  },
+
+  next_date: function() {
+    this.date_add(1);
+  },
+
+  prev_date: function() {
+    this.date_add(-1);
+  }
 });
 
 

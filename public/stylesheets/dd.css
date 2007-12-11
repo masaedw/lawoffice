@@ -192,7 +192,11 @@ body {
   border: 1px solid #888;
   background-color: #eee;
   overflow: hidden;
-  width: 370px;
+  width: 400px;
+}
+
+#memo_window_show {
+  padding: 0 10px;
 }
 
 .memo_window_top {
