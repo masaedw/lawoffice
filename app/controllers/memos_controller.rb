@@ -60,9 +60,6 @@ class MemosController < ApplicationController
       rescue ArgumentError
       end
     end
-    logger.debug(params[:unread].inspect)
-    logger.debug(params.inspect)
-    logger.debug(opts.inspect)
     @memos = @person.memos.find(:all, opts)
   end
 
