@@ -14,7 +14,11 @@ Person.update_text = function(id, klass, content)
 
 Person.update_unread = function(id, content)
 {
-  j$("#"+id+" .mini .unread")[0][content == 0 ? "hide" : "show"]();
+  var unread = $(id).down(".mini .unread");
+  if (content == 0)
+    unread.hide();
+  else
+    unread.show();
   j$("#"+id+" .standard .unread").html("未読 "+content);
   console.log("update_unread: "+content);
   Person.update_text(id, "unread", content);
