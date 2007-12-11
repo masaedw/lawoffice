@@ -5,13 +5,13 @@
 
 .sticky {
   background-color: #ECEEF0;
-  /* min-width: 8em; */
-  /* max-width: 10em; */
-  /* width: 11em; */
-  /* height: 5em; */
   border: 1px solid #888;
   padding: 0.2em;
   margin: 0;
+}
+
+.edit .sticky {
+  cursor: move;
 }
 
 iframe {
@@ -121,6 +121,7 @@ body {
 
 #locations.edit {
   width: 18em;
+  cursor: move;
 }
 
 #locations .name {
