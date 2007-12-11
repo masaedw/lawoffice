@@ -1,11 +1,9 @@
-<script type="text/javascript">
-edit_mode = true;
-</script>
+<%= javascript_tag "edit_mode = true;" %>
 <div id="control">
   <div id="edit_menu">
-    [<a href="javascript:void(0)">tp編集</a> 追加:
-    <%= link_to_remote "人", :url => {:controller => 'people', :action => 'create'}, :method => :post %>
-    <%= link_to_remote "場所", :url => {:controller => 'locations', :action => 'create'}, :method => :post  %>]
+    [<%= link_to_function "テンプレート編集", "TemplateWindow.open()" %>
+    <%= link_to_remote "人の追加", :url => {:controller => 'people', :action => 'create'}, :method => :post %>
+    <%= link_to_remote "場所の追加", :url => {:controller => 'locations', :action => 'create'}, :method => :post  %>]
     <%= link_to "閲覧モードへ", :controller => 'main', :action => 'home' %>
   </div>
   <span id="schedule">
@@ -16,6 +14,39 @@ edit_mode = true;
     <%- end -%>
   </span>
 </div>
+
+<div id="template_window" style="display: none;">
+  <form id="template_window_form">
+    <div style="float: left; width: 24em;">
+      <table>
+        <tr><td>テンプレートの選択</td>
+          <td>
+            <select id="template_select">
+              <option value="0" id="template_select_none">新規テンプレート</option>
+              <%= options_from_collection_for_select @templates, "id", "name"%>
+            </select>
+          </td>
+        </tr>
+        <tr><td style="text-align: right;">テンプレート名</td><td><input type="text" name="name" id="template_window_name"/></td></tr>
+        <tr><td style="text-align: right;">背景色</td><td><input type="text" name="color" id="template_window_color" size="7"/><span class="note">16進数で指定して下さい。</span></td></tr>
+      </table>
+    </div>
+    <div style="text-align: right;">
+      <%= link_to_function "閉じる", "TemplateWindow.close()" %>
+    </div>
+    <div style="clear: both;">
+      <textarea name="content" rows="10" cols="60" id="template_window_area" style="width: 100%;"></textarea>
+    </div>
+  </form>
+  <div>
+    <input type="button" id="template_window_new" value="新規登録"/>
+    <input type="button" id="template_window_save" value="保存"/>
+    <input type="button" id="template_window_delete" value="削除"/>
+  </div>
+</div>
+<%= javascript_tag "TemplateWindow.init();" %>
+<%= javascript_tag @templates.map{|i|"new MemoTemplate(#{i.element_id.to_json}, #{i.name.to_json}, #{i.color.to_json}, #{i.content.to_json});"}.join($/) %>
+
 <%= render_component :controller => 'locations', :action => 'edit' %>
 <%= render_component :controller => 'people', :action => 'edit' %>
 <%= meteor_strike 'lawoffice', :uid => session.session_id %>
