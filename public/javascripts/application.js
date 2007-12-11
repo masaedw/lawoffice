@@ -29,7 +29,6 @@ Element.Methods.outer_find = function(element, pred) {
 
 Element.addMethods();
 
-// IE でも動くの？これ
 Abstract.EventObserver.prototype.updateLastValue = function()
 {
   this.lastValue = this.getValue();
@@ -44,6 +43,12 @@ Abstract.TimedObserver.prototype.updateLastValue = function()
 function id_number(id)
 {
   return id.replace(/.*_/, '');
+}
+
+
+function is_valid_color(color)
+{
+  return !!color.match(/^#([a-f0-9]{3}){1,2}$/i);
 }
 
 
@@ -85,7 +90,7 @@ Element.Methods.show = function(element)
 
   for (var i = 0; i < selects.length; i++) {
     if (selects[i].form_hidden__) {
-      Element.show(selects[i]);
+      Element.show_orig(selects[i]);
       selects[i].form_hidden__ = false;
     }
   }
