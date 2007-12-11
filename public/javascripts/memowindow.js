@@ -43,7 +43,7 @@ Object.extend(MemoWindow, {
     this.search_observer.updateLastValue();
     this.query = "";
     var date = new Date;
-    $("memo_window_year").value  = date.getYear()+1900;
+    $("memo_window_year").value  = date.getFullYear();
     $("memo_window_month").value = date.getMonth()+1;
     $("memo_window_day").value   = date.getDate();
     $("memo_window_date_enable").checked = false;
@@ -122,7 +122,7 @@ Object.extend(MemoWindow, {
   },
 
   date_set: function(date) {
-    $("memo_window_year").value  = date.getYear()+1900;
+    $("memo_window_year").value  = date.getFullYear();
     $("memo_window_month").value = date.getMonth()+1;
     $("memo_window_day").value   = date.getDate();
     this.date_observer.updateLastValue();
@@ -134,9 +134,9 @@ Object.extend(MemoWindow, {
     var month = $F('memo_window_month');
     var day   = $F('memo_window_day');
     var date  = new Date(parseInt(year), parseInt(month)-1, parseInt(day));
-    if (isNaN(date.getYear()))
+    if (isNaN(date.getFullYear()))
       return;
-    this.date_set(new Date(date.getYear()+1900, date.getMonth(), date.getDate()+addend));
+    this.date_set(new Date(date.getFullYear(), date.getMonth(), date.getDate()+addend));
   },
 
   next_date: function() {
