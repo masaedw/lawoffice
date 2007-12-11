@@ -31,7 +31,7 @@ Person.prototype = {
 
     if (edit) {
       this.edit = true;
-      this.draggable = new Draggable(id);
+      this.draggable = new Draggable(id, {ghosting: true, snap: [5, 5]});
 
       // 名前と電話の変更を監視する
       this.name_phone_observer = new Form.Observer(id+'_form', 1, function(element, value) {
