@@ -43,7 +43,9 @@ class LocationsController < ApplicationController
       page << "if (!edit_mode) {"
       page.insert_html :bottom, 'locations-table', render(:partial => 'item', :object => location)
       people.each do |person|
+        page << "var i = $F('#{person.element_id}_select');"
         page.insert_html :bottom, person.element_id+"_select", %Q{<option value="#{h location.id}">#{h location.name}</option>}
+        page << "$('#{person.element_id}_select').setValue(i);"
       end
       page << "} else {"
       page.insert_html :bottom, 'locations', render(:partial => 'edit', :object => location)
