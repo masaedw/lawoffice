@@ -7,6 +7,7 @@ Object.extend(MemoWindow, {
       this.page();
     }.bind(this));
     this.draggable = new Draggable('memo_window');
+    Element.hide('memo_window');
 
     this.date_observer = new Form.Observer("memo_window_date",  1.5, function(element, value) {MemoWindow.date_handler();});
   },

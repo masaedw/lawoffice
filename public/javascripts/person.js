@@ -70,6 +70,7 @@ Person.prototype = {
       }.bindAsEventListener(this));
 
       Event.observe($(id).down(".closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
+      Event.observe($(id).down("a.unread"), "click", this.open_memo_window_handler.bindAsEventListener(this));
     }
 
     Person.register(id, this);
@@ -118,6 +119,12 @@ Person.prototype = {
   is_mini: function()
   {
     return this.mini__;
+  },
+
+  open_memo_window_handler: function(event)
+  {
+    this.minimize_handler(event);
+    MemoWindow.open(this.elem_id);
   },
 
   // person は自分の location を知っておくべきな気がする。

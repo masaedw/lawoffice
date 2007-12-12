@@ -14,23 +14,18 @@
   </span>
 </div>
 
-<div id="memo_window" style="display: none;"
-     onclick="Element.popup('memo_window');">
+<div id="memo_window" onclick="Element.popup('memo_window');">
   <div class="memo_window_top">
-    <div style="float: left;">
-      <span id="memo_window_name">namae</span>
-    </div>
-    <div style="text-align: right;">
-      <select id="memo_mode" onchange="MemoWindow.mode_handler();">
-        <option value="1">表示</option>
-        <option value="2">新規</option>
-      </select>
-    </div>
-    <div style="clear: both;"></div>
+    <select id="memo_mode" onchange="MemoWindow.mode_handler();">
+      <option value="1">表示</option>
+      <option value="2">新規</option>
+    </select>
+    <span id="memo_window_name"></span>
+    <%= link_to_function "X", "MemoWindow.close()", :class => "closebutton" %>
   </div>
 
   <span id="memo_window_template" style="display: none;">
-    テンプレート選択: 
+    テンプレート選択:
     <select id="memo_template_select">
       <option value="0">----</option>
     </select>
@@ -83,7 +78,6 @@
     <%- end -%>
     <div id="memo_paginate"></div>
   </div>
-  <a href="javascript:void(0);" onclick="MemoWindow.close();">閉じる</a>
 </div>
 <%= javascript_tag "MemoWindow.init();" %>
 
