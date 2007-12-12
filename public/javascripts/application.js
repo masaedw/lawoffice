@@ -188,6 +188,11 @@ Window.prototype = {
       if (typeof(this.onfocus) == "function")
         return this.onfocus(event);
     }.bindAsEventListener(this));
+  },
+
+  unfocus: function()
+  {
+    this.focus__ = false;
   }
 };
 

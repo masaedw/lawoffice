@@ -14,6 +14,26 @@
   cursor: move;
 }
 
+.closebutton {
+  background-color: #f88;
+  color: white;
+  border: 1px solid #888;
+  position: absolute;
+  text-decoration: none;
+  right: 0pt;
+  top: 0pt;
+  padding: 2px;
+}
+
+.closebutton:visited {
+  color: white;
+}
+
+.closebutton:hover {
+  background-color: #fcc;
+  color: white;
+}
+
 iframe {
   border-width: 0;
 }

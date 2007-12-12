@@ -68,6 +68,8 @@ Person.prototype = {
       Event.observe(id, "mouseout",  function() {
         $(id).style.border = default_border;
       }.bindAsEventListener(this));
+
+      Event.observe($(id).down(".closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
     }
 
     Person.register(id, this);
@@ -104,6 +106,13 @@ Person.prototype = {
     this.mini__ = true;
     $(this.elem_id+"_standard").hide();
     $(this.elem_id+"_mini").show();
+  },
+
+  minimize_handler: function(event)
+  {
+    this.minimize();
+    this.window.unfocus();
+    Event.stop(event);
   },
 
   is_mini: function()

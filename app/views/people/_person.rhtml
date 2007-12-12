@@ -14,6 +14,7 @@
   <div class="standard" id="<%=h person.element_id %>_standard">
     <%= span_class person, "name" %>
     <%= span_class person, "phone" %>
+    <%= link_to_function "X", "", :class => "closebutton" %>
     <br/>
     <a href="javascript:void(MemoWindow.open('<%= person.element_id %>'));" class="unread">未読 <%= person.unread %></a>
     <span>回覧 <%= person.bbs_unread %></span>
