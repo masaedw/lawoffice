@@ -21,13 +21,13 @@ Object.extend(MemoWindow, {
       this.callback();
     this.callback = callback;
 
-    j$("#memo_window_name").html(Person.find(id).name());
+    $('memo_window_name').update(Person.find(id).name());
     this.clear_display();
     this.clear_search();
 
     this.page();
     this.show_mode();
-    j$('#memo_mode option[@value=1]')[0].selected = true;
+    $('memo_mode').setValue(1);
     $('memo_window').show().popup();
   },
 
@@ -85,7 +85,7 @@ Object.extend(MemoWindow, {
     var content = $F('memo_window_new_area');
     var template_id = $F('memo_template_select');
 
-    j$('#memo_mode option[@value=1]')[0].selected = true;
+    $('memo_mode').setValue(1);
 
     this.clear_display(); /* Memo.create の先でなければいけない */
     this.clear_search();
@@ -100,7 +100,7 @@ Object.extend(MemoWindow, {
 
   clear_new_forms: function() {
     $('memo_window_new_area').value = "";
-    j$('#memo_template_select option[@value=0]')[0].selected = true;
+    $('memo_template_select').setValue(0);
   },
 
   page: function(n) {
