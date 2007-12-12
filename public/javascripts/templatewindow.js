@@ -8,6 +8,7 @@ Object.extend(TemplateWindow, {
     Event.observe("template_window_save",   "click", this.update_template.bind(this));
     Event.observe("template_window_delete", "click", this.delete_template.bind(this));
     this.template_observer = new Form.Observer("template_window_form",  1.5, function(element, value) {TemplateWindow.edit_handler();});
+    Element.hide("template_window");
   },
 
   open: function(id) {
