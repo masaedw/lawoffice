@@ -8,13 +8,14 @@ Object.extend(TemplateWindow, {
     Event.observe("template_window_save",   "click", this.update_template.bind(this));
     Event.observe("template_window_delete", "click", this.delete_template.bind(this));
     this.template_observer = new Form.Observer("template_window_form",  1.5, function(element, value) {TemplateWindow.edit_handler();});
+    Event.observe("template_window", "click", Element.popup.curry("template_window"));
     Element.hide("template_window");
   },
 
   open: function(id) {
     this.new_mode();
     $("template_select_none").selected = true;
-    $("template_window").show();
+    $("template_window").show().popup();
   },
 
   close: function(id) {
@@ -80,13 +81,12 @@ Object.extend(TemplateWindow, {
   },
 
   create_template: function() {
-    var name    = $F("template_window_name");
-    var color   = $F("template_window_color");
-    var content = $F("template_window_area");
-    MemoTemplate.create(name, color, content);
+    MemoTemplate.create($F("template_window_name"), $F("template_window_color"), $F("template_window_area"));
   },
 
   update_template: function() {
+    MemoTemplate.update($F("template_select"), $F("template_window_name"), $F("template_window_color"), $F("template_window_area"));
+    $("template_window_save").disable();
   },
 
   delete_template: function() {
@@ -128,7 +128,12 @@ var MemoTemplate = Class.create({
 
 MemoTemplate.create = function(name, color, content)
 {
-  new Ajax.Request('/templates/create/', {parameters: {"memo[name]": name, "memo[color]": color, "memo[content]": content}});
+  new Ajax.Request('/templates/create/', {parameters: {"template[name]": name, "template[color]": color, "template[content]": content}});
+};
+
+MemoTemplate.update = function(id, name, color, content)
+{
+  new Ajax.Request('/templates/update/'+id, {parameters: {"template[name]": name, "template[color]": color, "template[content]": content}});
 };
 
 MemoTemplate.destroy = function(template_id)

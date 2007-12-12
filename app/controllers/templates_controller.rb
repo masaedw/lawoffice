@@ -1,6 +1,6 @@
 class TemplatesController < ApplicationController
   def create
-    template = Template.new(params[:memo])
+    template = Template.new(params[:template])
     template.save
 
     template = Template.find(:first, :order => 'id DESC')
@@ -33,6 +33,10 @@ class TemplatesController < ApplicationController
   end
 
   def update
+    template = Template.find(params[:id])
+    template.update_attributes(params[:template])
+
+    render :nothing => true
   end
 
   def delete
