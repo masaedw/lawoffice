@@ -10,6 +10,7 @@ Object.extend(MemoWindow, {
     Element.hide('memo_window');
 
     this.date_observer = new Form.Observer("memo_window_date",  1.5, function(element, value) {MemoWindow.date_handler();});
+    Element.observe("memo_template_select", "change", this.template_select_handler.bindAsEventListener(this));
   },
 
   open: function(id, callback) {
@@ -99,7 +100,8 @@ Object.extend(MemoWindow, {
   },
 
   clear_new_forms: function() {
-    $('memo_window_new_area').value = "";
+    $('memo_window_new_area').setValue("");
+    $('memo_window_new_area').setStyle({backgroundColor: "#fff"});
     $('memo_template_select').setValue(0);
   },
 
@@ -153,6 +155,18 @@ Object.extend(MemoWindow, {
 
   prev_date: function() {
     this.date_add(-1);
+  },
+
+  template_select_handler: function(event) {
+    var value = $F("memo_template_select");
+    if (value == 0) {
+      $("memo_window_new_area").setValue("");
+      $("memo_window_new_area").setStyle({backgroundColor: "#fff"});
+    } else {
+      var template = MemoTemplate.find("template_"+value);
+      $("memo_window_new_area").setValue(template.content);
+      $("memo_window_new_area").setStyle({backgroundColor: template.color});
+    }
   }
 });
 
@@ -161,7 +175,7 @@ var Memo = new Object;
 
 Object.extend(Memo, {
   create: function(person_id, content, template_id) {
-    new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id}});
+    new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id, unread: true}});
   },
 
   update_checked: function(person_id, memo_id_number, checked) {

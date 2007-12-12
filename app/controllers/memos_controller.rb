@@ -16,6 +16,7 @@ class MemosController < ApplicationController
     memo.color = "#ffffff"
     if params[:template].to_i != 0
       memo.template = Template.find(params[:template])
+      memo.color = memo.template.color;
     end
     memo.save
 

@@ -28,6 +28,7 @@
     テンプレート選択:
     <select id="memo_template_select">
       <option value="0">----</option>
+      <%= options_from_collection_for_select @templates, "id", "name"%>
     </select>
     <a id="memo_dests" class="bbs" href="javascript:void(0);" style="display: none;">宛先</a>
   </span>
@@ -80,6 +81,7 @@
   </div>
 </div>
 <%= javascript_tag "MemoWindow.init();" %>
+<%= javascript_tag @templates.map{|i|"new MemoTemplate(#{i.element_id.to_json}, #{i.name.to_json}, #{i.color.to_json}, #{i.content.to_json});"}.join($/) %>
 
 <%= render_component :controller => 'locations', :action => 'list' %>
 <%= render_component :controller => 'people', :action => 'list' %>
