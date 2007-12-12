@@ -11,7 +11,6 @@ Object.extend(TemplateWindow, {
   },
 
   open: function(id) {
-    this.template_id = "";
     this.new_mode();
     $("template_select_none").selected = true;
     $("template_window").show();
@@ -22,6 +21,7 @@ Object.extend(TemplateWindow, {
   },
 
   new_mode: function() {
+    this.template_id = "";
     this.mode = "new";
     $("template_window_new").show();
     $("template_window_save").hide();
@@ -29,12 +29,14 @@ Object.extend(TemplateWindow, {
     this.show(null);
   },
 
-  edit_mode: function() {
+  edit_mode: function(id) {
+    this.template_id = id;
     this.mode = "edit";
     $("template_window_new").hide();
     $("template_window_save").show();
     $("template_window_save").disabled = true;
     $("template_window_delete").show();
+    this.show(MemoTemplate.find(id));
   },
 
   show: function(template) {
@@ -58,12 +60,9 @@ Object.extend(TemplateWindow, {
   select_handler: function() {
     var id = $F("template_select");
     if (id == 0) {
-      this.template_id = "";
       this.new_mode();
     } else {
-      this.template_id = "template_"+id;
-      this.edit_mode();
-      this.show(MemoTemplate.find("template_"+id));
+      this.edit_mode("template_"+id);
     }
   },
 
@@ -102,7 +101,6 @@ Object.extend(TemplateWindow, {
     $(elem).remove();
     MemoTemplate.remove(template_id);
     if (this.template_id == template_id) {
-      this.template_id = "";
       this.new_mode();
     }
   }

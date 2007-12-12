@@ -25,8 +25,7 @@ class TemplatesController < ApplicationController
       page << "new MemoTemplate(#{template.element_id.to_json}, #{template.name.to_json}, #{template.color.to_json}, #{template.content.to_json});"
       page.replace_html "template_select", ""
       page.replace_html "template_select", '<option value="0" id="template_select_none">新規テンプレート</option>'+options_from_collection_for_select(@templates, "id", "name")
-      page << "TemplateWindow.edit_mode();"
-      page << "TemplateWindow.show(MemoTemplate.find(#{template.element_id.to_json}));"
+      page << "TemplateWindow.edit_mode(#{template.element_id.to_json});"
     end
   end
 
