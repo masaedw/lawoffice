@@ -32,6 +32,7 @@ Person.prototype = {
     this.window = new Window(id);
     this.window.onfocus = this.focus_handler.bindAsEventListener(this);
     this.window.onunfocus = this.unfocus_handler.bindAsEventListener(this);
+    this.memo_window_open = false;
 
     if (edit) {
       this.edit = true;
@@ -55,18 +56,17 @@ Person.prototype = {
       }.bind(this));
 
       // マウスが来たら色替える。
-      var default_border = "1px solid #888"
-      var highlight_border = "1px solid yellow"
-
       Event.observe(id, "mouseover", function() {
+        if (this.is_memo_window_open()) return;
         if (this.is_mini())
-          $(id).style.border = highlight_border;
+          this.highlight(true);
         else
-          $(id).style.border = default_border;
+          this.highlight(false);
       }.bindAsEventListener(this));
 
       Event.observe(id, "mouseout",  function() {
-        $(id).style.border = default_border;
+        if (this.is_memo_window_open()) return;
+        this.highlight(false);
       }.bindAsEventListener(this));
 
       Event.observe($(id).down(".closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
@@ -121,10 +121,40 @@ Person.prototype = {
     return this.mini__;
   },
 
+  is_memo_window_open: function()
+  {
+    return this.memo_window_open;
+  },
+
   open_memo_window_handler: function(event)
   {
     this.minimize_handler(event);
-    MemoWindow.open(this.elem_id);
+    this.memo_window_open = true;
+    this.highlight(true);
+    MemoWindow.open(this.elem_id, this.close_memo_window_handler.bind(this));
+  },
+
+  close_memo_window_handler: function(event)
+  {
+    this.memo_window_open = false;
+    this.highlight(false);
+  },
+
+  highlight: function(flag)
+  {
+    var default_border = "1px solid #888"
+    var highlight_border = "3px solid yellow"
+    if (flag && !this.highlighted__) {
+      $(this.elem_id).style.border = highlight_border;
+      $(this.elem_id).style.top = parseInt($(this.elem_id).style.top) - 2 + "px"
+      $(this.elem_id).style.left = parseInt($(this.elem_id).style.left) - 2 + "px"
+      this.highlighted__ = true;
+    } else if (!flag && this.highlighted__) {
+      $(this.elem_id).style.border = default_border;
+      $(this.elem_id).style.top = parseInt($(this.elem_id).style.top) + 2 + "px"
+      $(this.elem_id).style.left = parseInt($(this.elem_id).style.left) + 2 + "px"
+      this.highlighted__ = false;
+    }
   },
 
   // person は自分の location を知っておくべきな気がする。

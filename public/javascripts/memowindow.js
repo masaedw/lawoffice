@@ -12,11 +12,14 @@ Object.extend(MemoWindow, {
     this.date_observer = new Form.Observer("memo_window_date",  1.5, function(element, value) {MemoWindow.date_handler();});
   },
 
-  open: function(id) {
+  open: function(id, callback) {
     this.person_id = id;
     this.unchecked = true;
     this.query = "";
     this.date = $H();
+    if (Object.isFunction(this.callback))
+      this.callback();
+    this.callback = callback;
 
     j$("#memo_window_name").html(Person.find(id).name());
     this.clear_display();
@@ -32,6 +35,10 @@ Object.extend(MemoWindow, {
     Element.hide('memo_window');
     this.clear_display();
     this.clear_search();
+    if (this.callback) {
+      this.callback();
+      delete this.callback;
+    }
   },
 
   clear_display: function() {
