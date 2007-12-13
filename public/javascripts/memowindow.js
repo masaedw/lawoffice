@@ -254,7 +254,6 @@ MemoDisplay.prototype = {
 
   display: function(params) {
     this.memo_id = params.id;
-    console.log(params);
     memo_window.controller.display(this.elem_id, params);
     this.observer.updateLastValue();
     $(this.elem_id).show();
@@ -340,7 +339,6 @@ Object.extend(BBSMemo, {
       return "<#{tag}>#{content}</#{tag}>".interpolate({tag:tag, content:content||""});
     }
     function to_td(dest) {
-      console.log($H(dest).inspect());
       if (dest) {
         var c = {name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":"",
                  mid:params.id, pid:dest.id};
@@ -363,7 +361,6 @@ Object.extend(BBSMemo, {
 
   update_person_checked: function(memo_id, person_id, element)
   {
-    console.log("hoge");
     var val = $F(element);
     if (val == "true")
       var diff = -1;
