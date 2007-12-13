@@ -9,11 +9,12 @@
   <span id="schedule">
     <%- form_for :schedule do |f| -%>
     <span class="note">予定表のURLを記入して下さい</span>
-    <%= f.text_field "URLA", :size => "25", :title => "予定表AのURLを記入して下さい" %>
-    <%= f.text_field "URLB", :size => "25", :title => "予定表BのURLを記入して下さい" %>
+    <%= f.text_field "URLA", :size => "25", :title => "予定表AのURLを記入して下さい", :value => @schedules[0].body, :id => "schedule_1" %>
+    <%= f.text_field "URLB", :size => "25", :title => "予定表BのURLを記入して下さい", :value => @schedules[1].body, :id => "schedule_2" %>
     <%- end -%>
   </span>
 </div>
+<%= javascript_tag "Schedule.init();" %>
 
 <div id="template_window">
   <form id="template_window_form">

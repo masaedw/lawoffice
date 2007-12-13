@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 11) do
+ActiveRecord::Schema.define(:version => 12) do
 
   create_table "bbs_memos", :force => true do |t|
     t.integer  "template_id"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 11) do
     t.text     "color"
   end
 
+  add_index "bbs_memos", ["content"], :name => "fulltext_index"
   add_index "bbs_memos", ["content"], :name => "index_bbs_memos_on_content"
 
   create_table "interested_people", :force => true do |t|
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(:version => 11) do
     t.datetime "mtime"
   end
 
+  add_index "memos", ["content"], :name => "fulltext_index"
   add_index "memos", ["content"], :name => "index_memos_on_content"
 
   create_table "meteors", :force => true do |t|
@@ -58,6 +60,10 @@ ActiveRecord::Schema.define(:version => 11) do
     t.integer "posx"
     t.integer "posy"
     t.integer "location_id"
+  end
+
+  create_table "schedules", :force => true do |t|
+    t.string "body"
   end
 
   create_table "sessions", :force => true do |t|
