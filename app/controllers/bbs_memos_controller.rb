@@ -1,4 +1,12 @@
 class BbsMemosController < MemosController
+  def update
+    memo = BbsMemo.find(params[:id])
+    memo.content = params[:content]
+    memo.save
+
+    render :nothing => true
+  end
+
   private
 
   def memo_list
