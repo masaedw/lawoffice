@@ -7,6 +7,11 @@ class BbsMemosController < MemosController
     render :nothing => true
   end
 
+  def print
+    @memo = BbsMemo.find(params[:id], :include => "interested_people")
+    render :layout => false
+  end
+
   private
 
   def memo_list

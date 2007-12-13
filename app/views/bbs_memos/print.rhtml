@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript; charset=UTF-8" />
+    <title>メモ内容</title>
+  </head>
+  <body>
+<pre>
+回覧掲示板
+<%=date @memo.created_at %>
+
+
+<%=h @memo.content %>
+
+宛先:
+<%- @memo.interested_people.each do |i| -%>
+<%= h i.person.name %>	<%= i.checked ? "○ 確認済み" : "× 未確認" %>
+<%- end -%>
+</pre>
+  </body>
+</html>
