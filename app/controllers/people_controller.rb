@@ -38,12 +38,12 @@ class PeopleController < ApplicationController
     @person.message = params[:message]
     if @person.save
       js = render_to_string :update do |page|
-        page << "Person.update_text('#{@person.element_id}', 'message', '#{h @person.message}');"
+        page << "Person.update_text('#{@person.element_id}', 'message', #{j @person.message});"
       end
       shoot_both(js)
 
       render :update do |page|
-        page << "j$('##{@person.element_id} span.message').html(#{@person.message.to_json});"
+        page << "j$('##{@person.element_id} span.message').html(#{j @person.message});"
       end
     else
       render :nothing => true
@@ -95,8 +95,8 @@ class PeopleController < ApplicationController
 
     if @person.save
       js = render_to_string :update do |page|
-        page << "Person.update_text('#{@person.element_id}', 'name', #{@person.name.to_json});"
-        page << "Person.update_text('#{@person.element_id}', 'phone', #{@person.phone.to_json});"
+        page << "Person.update_text('#{@person.element_id}', 'name', #{j @person.name});"
+        page << "Person.update_text('#{@person.element_id}', 'phone', #{j @person.phone});"
       end
       shoot_both js
     end

@@ -11,4 +11,8 @@ module ApplicationHelper
       ""
     end
   end
+
+  def j string
+    h(string).to_json
+  end
 end
