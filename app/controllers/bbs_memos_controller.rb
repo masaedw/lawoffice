@@ -38,7 +38,7 @@ class BbsMemosController < MemosController
       add_condition(opts, ["match(content) against(?)", params[:query]])
     end
     if params[:unread] == "true"
-      add_condition(opts, ["checked = ?", false])
+      add_condition(opts, ["checked <> ?", true])
     end
     if !params[:year].blank? && !params[:month].blank? && !params[:day].blank?
       begin

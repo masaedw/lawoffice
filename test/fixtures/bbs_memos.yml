@@ -15,7 +15,7 @@ two:
   created_at: 2007-12-12 17:15:11
   created_at: 2007-12-12 17:15:11
   color: "#d083ac"
-  checked: true
+  checked: false
 
 three:
   id: 3
@@ -24,7 +24,7 @@ three:
   created_at: 2007-12-12 17:16:11
   created_at: 2007-12-12 17:16:11
   color: "#95c1b4"
-  checked: true
+  checked: false
 
 four:
   id: 4

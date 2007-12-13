@@ -213,7 +213,7 @@ Object.extend(Memo, {
 
     j$("#"+display_id+" .date").html(params.date);
     $(display_id+"_area").style.backgroundColor = params.color;
-    $(display_id+"_check").checked = params.read;
+    $(display_id+"_check").checked = params.checked;
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("確認済み");
     $(display_id).down(".dest_list").hide();
@@ -353,7 +353,7 @@ Object.extend(BBSMemo, {
 
     j$("#"+display_id+" .date").html(params.date);
     $(display_id+"_area").style.backgroundColor = params.color;
-    $(display_id+"_check").checked = params.read;
+    $(display_id+"_check").checked = params.checked;
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("最終確認済み");
     var trs = params.dests.inGroupsOf(3).map(function(i){return tag("tr", i.map(to_td));}).join("");
