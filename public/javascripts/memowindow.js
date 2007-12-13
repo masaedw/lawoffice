@@ -4,6 +4,7 @@ var MemoWindow = new Object;
 
 Object.extend(MemoWindow, {
   init: function() {
+    memo_window = this;
     this.search_observer = new Form.Element.Observer("memo_window_search", 1, function(element, value) {
       memo_window.query = value;
       memo_window.page();
@@ -18,13 +19,15 @@ Object.extend(MemoWindow, {
   },
 
   open: function(id, callback) {
+    if (Object.isFunction(memo_window.callback)) {
+      memo_window.callback();
+      delete memo_window.callback;
+    }
     memo_window = this;
     this.person_id = id;
     this.unchecked = true;
     this.query = "";
     this.date = $H();
-    if (Object.isFunction(this.callback))
-      this.callback();
     this.callback = callback;
 
     $('memo_window_name').update(Person.find(id).name());
@@ -100,7 +103,7 @@ Object.extend(MemoWindow, {
 
     // create のレスポンスで memo_window_display が書き替わるので、
     // Memo.create の呼びだしは clear_display の後でなければいけない。
-    Memo.create(id_number(this.person_id), content, template_id);
+    this.controller.create(content, template_id);
     Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
   },
 
@@ -179,11 +182,13 @@ Object.extend(MemoWindow, {
 var Memo = new Object;
 
 Object.extend(Memo, {
-  create: function(person_id, content, template_id) {
+  create: function(content, template_id) {
+    var person_id = id_number(MemoWindow.person_id);
     new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id, unread: true}});
   },
 
-  update_checked: function(person_id, memo_id_number, checked) {
+  update_checked: function(memo_id_number, checked) {
+    var person_id = MemoWindow.person_id;
     if (checked) {
       var diff = -1;
       var method = "check/"
@@ -193,9 +198,14 @@ Object.extend(Memo, {
     }
     Person.update_unread(person_id, Person.find(person_id).unread()+diff);
     new Ajax.Request('/memos/'+method+memo_id_number);
+  },
+
+  print_url: function(id) {
+    return "/memos/print/"+id_number(id);
   }
 });
 
+MemoWindow.controller = Memo;
 
 var MemoDisplay = Class.create();
 
@@ -214,7 +224,7 @@ MemoDisplay.prototype = {
     }.bindAsEventListener(this));
 
     Event.observe(id+"_check", "change", function(e) {
-      Memo.update_checked(MemoWindow.person_id, id_number(this.memo_id), Event.element(e).checked);
+      memo_window.controller.update_checked(id_number(this.memo_id), Event.element(e).checked);
     }.bindAsEventListener(this));
 
     this.observer = new Form.Element.Observer(id+"_area", 1, function(element, value) {
@@ -235,7 +245,7 @@ MemoDisplay.prototype = {
     j$("#"+this.elem_id+" .date").html(date);
     $(this.elem_id+"_area").style.backgroundColor = color;
     $(this.elem_id+"_check").checked = read;
-    $(this.elem_id).down("a").writeAttribute("href", "/memos/print/"+id_number(id));
+    $(this.elem_id).down("a").writeAttribute("href", memo_window.controller.print_url(id));
     $(this.elem_id).show();
   },
 
@@ -252,13 +262,15 @@ var BBSWindow = new Object;
 Object.extend(BBSWindow, MemoWindow);
 Object.extend(BBSWindow, {
   open: function() {
+    if (Object.isFunction(memo_window.callback)) {
+      memo_window.callback();
+      delete memo_window.callback;
+    }
     memo_window = this;
     this.person_id = "";
     this.unchecked = true;
     this.query = "";
     this.date = $H();
-    if (Object.isFunction(this.callback))
-      this.callback();
     this.callback = null;
 
     $('memo_window_name').update("回覧掲示板");
@@ -282,3 +294,29 @@ Object.extend(BBSWindow, {
     new Ajax.Request('/bbs_memos/view/', {parameters: params});
   }
 });
+
+
+var BBSMemo = new Object;
+
+Object.extend(BBSMemo, {
+  create: function(content, template_id) {
+    new Ajax.Request('/bbs_memos/create/', {parameters: {"content": content, "template": template_id, unread: true}});
+  },
+
+  u: function(memo_id_number, checked) {
+    if (checked) {
+      var diff = -1;
+      var method = "check/"
+    } else {
+      var diff = 1;
+      var method = "reset/"
+    }
+    new Ajax.Request('/bbs_memos/'+method+memo_id_number);
+  },
+
+  print_url: function(id) {
+    return "/bbs_memos/print/"+id_number(id);
+  }
+});
+
+BBSWindow.controller = BBSMemo;
