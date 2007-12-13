@@ -35,7 +35,9 @@ class BbsMemosController < MemosController
     render :update do |page|
       page << "BBSWindow.clear_display();"
       @memos.each_with_index do |memo, i|
-        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.created_at}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
+        obj = {:id => memo.element_id, :date => date(memo.created_at),
+               :content => memo.content, :color => memo.color, :checked => memo.checked}
+        page << "MemoDisplay.find('memo_display_#{i+1}').display(#{obj.to_json});"
       end
       links = paginating_links_each(@memos) do |n|
         link_to_function n, "BBSWindow.page(#{n})"

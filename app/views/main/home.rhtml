@@ -72,7 +72,7 @@
       </div>
       <textarea rows="4" id="<%=id %>_area"></textarea>
       <div class="footer">
-        確認済み<%=check_box_tag "checked", "0", false, {:id => id+"_check"} %>
+        <span>確認済み</span><%=check_box_tag "checked", "0", false, {:id => id+"_check"} %>
       </div>
     </div>
     <%= javascript_tag "new MemoDisplay('memo_display_#{i}');" %>

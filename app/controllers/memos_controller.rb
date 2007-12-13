@@ -89,7 +89,9 @@ class MemosController < ApplicationController
     render :update do |page|
       page << "MemoWindow.clear_display();"
       @memos.each_with_index do |memo, i|
-        page << "MemoDisplay.find('memo_display_#{i+1}').display('#{memo.element_id}', '#{date memo.ctime}', #{memo.content.to_json}, '#{memo.color}', #{memo.checked});"
+        obj = {:id => memo.element_id, :date => date(memo.ctime),
+               :content => memo.content, :color => memo.color, :checked => memo.checked}
+        page << "MemoDisplay.find('memo_display_#{i+1}').display(#{obj.to_json});"
       end
       links = paginating_links_each(@memos) do |n|
         link_to_function n, "MemoWindow.page(#{n})"

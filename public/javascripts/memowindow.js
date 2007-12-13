@@ -206,6 +206,16 @@ Object.extend(Memo, {
 
   update: function(memo_id, display_id) {
     new Ajax.Request('/memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
+  },
+
+  display: function(display_id, params) {
+    $(display_id+"_area").value = params.content;
+
+    j$("#"+display_id+" .date").html(params.date);
+    $(display_id+"_area").style.backgroundColor = params.color;
+    $(display_id+"_check").checked = params.read;
+    $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
+    $(display_id).down(".footer span").update("確認済み");
   }
 });
 
@@ -241,15 +251,11 @@ MemoDisplay.prototype = {
     MemoDisplay.register(id, this);
   },
 
-  display: function(id, date, content, color, read) {
-    this.memo_id = id;
-    $(this.elem_id+"_area").value = content;
+  display: function(params) {
+    this.memo_id = params.id;
+    console.log(params);
+    memo_window.controller.display(this.elem_id, params);
     this.observer.updateLastValue();
-
-    j$("#"+this.elem_id+" .date").html(date);
-    $(this.elem_id+"_area").style.backgroundColor = color;
-    $(this.elem_id+"_check").checked = read;
-    $(this.elem_id).down("a").writeAttribute("href", memo_window.controller.print_url(id));
     $(this.elem_id).show();
   },
 
@@ -324,6 +330,16 @@ Object.extend(BBSMemo, {
 
   update: function(memo_id, display_id) {
     new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
+  },
+
+  display: function(display_id, params) {
+    $(display_id+"_area").value = params.content;
+
+    j$("#"+display_id+" .date").html(params.date);
+    $(display_id+"_area").style.backgroundColor = params.color;
+    $(display_id+"_check").checked = params.read;
+    $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
+    $(display_id).down(".footer span").update("最終確認済み");
   }
 });
 
