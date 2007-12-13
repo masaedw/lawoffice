@@ -1,4 +1,8 @@
 <div id="locations" class="edit">
+  <span class="note">
+    チェックボックスにチェックすると、名前が一覧表示されません。<br/>
+    ●をドラッグして並びかえることができます。<br/>
+  </span>
 <%= render :partial => 'edit', :collection => @list %>
 </div>
 <%= sortable_element 'locations', :tag => 'div', :url => {:controller => 'locations', :action => 'sort'} %>
