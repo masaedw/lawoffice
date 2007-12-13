@@ -230,6 +230,7 @@ MemoDisplay.prototype = {
     j$("#"+this.elem_id+" .date").html(date);
     $(this.elem_id+"_area").style.backgroundColor = color;
     $(this.elem_id+"_check").checked = read;
+    $(this.elem_id).down("a").writeAttribute("href", "/memos/print/"+id_number(id));
     $(this.elem_id).show();
   },
 

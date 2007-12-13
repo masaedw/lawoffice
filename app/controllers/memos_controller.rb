@@ -42,6 +42,8 @@ class MemosController < ApplicationController
   end
 
   def print
+    @memo = Memo.find(params[:id], :include => "person")
+    render :layout => false
   end
 
   private
