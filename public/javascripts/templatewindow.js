@@ -14,7 +14,7 @@ Object.extend(TemplateWindow, {
 
   open: function(id) {
     this.new_mode();
-    $("template_select_none").selected = true;
+    $("template_select").setValue(0);
     $("template_window").show().popup();
   },
 
