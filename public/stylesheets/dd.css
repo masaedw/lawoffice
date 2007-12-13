@@ -233,10 +233,8 @@ body {
   background-color: #eee;
 }
 
-#debug_window {
-  position: absolute;
-  left: 500px;
-  bottom: 10px;
+#memo_paginate {
+  text-align: center;
 }
 
 .note {
@@ -327,9 +325,3 @@ body {
 .memo table {
   width: 90%;
 }
-
-/****** don't edit ******/
-.basic {}
-.edit {}
-.bbs {}
-/****** don't edit ******/
