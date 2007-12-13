@@ -6,7 +6,7 @@
   </div>
   <span id="schedule">
     <span class="basic">
-      <a id="bbs_button" href="javascript:void(0);">回覧掲示板</a>&nbsp;
+      <%= link_to_function "回覧掲示板", "BBSWindow.open()" %>&nbsp;
       <span class="unread" id="bbs_checked"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a href="<%=h @schedules[0].body %>" id="schedule_1">予定表A</a>
       <a href="<%=h @schedules[1].body %>" id="schedule_2">予定表B</a>
@@ -16,12 +16,12 @@
 
 <div id="memo_window" onclick="Element.popup('memo_window');">
   <div class="memo_window_top">
-    <select id="memo_mode" onchange="MemoWindow.mode_handler();">
+    <select id="memo_mode" onchange="memo_window.mode_handler();">
       <option value="1">表示</option>
       <option value="2">新規</option>
     </select>
     <span id="memo_window_name"></span>
-    <%= link_to_function "X", "MemoWindow.close()", :class => "closebutton" %>
+    <%= link_to_function "X", "memo_window.close()", :class => "closebutton" %>
   </div>
 
   <span id="memo_window_template" style="display: none;">
@@ -37,9 +37,9 @@
 
   <div id="memo_window_show">
     未読 <input id="memo_window_unchecked" type="radio" name="unread" value="unread" checked="checked"
-               onclick="MemoWindow.unchecked_set(true);"/>
+               onclick="memo_window.unchecked_set(true);"/>
     全部 <input id="memo_window_all" type="radio" name="unread" value="both"
-               onclick="MemoWindow.unchecked_set(false);"/><br/>
+               onclick="memo_window.unchecked_set(false);"/><br/>
     検索 <input type="text" name="search" id="memo_window_search"/>
     <br/>
     <form id="memo_window_date">
@@ -48,15 +48,15 @@
       <input type="text" id="memo_window_month" name="month" size="2"/>月
       <input type="text" id="memo_window_day"   name="day"   size="2"/>日
       <span class="memo_navi">
-        <%= link_to_function "&lt;前の日", "MemoWindow.prev_date()" %>
-        <%= link_to_function "次の日&gt", "MemoWindow.next_date()" %>
+        <%= link_to_function "&lt;前の日", "memo_window.prev_date()" %>
+        <%= link_to_function "次の日&gt", "memo_window.next_date()" %>
       </span>
     </form>
   </div>
 
   <div id="memo_window_new" style="display: none;">
     <textarea rows="10" style="width: 100%;" id="memo_window_new_area"></textarea><br/>
-    <input type="button" value="メモ追加" onclick="MemoWindow.create_memo();"/>
+    <input type="button" value="メモ追加" onclick="memo_window.create_memo();"/>
   </div>
 
   <div id="memo_window_display">

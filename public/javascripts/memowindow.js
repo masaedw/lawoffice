@@ -1,19 +1,24 @@
+var memo_window = null;
+
 var MemoWindow = new Object;
 
 Object.extend(MemoWindow, {
   init: function() {
     this.search_observer = new Form.Element.Observer("memo_window_search", 1, function(element, value) {
-      this.query = value;
-      this.page();
-    }.bind(this));
+      memo_window.query = value;
+      memo_window.page();
+    }.bind(window));
     this.draggable = new Draggable('memo_window');
     Element.hide('memo_window');
 
-    this.date_observer = new Form.Observer("memo_window_date",  1.5, function(element, value) {MemoWindow.date_handler();});
-    Element.observe("memo_template_select", "change", this.template_select_handler.bindAsEventListener(this));
+    this.date_observer = new Form.Observer("memo_window_date",  1.5, function(element, value) {memo_window.date_handler();});
+    Element.observe("memo_template_select", "change", function(event) {
+      memo_window.template_select_handler(event);
+    }.bindAsEventListener(window));
   },
 
   open: function(id, callback) {
+    memo_window = this;
     this.person_id = id;
     this.unchecked = true;
     this.query = "";
@@ -49,14 +54,14 @@ Object.extend(MemoWindow, {
 
   clear_search: function() {
     $('memo_window_search').value = "";
-    this.search_observer.updateLastValue();
+    MemoWindow.search_observer.updateLastValue();
     this.query = "";
     var date = new Date;
     $("memo_window_year").value  = date.getFullYear();
     $("memo_window_month").value = date.getMonth()+1;
     $("memo_window_day").value   = date.getDate();
     $("memo_window_date_enable").checked = false;
-    this.date_observer.updateLastValue();
+    MemoWindow.date_observer.updateLastValue();
   },
 
   mode_handler: function() {
@@ -135,7 +140,7 @@ Object.extend(MemoWindow, {
     $("memo_window_year").value  = date.getFullYear();
     $("memo_window_month").value = date.getMonth()+1;
     $("memo_window_day").value   = date.getDate();
-    this.date_observer.updateLastValue();
+    MemoWindow.date_observer.updateLastValue();
     this.date_handler();
   },
 
@@ -241,3 +246,39 @@ MemoDisplay.prototype = {
     $(this.elem_id+"_button").hide();
   }
 };
+
+
+var BBSWindow = new Object;
+Object.extend(BBSWindow, MemoWindow);
+Object.extend(BBSWindow, {
+  open: function() {
+    memo_window = this;
+    this.person_id = "";
+    this.unchecked = true;
+    this.query = "";
+    this.date = $H();
+    if (Object.isFunction(this.callback))
+      this.callback();
+    this.callback = null;
+
+    $('memo_window_name').update("回覧掲示板");
+    this.clear_display();
+    this.clear_search();
+
+    this.page();
+    this.show_mode();
+    $('memo_mode').setValue(1);
+    $('memo_window').show().popup();
+  },
+
+  page: function(n) {
+    if (Object.isUndefined(n)) n = 1;
+//     if (MemoDisplay.pool().pluck("changed").any() &&
+//         confirm("まだ保存されていない伝言がありますが、破棄されます。") == false)
+//       return;
+    var params = $H({page: n, unread: this.unchecked, query: this.query});
+    if ($("memo_window_date_enable").checked)
+      params.update(this.date);
+    new Ajax.Request('/bbs_memos/view/', {parameters: params});
+  }
+});

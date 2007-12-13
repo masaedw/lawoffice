@@ -9,13 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 12) do
+ActiveRecord::Schema.define(:version => 14) do
 
   create_table "bbs_memos", :force => true do |t|
     t.integer  "template_id"
     t.text     "content"
-    t.datetime "ctime"
+    t.datetime "created_at"
     t.text     "color"
+    t.boolean  "checked"
+    t.datetime "updated_at"
   end
 
   add_index "bbs_memos", ["content"], :name => "fulltext_index"
