@@ -24,6 +24,12 @@ Person.update_unread = function(id, content)
   Person.update_text(id, "unread", content);
 };
 
+Person.update_bbs_unread = function(id, content)
+{
+  Person.update_text(id, "bbs_unread", content);
+  $(id).down(".standard .bbs_unread").update("回覧 "+content);
+};
+
 Person.prototype = {
   initialize: function(id, edit)
   {
@@ -202,5 +208,10 @@ Person.prototype = {
   unread: function()
   {
     return parseInt(j$("#"+this.elem_id+" .mini .unread").html()) || 0;
+  },
+
+  bbs_unread: function()
+  {
+    return parseInt(j$("#"+this.elem_id+" .mini .bbs_unread").html()) || 0;
   }
 };

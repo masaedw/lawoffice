@@ -6,6 +6,7 @@
   <div class="mini" id="<%=h person.element_id %>_mini">
     <%= span_class person, "name" %>
     <span class="unread" <%= person.unread == 0 ? 'style="display:none;"' : ""%>><%=h person.unread %></span>
+    <span class="bbs_unread" style="display:none;"><%=h person.bbs_unread %></span>
     <br/>
     <%= span_class person, "phone" %>
     <br/>
@@ -17,7 +18,7 @@
     <%= link_to_function "X", "", :class => "closebutton" %>
     <br/>
     <%= link_to_function "未読 #{person.unread}", "",  :class => "unread" %>
-    <span>回覧 <%= person.bbs_unread %></span>
+    <span class="bbs_unread">回覧 <%= person.bbs_unread %></span>
     <br/>
     <input class="message" id="<%= person.element_id %>_message_input" type="text" value="<%=h person.message %>"/>
     <select id="<%=h person.element_id %>_select">

@@ -341,10 +341,13 @@ Object.extend(BBSMemo, {
     }
     function to_td(dest) {
       console.log($H(dest).inspect());
-      if (dest)
-        return tag("td", "#{name}<input type=\"checkbox\"#{checked}/>".interpolate({name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":""}));
-      else
+      if (dest) {
+        var c = {name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":"",
+                 mid:params.id, pid:dest.id};
+        return tag("td", "#{name}<input value=\"true\" type=\"checkbox\"#{checked}/ onchange=\"BBSMemo.update_person_checked('#{mid}', '#{pid}', this);\">".interpolate(c));
+      } else {
         return tag("td");
+      }
     }
     $(display_id+"_area").value = params.content;
 
@@ -356,6 +359,18 @@ Object.extend(BBSMemo, {
     var trs = params.dests.inGroupsOf(3).map(function(i){return tag("tr", i.map(to_td));}).join("");
     $(display_id).down(".dest_list table").update(trs);
     $(display_id).down(".dest_list").show();
+  },
+
+  update_person_checked: function(memo_id, person_id, element)
+  {
+    console.log("hoge");
+    var val = $F(element);
+    if (val == "true")
+      var diff = -1;
+    else
+      var diff = 1;
+    Person.update_bbs_unread(person_id, Person.find(person_id).bbs_unread()+diff);
+    new Ajax.Request('/bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
   }
 });
 

@@ -12,6 +12,24 @@ class BbsMemosController < MemosController
     render :layout => false
   end
 
+  def update
+    memo = Memo.find(params[:id])
+    memo.content = params[:content]
+    memo.save
+
+    render :nothing => true
+  end
+
+  def person_check_or_reset
+    assoc = InterestedPerson.find(:first, :conditions => ["person_id = ? AND bbs_memo_id = ?", params[:person_id], params[:id]])
+    assoc.checked = params[:flag] == "true"
+    assoc.save
+
+    notice_unread(assoc.person)
+
+    render :nothing => true
+  end
+
   private
 
   def memo_list
@@ -49,5 +67,14 @@ class BbsMemosController < MemosController
       end
       page.replace_html 'memo_paginate', links
     end
+  end
+
+  def notice_unread person
+    js = render_to_string :update do |page|
+      page << "if (!edit_mode) {"
+      page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
+      page << "}"
+    end
+    shoot_both js
   end
 end
