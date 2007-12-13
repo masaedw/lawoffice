@@ -7,12 +7,6 @@ class TemplatesController < ApplicationController
 
     @list = Template.find(:all, :order => 'name')
 
-    # FIXME: IE でselectが表示されない
-    # 1, IE で edit mode にアクセスし、「テンプレートの編集」ボタンを押さずに(ウインドウを開かずに)
-    # 他のクライアントでメモの作成を行い、更新処理を行わせると、テンプレートウインドウを表示したときに
-    # select が表示されない。
-    # メモの削除の場合は大丈夫。
-
     shoot_list
     render :update do |page|
       page << "new MemoTemplate(#{@mt.element_id.to_json}, #{@mt.name.to_json}, #{@mt.color.to_json}, #{@mt.content.to_json});"
