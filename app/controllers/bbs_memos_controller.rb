@@ -35,8 +35,13 @@ class BbsMemosController < MemosController
     render :update do |page|
       page << "BBSWindow.clear_display();"
       @memos.each_with_index do |memo, i|
-        obj = {:id => memo.element_id, :date => date(memo.created_at),
-               :content => memo.content, :color => memo.color, :checked => memo.checked}
+        obj = {
+          :id => memo.element_id, :date => date(memo.created_at),
+          :content => memo.content, :color => memo.color, :checked => memo.checked,
+          :dests => memo.interested_people.map{|ip|
+            {:name => ip.person.name, :id => ip.person.element_id, :checked => ip.checked}
+          }
+        }
         page << "MemoDisplay.find('memo_display_#{i+1}').display(#{obj.to_json});"
       end
       links = paginating_links_each(@memos) do |n|

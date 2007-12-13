@@ -216,6 +216,7 @@ Object.extend(Memo, {
     $(display_id+"_check").checked = params.read;
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("確認済み");
+    $(display_id).down(".dest_list").hide();
   }
 });
 
@@ -333,6 +334,18 @@ Object.extend(BBSMemo, {
   },
 
   display: function(display_id, params) {
+    function tag(tag, content) {
+      if (Object.isArray(content))
+        content = content.join("");
+      return "<#{tag}>#{content}</#{tag}>".interpolate({tag:tag, content:content||""});
+    }
+    function to_td(dest) {
+      console.log($H(dest).inspect());
+      if (dest)
+        return tag("td", "#{name}<input type=\"checkbox\"#{checked}/>".interpolate({name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":""}));
+      else
+        return tag("td");
+    }
     $(display_id+"_area").value = params.content;
 
     j$("#"+display_id+" .date").html(params.date);
@@ -340,6 +353,9 @@ Object.extend(BBSMemo, {
     $(display_id+"_check").checked = params.read;
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("最終確認済み");
+    var trs = params.dests.inGroupsOf(3).map(function(i){return tag("tr", i.map(to_td));}).join("");
+    $(display_id).down(".dest_list table").update(trs);
+    $(display_id).down(".dest_list").show();
   }
 });
 

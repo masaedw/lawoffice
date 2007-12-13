@@ -71,6 +71,12 @@
         <input type="button" id="<%=id %>_button" value="保存" style="display: none;"/>
       </div>
       <textarea rows="4" id="<%=id %>_area"></textarea>
+      <div class="dest_list" style="display:none;">
+        <table>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
       <div class="footer">
         <span>確認済み</span><%=check_box_tag "checked", "0", false, {:id => id+"_check"} %>
       </div>
