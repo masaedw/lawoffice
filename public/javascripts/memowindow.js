@@ -202,6 +202,10 @@ Object.extend(Memo, {
 
   print_url: function(id) {
     return "/memos/print/"+id_number(id);
+  },
+
+  update: function(memo_id, display_id) {
+    new Ajax.Request('/memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
   }
 });
 
@@ -218,7 +222,7 @@ MemoDisplay.prototype = {
     this.changed = false;
 
     Event.observe(id+"_button", "click", function(e) {
-      new Ajax.Request('/memos/update/'+id_number(this.memo_id), {parameters: {"content": $F(id+"_area")}});
+      memo_window.controller.update(this.memo_id, id);
       this.changed = false;
       Effect.Fade(this.elem_id+"_button");
     }.bindAsEventListener(this));
@@ -316,6 +320,10 @@ Object.extend(BBSMemo, {
 
   print_url: function(id) {
     return "/bbs_memos/print/"+id_number(id);
+  },
+
+  update: function(memo_id, display_id) {
+    new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
   }
 });
 
