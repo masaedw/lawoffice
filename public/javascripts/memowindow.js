@@ -343,20 +343,6 @@ Object.extend(BBSMemo, {
   },
 
   display: function(display_id, params) {
-    function tag(tag, content) {
-      if (Object.isArray(content))
-        content = content.join("");
-      return "<#{tag}>#{content}</#{tag}>".interpolate({tag:tag, content:content||""});
-    } 
-    function to_td(dest) {
-      if (dest) {
-        var c = {name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":"",
-                 mid:params.id, pid:dest.id, did:display_id};
-        return tag("td", "#{name}<input value=\"true\" type=\"checkbox\"#{checked}/ onchange=\"BBSMemo.update_person_checked('#{did}', '#{mid}', '#{pid}', this);\">".interpolate(c));
-      } else {
-        return tag("td");
-      }
-    }
     $(display_id+"_area").value = params.content;
 
     j$("#"+display_id+" .date").html(params.date);
