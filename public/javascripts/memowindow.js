@@ -241,7 +241,7 @@ MemoDisplay.prototype = {
       memo_window.controller.edit_dest(this.memo_id, id);
     }.bindAsEventListener(this));
 
-    Event.observe(id+"_check", "change", function(e) {
+    Event.observe(id+"_check", "click", function(e) {
       memo_window.controller.update_checked(id, this.memo_id, Event.element(e).checked);
     }.bindAsEventListener(this));
 
