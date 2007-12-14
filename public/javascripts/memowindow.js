@@ -184,7 +184,7 @@ Object.extend(Memo, {
   create: function(content, template_id) {
     var person_id = id_number(MemoWindow.person_id);
     new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id, unread: true}});
-    Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
+    Person.update_unread(person_id, Person.find(person_id).unread()+1);
   },
 
   update_checked: function(display_id, memo_id, checked) {
