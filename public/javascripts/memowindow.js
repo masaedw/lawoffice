@@ -334,7 +334,11 @@ Object.extend(BBSMemo, {
     if ($(display_id).down(".all_dest_list").visible()) {
       params.set("dests", j$(".all_dest_list input[@checked]", $(display_id)).get().map(function(i){return $F(i);}).join());
     }
-    var onComplete = this.hide_dest_table.bind(this).curry(display_id);
+    var onComplete = function() {
+      this.hide_dest_table(display_id);
+      new Ajax.Updater($(display_id).down(".dest_list tbody"), '/bbs_memos/dest_list/'+id_number(memo_id));
+    }.bind(this)
+    $(display_id).down(".dest_list tbody").update("");
     new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: params, onComplete:onComplete});
   },
 
