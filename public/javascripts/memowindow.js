@@ -350,9 +350,9 @@ Object.extend(BBSMemo, {
     var trs = params.dests.inGroupsOf(3).map(function(i){return tag("tr", i.map(to_td));}).join("");
     $(display_id).down(".dest_list table").update(trs);
     if (!params.dests.all(function(i){return i.checked;})) {
-        $(display_id+"_check").disable()
+        $(display_id+"_check").disable();
     } else {
-        $(display_id+"_check").enable()
+        $(display_id+"_check").enable();
     }
     $(display_id).down(".dest_list").show();
   },
