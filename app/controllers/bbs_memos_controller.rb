@@ -42,9 +42,10 @@ class BbsMemosController < MemosController
       end
 
       notice_unread(changes)
+      render_notice_unread(changes)
+    else
+      render :nothing => true
     end
-
-    render :nothing => true
   end
 
   def person_check_or_reset
@@ -123,5 +124,15 @@ class BbsMemosController < MemosController
       page << "}"
     end
     shoot_both js
+  end
+
+  def render_notice_unread people
+    render :update do |page|
+      page << "if (!edit_mode) {"
+      people.each do |person|
+        page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
+      end
+      page << "}"
+    end
   end
 end
