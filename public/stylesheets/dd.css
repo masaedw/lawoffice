@@ -344,3 +344,7 @@ body {
 .memo table {
   width: 405px;
 }
+
+#memo_dest_list table {
+  width: 405px;
+}
