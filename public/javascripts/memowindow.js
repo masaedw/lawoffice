@@ -269,6 +269,7 @@ MemoDisplay.prototype = {
     this.memo_id = null;
     $(this.elem_id).hide();
     $(this.elem_id+"_button").hide();
+    $(this.elem_id+"_check").enable();
     $(this.elem_id+"_edit_dest").hide();
     $(this.elem_id).down(".dest_list").hide();
     $(this.elem_id).down(".all_dest_list").hide().update("");
@@ -360,7 +361,7 @@ Object.extend(BBSMemo, {
   update_person_checked: function(memo_id, person_id, element)
   {
     var val = $(element).checked;
-    if (val == "true")
+    if (val)
       var diff = -1;
     else
       var diff = 1;
