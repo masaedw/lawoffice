@@ -1,3 +1,5 @@
+require 'take_split'
+
 class BbsMemosController < MemosController
   def update
     memo = BbsMemo.find(params[:id])
@@ -64,9 +66,7 @@ class BbsMemosController < MemosController
         obj = {
           :id => memo.element_id, :date => date(memo.created_at),
           :content => memo.content, :color => memo.color, :checked => memo.checked,
-          :dests => memo.interested_people.map{|ip|
-            {:name => ip.person.name, :id => ip.person.element_id, :checked => ip.checked}
-          }
+          :dest_list => render(:partial => "dest_line", :collection => memo.interested_people.take_split(3))
         }
         page << "MemoDisplay.find('memo_display_#{i+1}').display(#{obj.to_json});"
       end

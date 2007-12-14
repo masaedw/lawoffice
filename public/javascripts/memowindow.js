@@ -347,9 +347,8 @@ Object.extend(BBSMemo, {
     $(display_id+"_check").checked = params.checked;
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("最終確認済み");
-    var trs = params.dests.inGroupsOf(3).map(function(i){return tag("tr", i.map(to_td));}).join("");
-    $(display_id).down(".dest_list table").update(trs);
-    if (!params.dests.all(function(i){return i.checked;})) {
+      $(display_id).down(".dest_list tbody").update(params.dest_list);
+    if (!$A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
         $(display_id+"_check").disable();
     } else {
         $(display_id+"_check").enable();
@@ -357,13 +356,15 @@ Object.extend(BBSMemo, {
     $(display_id).down(".dest_list").show();
   },
 
-  update_person_checked: function(display_id, memo_id, person_id, element)
+  update_person_checked: function(memo_id, person_id, element)
   {
-    var val = $F(element);
+    var val = $(element).checked;
     if (val == "true")
       var diff = -1;
     else
       var diff = 1;
+    var display_id = $(element).up(".memo").readAttribute("id");
+    console.log(person_id);
     Person.update_bbs_unread(person_id, Person.find(person_id).bbs_unread()+diff);
     new Ajax.Request('/bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
     if ($A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
