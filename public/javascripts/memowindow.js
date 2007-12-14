@@ -216,7 +216,6 @@ Object.extend(Memo, {
     $(display_id+"_check").checked = params.checked;
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("確認済み");
-    $(display_id).down(".dest_list").hide();
   }
 });
 
@@ -236,6 +235,10 @@ MemoDisplay.prototype = {
       memo_window.controller.update(this.memo_id, id);
       this.changed = false;
       Effect.Fade(this.elem_id+"_button");
+    }.bindAsEventListener(this));
+
+    Event.observe(id+"_edit_dest", "click", function(e) {
+      memo_window.controller.edit_dest(this.memo_id, id);
     }.bindAsEventListener(this));
 
     Event.observe(id+"_check", "change", function(e) {
@@ -264,6 +267,9 @@ MemoDisplay.prototype = {
     this.memo_id = null;
     $(this.elem_id).hide();
     $(this.elem_id+"_button").hide();
+    $(this.elem_id+"_edit_dest").hide();
+    $(this.elem_id).down(".dest_list").hide();
+    $(this.elem_id).down(".all_dest_list").hide();
   }
 };
 
@@ -330,7 +336,7 @@ Object.extend(BBSMemo, {
       if (Object.isArray(content))
         content = content.join("");
       return "<#{tag}>#{content}</#{tag}>".interpolate({tag:tag, content:content||""});
-    }
+    } 
     function to_td(dest) {
       if (dest) {
         var c = {name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":"",
@@ -345,6 +351,7 @@ Object.extend(BBSMemo, {
     j$("#"+display_id+" .date").html(params.date);
     $(display_id+"_area").style.backgroundColor = params.color;
     $(display_id+"_check").checked = params.checked;
+    $(display_id+"_edit_dest").show();
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("最終確認済み");
       $(display_id).down(".dest_list tbody").update(params.dest_list);
@@ -372,6 +379,12 @@ Object.extend(BBSMemo, {
     } else {
       $(display_id+"_check").disable().checked = false;
     }
+  },
+
+  edit_dest: function(memo_id, display_id)
+  {
+    new Ajax.Updater($(display_id).down(".all_dest_list"), '/bbs_memos/dest_table/'+id_number(memo_id));
+    $(display_id).down(".all_dest_list").show();
   }
 });
 
