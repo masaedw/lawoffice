@@ -333,9 +333,9 @@ Object.extend(BBSMemo, {
     var params = $H({"content": $F(display_id+"_area")});
     if ($(display_id).down(".all_dest_list").visible()) {
       params.set("dests", j$(".all_dest_list input[@checked]", $(display_id)).get().map(function(i){return $F(i);}).join());
+      this.hide_dest_table(display_id);
     }
     var onComplete = function() {
-      this.hide_dest_table(display_id);
       new Ajax.Updater($(display_id).down(".dest_list tbody"), '/bbs_memos/dest_list/'+id_number(memo_id));
     }.bind(this)
     $(display_id).down(".dest_list tbody").update("");
@@ -365,12 +365,8 @@ Object.extend(BBSMemo, {
     $(display_id+"_edit_dest").show();
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("最終確認済み");
-      $(display_id).down(".dest_list tbody").update(params.dest_list);
-    if (!$A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
-        $(display_id+"_check").disable();
-    } else {
-        $(display_id+"_check").enable();
-    }
+    $(display_id).down(".dest_list tbody").update(params.dest_list);
+    this.fix_final_check(display_id);
     $(display_id).down(".dest_list").show();
   },
 
@@ -385,11 +381,7 @@ Object.extend(BBSMemo, {
     console.log(person_id);
     Person.update_bbs_unread(person_id, Person.find(person_id).bbs_unread()+diff);
     new Ajax.Request('/bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
-    if ($A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
-      $(display_id+"_check").enable();
-    } else {
-      $(display_id+"_check").disable().checked = false;
-    }
+    this.fix_final_check(display_id);
   },
 
   edit_dest: function(memo_id, display_id)
@@ -417,6 +409,15 @@ Object.extend(BBSMemo, {
   hide_dest_table: function(display_id)
   {
     $(display_id).down(".all_dest_list").hide().update("");
+  },
+
+  fix_final_check: function(display_id)
+  {
+    if ($A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
+      $(display_id+"_check").enable();
+    } else {
+      $(display_id+"_check").disable().checked = false;
+    }
   }
 });
 
