@@ -389,7 +389,6 @@ Object.extend(BBSMemo, {
       var onComplete = function() {
         $(display_id).down(".all_dest_list").show();
         Event.observe($(display_id).down("a.closebutton_bottom"), "click", function(){
-          Event.stopObserving($(display_id).down("a.closebutton_bottom"), "click");
           $(display_id).down(".all_dest_list").hide().update("");
         });
       };
