@@ -269,7 +269,7 @@ MemoDisplay.prototype = {
     $(this.elem_id+"_button").hide();
     $(this.elem_id+"_edit_dest").hide();
     $(this.elem_id).down(".dest_list").hide();
-    $(this.elem_id).down(".all_dest_list").hide();
+    $(this.elem_id).down(".all_dest_list").hide().update("");
   }
 };
 
@@ -383,8 +383,20 @@ Object.extend(BBSMemo, {
 
   edit_dest: function(memo_id, display_id)
   {
-    new Ajax.Updater($(display_id).down(".all_dest_list"), '/bbs_memos/dest_table/'+id_number(memo_id));
-    $(display_id).down(".all_dest_list").show();
+    if ($(display_id).down(".all_dest_list").visible()) {
+      $(display_id).down(".all_dest_list").hide().update("");
+    } else {
+      var onComplete = function() {
+        $(display_id).down(".all_dest_list").show();
+        Event.observe($(display_id).down("a.closebutton_bottom"), "click", function(){
+          Event.stopObserving($(display_id).down("a.closebutton_bottom"), "click");
+          $(display_id).down(".all_dest_list").hide().update("");
+        });
+      };
+      new Ajax.Updater($(display_id).down(".all_dest_list"),
+                       '/bbs_memos/dest_table/'+id_number(memo_id),
+                       {onComplete:onComplete});
+    }
   }
 });
 
