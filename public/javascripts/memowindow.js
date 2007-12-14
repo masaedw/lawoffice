@@ -336,8 +336,9 @@ Object.extend(BBSMemo, {
       this.hide_dest_table(display_id);
     }
     var onComplete = function() {
-      new Ajax.Updater($(display_id).down(".dest_list tbody"), '/bbs_memos/dest_list/'+id_number(memo_id));
-    }.bind(this)
+      new Ajax.Updater($(display_id).down(".dest_list tbody"), '/bbs_memos/dest_list/'+id_number(memo_id),
+                       {onComplete:this.fix_final_check.bind(this).curry(display_id)});
+    }.bind(this);
     $(display_id).down(".dest_list tbody").update("");
     new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: params, onComplete:onComplete});
   },
