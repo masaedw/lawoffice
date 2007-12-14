@@ -30,10 +30,10 @@
       <option value="0">----</option>
       <%= options_from_collection_for_select @templates, "id", "name"%>
     </select>
-    <a id="memo_dests" class="bbs" href="javascript:void(0);" style="display: none;">宛先</a>
+    <input type="button" id="memo_edit_dest" value="宛先編集" onclick="memo_window.open_dest_list();" style="display: none;"/>
   </span>
 
-  <div id="to_window" style="display: none;"><div id="to_window_inner"></div></div>
+  <div id="memo_dest_list" style="display: none;"></div>
 
   <div id="memo_window_show">
     未読 <input id="memo_window_unchecked" type="radio" name="unread" value="unread" checked="checked"

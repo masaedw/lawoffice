@@ -4,7 +4,7 @@
 <%- line.each do |person| -%>
 <%- if person -%>
 <td><%=h person.name %>
-  <input type="checkbox"<%= person.is_destination_of(@memo) ? 'checked="checked"' : "" %> value="<%= person.id %>"/>
+  <input type="checkbox"<%= (@memo && person.is_destination_of(@memo)) ? 'checked="checked"' : "" %> value="<%= person.id %>"/>
 </td>
 <%- else -%>
 <td></td>

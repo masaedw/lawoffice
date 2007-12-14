@@ -1,0 +1,5 @@
+page << "if (!edit_mode) {"
+notice_unread.each do |person|
+  page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
+end
+page << "}"

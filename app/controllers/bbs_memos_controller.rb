@@ -1,6 +1,29 @@
 require 'take_split'
 
 class BbsMemosController < MemosController
+  def create
+    memo = BbsMemo.new
+    memo.content = params[:content]
+    memo.color = "#ffffff"
+    if params[:template].to_i != 0
+      memo.template = Template.find(params[:template])
+      memo.color = memo.template.color;
+    end
+    memo.save
+
+    if !params[:dests].blank?
+      ids = params[:dests].split(",").map{|i| i.to_i}
+      people = Person.find(ids)
+      people.each do |person|
+        person.bbs_memos.push(memo)
+      end
+      notice_unread(people)
+    end
+
+    memo_list
+    render_list(people)
+  end
+
   def update
     memo = BbsMemo.find(params[:id])
     memo.content = params[:content]
@@ -42,7 +65,7 @@ class BbsMemosController < MemosController
       end
 
       notice_unread(changes)
-      render_notice_unread(changes)
+      render(:partial => "notice_unread", :object => changes)
     else
       render :nothing => true
     end
@@ -67,7 +90,7 @@ class BbsMemosController < MemosController
   end
 
   def dest_table
-    @memo = BbsMemo.find(params[:id])
+    @memo = params[:id].blank? ? nil : BbsMemo.find(params[:id])
     @people = Person.find(:all)
 
     render :layout => false
@@ -97,7 +120,7 @@ class BbsMemosController < MemosController
     @memos = BbsMemo.find(:all, opts)
   end
 
-  def render_list
+  def render_list people = nil
     render :update do |page|
       page << "BBSWindow.clear_display();"
       @memos.each_with_index do |memo, i|
@@ -112,27 +135,13 @@ class BbsMemosController < MemosController
         link_to_function n, "BBSWindow.page(#{n})"
       end
       page.replace_html 'memo_paginate', links
+      if people
+        page << render(:partial => "notice_unread", :object => people)
+      end
     end
   end
 
   def notice_unread people
-    js = render_to_string :update do |page|
-      page << "if (!edit_mode) {"
-      people.each do |person|
-        page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
-      end
-      page << "}"
-    end
-    shoot_both js
-  end
-
-  def render_notice_unread people
-    render :update do |page|
-      page << "if (!edit_mode) {"
-      people.each do |person|
-        page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
-      end
-      page << "}"
-    end
+    shoot_both render_to_string(:partial => "notice_unread", :object => people)
   end
 end

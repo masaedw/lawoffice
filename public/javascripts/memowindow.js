@@ -69,8 +69,8 @@ Object.extend(MemoWindow, {
 
   mode_handler: function() {
     switch($F('memo_mode')) {
-      case '1': this.show_mode(); break;
-      case '2': this.new_mode();  break;
+      case '1': memo_window.show_mode(); break;
+      case '2': memo_window.new_mode();  break;
     }
   },
 
@@ -104,7 +104,6 @@ Object.extend(MemoWindow, {
     // create のレスポンスで memo_window_display が書き替わるので、
     // Memo.create の呼びだしは clear_display の後でなければいけない。
     this.controller.create(content, template_id);
-    Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
   },
 
   clear_new_forms: function() {
@@ -185,6 +184,7 @@ Object.extend(Memo, {
   create: function(content, template_id) {
     var person_id = id_number(MemoWindow.person_id);
     new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id, unread: true}});
+    Person.update_unread(this.person_id, Person.find(this.person_id).unread()+1);
   },
 
   update_checked: function(display_id, memo_id, checked) {
@@ -290,11 +290,13 @@ Object.extend(BBSWindow, {
     this.unchecked = true;
     this.query = "";
     this.date = $H();
-    this.callback = null;
+    this.callback = this.cleanup.bind(this);
 
     $('memo_window_name').update("回覧掲示板");
     this.clear_display();
     this.clear_search();
+
+    $("memo_edit_dest").show();
 
     this.page();
     this.show_mode();
@@ -311,6 +313,30 @@ Object.extend(BBSWindow, {
     if ($("memo_window_date_enable").checked)
       params.update(this.date);
     new Ajax.Request('/bbs_memos/view/', {parameters: params});
+  },
+
+  cleanup: function() {
+    $("memo_edit_dest").hide();
+    $("memo_dest_list").hide().update('');
+  },
+
+  open_dest_list: function() {
+    $('memo_dest_list').toggle();
+  },
+
+  show_mode: function() {
+    MemoWindow.show_mode.bind(this)();
+    $("memo_dest_list").hide();
+  },
+
+  new_mode: function() {
+    MemoWindow.new_mode.bind(this)();
+    var onComplete = function() {
+      Event.observe($('memo_dest_list').down("a.closebutton_bottom"), "click", function(){
+          $("memo_dest_list").hide();
+      }.bindAsEventListener(this));
+    };
+    new Ajax.Updater('memo_dest_list', '/bbs_memos/dest_table/', {onComplete:onComplete});
   }
 });
 
@@ -319,7 +345,9 @@ var BBSMemo = new Object;
 
 Object.extend(BBSMemo, {
   create: function(content, template_id) {
-    new Ajax.Request('/bbs_memos/create/', {parameters: {"content": content, "template": template_id, unread: true}});
+    var params = $H({"content": content, "template": template_id, unread: true});
+    params.set("dests", this.get_dest_query("memo_dest_list"));
+    new Ajax.Request('/bbs_memos/create/', {parameters: params});
   },
 
   update_checked: function(display_id, memo_id, checked) {
@@ -333,7 +361,7 @@ Object.extend(BBSMemo, {
   update: function(memo_id, display_id) {
     var params = $H({"content": $F(display_id+"_area")});
     if ($(display_id).down(".all_dest_list").visible()) {
-      params.set("dests", j$(".all_dest_list input[@checked]", $(display_id)).get().map(function(i){return $F(i);}).join());
+      params.set("dests", this.get_dest_query($(display_id).down(".all_dest_list")));
       this.hide_dest_table(display_id);
     }
     var onComplete = function() {
@@ -406,6 +434,11 @@ Object.extend(BBSMemo, {
     } else {
       $(display_id+"_check").disable().checked = false;
     }
+  },
+
+  get_dest_query: function(elem)
+  {
+    return j$("input[@checked]", $(elem)).get().map(function(i){return $F(i);}).join();
   }
 });
 
