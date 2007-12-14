@@ -245,14 +245,16 @@ MemoDisplay.prototype = {
       memo_window.controller.update_checked(id, this.memo_id, Event.element(e).checked);
     }.bindAsEventListener(this));
 
-    this.observer = new Form.Element.Observer(id+"_area", 1, function(element, value) {
-      if (!$(id+"_button").visible()) {
-        this.changed = true;
-        Effect.Appear(id+"_button");
-      }
-    }.bind(this));
+    this.observer = new Form.Element.Observer(id+"_area", 1, this.change_handler.bind(this));
 
     MemoDisplay.register(id, this);
+  },
+
+  change_handler: function() {
+    if (!this.changed) {
+      this.changed = true;
+      Effect.Appear(this.elem_id+"_button");
+    }
   },
 
   display: function(params) {
@@ -328,7 +330,12 @@ Object.extend(BBSMemo, {
   },
 
   update: function(memo_id, display_id) {
-    new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
+    var params = $H({"content": $F(display_id+"_area")});
+    if ($(display_id).down(".all_dest_list").visible()) {
+      params.set("dests", j$(".all_dest_list input[@checked]", $(display_id)).get().map(function(i){return $F(i);}).join());
+    }
+    var onComplete = this.hide_dest_table.bind(this).curry(display_id);
+    new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: params, onComplete:onComplete});
   },
 
   display: function(display_id, params) {
@@ -384,18 +391,28 @@ Object.extend(BBSMemo, {
   edit_dest: function(memo_id, display_id)
   {
     if ($(display_id).down(".all_dest_list").visible()) {
-      $(display_id).down(".all_dest_list").hide().update("");
+      this.hide_dest_table(display_id);
     } else {
+      var display = MemoDisplay.find(display_id);
+      var change_handler = display.change_handler.bind(display);
       var onComplete = function() {
         $(display_id).down(".all_dest_list").show();
         Event.observe($(display_id).down("a.closebutton_bottom"), "click", function(){
-          $(display_id).down(".all_dest_list").hide().update("");
+          this.hide_dest_table(display_id);
+        }.bindAsEventListener(this));
+        j$(".all_dest_list input", $(display_id)).get().each(function(i){
+          Event.observe(i, "click", change_handler);
         });
-      };
+      }.bind(this);
       new Ajax.Updater($(display_id).down(".all_dest_list"),
                        '/bbs_memos/dest_table/'+id_number(memo_id),
                        {onComplete:onComplete});
     }
+  },
+
+  hide_dest_table: function(display_id)
+  {
+    $(display_id).down(".all_dest_list").hide().update("");
   }
 });
 
