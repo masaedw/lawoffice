@@ -20,8 +20,8 @@
   border: 1px solid #888;
   position: absolute;
   text-decoration: none;
-  right: 0pt;
-  top: 0pt;
+  right: 0;
+  top: 0;
   padding: 2px;
 }
 
@@ -33,6 +33,25 @@
   background-color: #fcc;
   color: white;
 }
+
+.closebutton_bottom {
+  background-color: #f88;
+  color: white;
+  border: 1px solid #888;
+  text-decoration: none;
+  padding: 2px;
+  font-size: 80%;
+}
+
+.closebutton_bottom:visited {
+  color: white;
+}
+
+.closebutton_bottom:hover {
+  background-color: #fcc;
+  color: white;
+}
+
 
 iframe {
   border-width: 0;

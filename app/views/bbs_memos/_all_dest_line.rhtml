@@ -1,0 +1,11 @@
+<tr>
+<%- all_dest_line.each do |item| -%>
+<%- if item -%>
+<td><%=h item.person.name %>
+  <input type="checkbox"<%= item.checked ? 'checked="checked"' : "" %> value="<%= item.person.id %>" />c
+</td>
+<%- else -%>
+<td></td>
+<%- end -%>
+<%- end -%>
+</tr>

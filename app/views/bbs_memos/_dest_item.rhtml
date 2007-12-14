@@ -1,7 +1,7 @@
 <%- if dest_item -%>
 <td><%=h dest_item.person.name %>
   <input type="checkbox"<%= dest_item.checked ? 'checked="checked"' : "" %>
-         onchange="BBSMemo.update_person_checked('<%= dest_item.bbs_memo.element_id %>', '<%= dest_item.person.element_id %>', this);"/>
+         onclick="BBSMemo.update_person_checked('<%= dest_item.bbs_memo.element_id %>', '<%= dest_item.person.element_id %>', this);"/>
 </td>
 <%- else -%>
 <td></td>

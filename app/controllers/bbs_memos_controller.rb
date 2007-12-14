@@ -15,9 +15,28 @@ class BbsMemosController < MemosController
   end
 
   def update
-    memo = Memo.find(params[:id])
+    memo = BbsMemo.find(params[:id])
     memo.content = params[:content]
     memo.save
+
+    if !params[:dests].blank?
+      ids = params[:dests].split(",").map{|i| i.to_i}
+      people = Person.find(:all)
+
+      on, off = people.partition{|person| ids.include?(person.id)}
+
+      on.each do |person|
+        unless person.is_destination_of(memo)
+          person.bbs_memos.push(memo)
+        end
+      end
+
+      off.each do |person|
+        if person.is_destination_of(memo)
+          person.bbs_memos.delete(memo)
+        end
+      end
+    end
 
     render :nothing => true
   end
@@ -38,6 +57,18 @@ class BbsMemosController < MemosController
     memo.save
 
     render :nothing => true
+  end
+
+  def dest_table
+    @memo = BbsMemo.find(params[:id])
+    @people = Person.find(:all)
+
+    render :layout => false
+  end
+
+  def dest_list
+    memo = BbsMemo.find(params[:id])
+    render :partial => "dest_line", :collection => memo.interested_people.take_split(3)
   end
 
   private

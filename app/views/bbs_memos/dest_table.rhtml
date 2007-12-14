@@ -1,0 +1,16 @@
+<table>
+<%- @people.take_split(5,nil).each do |line| -%>
+<tr>
+<%- line.each do |person| -%>
+<%- if person -%>
+<td><%=h person.name %>
+  <input type="checkbox"<%= person.is_destination_of(@memo) ? 'checked="checked"' : "" %> value="<%= person.id %>"/>
+</td>
+<%- else -%>
+<td></td>
+<%- end -%>
+<%- end -%>
+</tr>
+<%- end -%>
+</table>
+<div style="text-align: right;"><%= link_to_function "X", "", :class => "closebutton_bottom" %></div>
