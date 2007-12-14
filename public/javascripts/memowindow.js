@@ -369,7 +369,7 @@ Object.extend(BBSMemo, {
     if ($A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
       $(display_id+"_check").enable();
     } else {
-      $(display_id+"_check").disable();
+      $(display_id+"_check").disable().checked = false;
     }
   }
 });
