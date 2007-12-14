@@ -213,5 +213,15 @@ Person.prototype = {
   bbs_unread: function()
   {
     return parseInt(j$("#"+this.elem_id+" .mini .bbs_unread").html()) || 0;
+  },
+
+  position: function()
+  {
+    var temp = [parseInt($(this.elem_id).getStyle("left")),
+                parseInt($(this.elem_id).getStyle("top"))];
+    if (this.highlighted__)
+      return temp.map(function(i){return i + 2});
+    else
+      return temp;
   }
 };
