@@ -30,6 +30,14 @@ class BbsMemosController < MemosController
     render :nothing => true
   end
 
+  def check_or_reset
+    memo = BbsMemo.find(params[:id])
+    memo.checked = params[:flag] == "true"
+    memo.save
+
+    render :nothing => true
+  end
+
   private
 
   def memo_list

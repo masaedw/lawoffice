@@ -187,7 +187,7 @@ Object.extend(Memo, {
     new Ajax.Request('/memos/create/'+person_id, {parameters: {"content": content, "template": template_id, unread: true}});
   },
 
-  update_checked: function(memo_id_number, checked) {
+  update_checked: function(display_id, memo_id, checked) {
     var person_id = MemoWindow.person_id;
     if (checked) {
       var diff = -1;
@@ -197,7 +197,7 @@ Object.extend(Memo, {
       var method = "reset/"
     }
     Person.update_unread(person_id, Person.find(person_id).unread()+diff);
-    new Ajax.Request('/memos/'+method+memo_id_number);
+    new Ajax.Request('/memos/'+method+id_number(memo_id));
   },
 
   print_url: function(id) {
@@ -239,7 +239,7 @@ MemoDisplay.prototype = {
     }.bindAsEventListener(this));
 
     Event.observe(id+"_check", "change", function(e) {
-      memo_window.controller.update_checked(id_number(this.memo_id), Event.element(e).checked);
+      memo_window.controller.update_checked(id, this.memo_id, Event.element(e).checked);
     }.bindAsEventListener(this));
 
     this.observer = new Form.Element.Observer(id+"_area", 1, function(element, value) {
@@ -313,15 +313,8 @@ Object.extend(BBSMemo, {
     new Ajax.Request('/bbs_memos/create/', {parameters: {"content": content, "template": template_id, unread: true}});
   },
 
-  u: function(memo_id_number, checked) {
-    if (checked) {
-      var diff = -1;
-      var method = "check/"
-    } else {
-      var diff = 1;
-      var method = "reset/"
-    }
-    new Ajax.Request('/bbs_memos/'+method+memo_id_number);
+  update_checked: function(display_id, memo_id, checked) {
+    new Ajax.Request('/bbs_memos/check_or_reset/'+id_number(memo_id), {parameters: {flag:checked}});
   },
 
   print_url: function(id) {
@@ -341,8 +334,8 @@ Object.extend(BBSMemo, {
     function to_td(dest) {
       if (dest) {
         var c = {name:dest.name.escapeHTML(), checked:(dest.checked)?"checked=\"checked\"":"",
-                 mid:params.id, pid:dest.id};
-        return tag("td", "#{name}<input value=\"true\" type=\"checkbox\"#{checked}/ onchange=\"BBSMemo.update_person_checked('#{mid}', '#{pid}', this);\">".interpolate(c));
+                 mid:params.id, pid:dest.id, did:display_id};
+        return tag("td", "#{name}<input value=\"true\" type=\"checkbox\"#{checked}/ onchange=\"BBSMemo.update_person_checked('#{did}', '#{mid}', '#{pid}', this);\">".interpolate(c));
       } else {
         return tag("td");
       }
@@ -356,10 +349,15 @@ Object.extend(BBSMemo, {
     $(display_id).down(".footer span").update("最終確認済み");
     var trs = params.dests.inGroupsOf(3).map(function(i){return tag("tr", i.map(to_td));}).join("");
     $(display_id).down(".dest_list table").update(trs);
+    if (!params.dests.all(function(i){return i.checked;})) {
+        $(display_id+"_check").disable()
+    } else {
+        $(display_id+"_check").enable()
+    }
     $(display_id).down(".dest_list").show();
   },
 
-  update_person_checked: function(memo_id, person_id, element)
+  update_person_checked: function(display_id, memo_id, person_id, element)
   {
     var val = $F(element);
     if (val == "true")
@@ -368,6 +366,11 @@ Object.extend(BBSMemo, {
       var diff = 1;
     Person.update_bbs_unread(person_id, Person.find(person_id).bbs_unread()+diff);
     new Ajax.Request('/bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
+    if ($A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
+      $(display_id+"_check").enable();
+    } else {
+      $(display_id+"_check").disable();
+    }
   }
 });
 
