@@ -25,17 +25,23 @@ class BbsMemosController < MemosController
 
       on, off = people.partition{|person| ids.include?(person.id)}
 
+      changes = []
+
       on.each do |person|
         unless person.is_destination_of(memo)
           person.bbs_memos.push(memo)
+          changes.push(person)
         end
       end
 
       off.each do |person|
         if person.is_destination_of(memo)
           person.bbs_memos.delete(memo)
+          changes.push(person)
         end
       end
+
+      notice_unread(changes)
     end
 
     render :nothing => true
@@ -46,7 +52,7 @@ class BbsMemosController < MemosController
     assoc.checked = params[:flag] == "true"
     assoc.save
 
-    notice_unread(assoc.person)
+    notice_unread([assoc.person])
 
     render :nothing => true
   end
@@ -108,10 +114,12 @@ class BbsMemosController < MemosController
     end
   end
 
-  def notice_unread person
+  def notice_unread people
     js = render_to_string :update do |page|
       page << "if (!edit_mode) {"
-      page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
+      people.each do |person|
+        page << "Person.update_bbs_unread('#{person.element_id}', #{person.bbs_unread});"
+      end
       page << "}"
     end
     shoot_both js

@@ -17,19 +17,11 @@ class Person < ActiveRecord::Base
   end
 
   def unread
-    if @unread
-      @unread
-    else
-      @unread = memos.count(:all, :conditions => ["checked = ?", false])
-    end
+    memos.count(:conditions => ["checked = ?", false])
   end
 
   def bbs_unread
-    if @bbs_unread
-      @bbs_unread
-    else
-      @bbs_unread = interested_people.count(:all, :conditions => ["checked = ?", false])
-    end
+    interested_people.count(:conditions => ["checked = ?", false])
   end
 
   def is_destination_of memo
