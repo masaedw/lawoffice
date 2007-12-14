@@ -1,0 +1,14 @@
+<%- dest_table.each do |dest_line| -%>
+<tr>
+<%- dest_line.each do |item| -%>
+<%- if item -%>
+<td><%=h item.person.name %>
+  <input type="checkbox"<%= item.checked ? 'checked="checked"' : "" %>
+         onclick="BBSMemo.update_person_checked('<%= item.bbs_memo.element_id %>', '<%= item.person.element_id %>', this);"/>
+</td>
+<%- else -%>
+<td></td>
+<%- end -%>
+<%- end -%>
+</tr>
+<%- end -%>
