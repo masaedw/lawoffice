@@ -336,8 +336,14 @@ Object.extend(BBSWindow, {
           $("memo_dest_list").hide();
       }.bindAsEventListener(this));
     };
-    new Ajax.Updater('memo_dest_list', '/bbs_memos/dest_table/', {onComplete:onComplete});
+    this.update_dest_table('memo_dest_list', onComplete);
+  },
+
+  update_dest_table: function(elem, callback)
+  {
+    new Ajax.Updater(elem, '/bbs_memos/dest_table', {onComplete:callback, method:"get"});
   }
+
 });
 
 
