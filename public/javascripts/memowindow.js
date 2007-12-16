@@ -416,9 +416,7 @@ Object.extend(BBSMemo, {
           Event.observe(i, "click", change_handler);
         });
       }.bind(this);
-      new Ajax.Updater($(display_id).down(".all_dest_list"),
-                       '/bbs_memos/dest_table/'+id_number(memo_id),
-                       {onComplete:onComplete});
+      this.update_dest_table($(display_id).down(".all_dest_list"), id_number(memo_id), onComplete);
     }
   },
 
@@ -439,6 +437,11 @@ Object.extend(BBSMemo, {
   get_dest_query: function(elem)
   {
     return j$("input[@checked]", $(elem)).get().map(function(i){return $F(i);}).join();
+  },
+
+  update_dest_table: function(elem, id, callback)
+  {
+    new Ajax.Updater(elem, '/bbs_memos/dest_table/'+id, {onComplete:callback, method:"get"});
   }
 });
 
