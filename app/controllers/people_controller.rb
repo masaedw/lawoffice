@@ -3,6 +3,7 @@ require 'json'
 class PeopleController < ApplicationController
   before_filter :find_all, :only => [:list, :edit]
   before_filter :find_id, :only => [:update_message, :update_position, :update_location]
+  after_filter  :expire_destination_table, :only => [:create, :destroy]
 
   def list
     @list
@@ -90,6 +91,7 @@ class PeopleController < ApplicationController
 
   def update_text
     @person = Person.find(params[:id])
+    need_expire = @person.name != params[:name]
     @person.name = params[:name]
     @person.phone = params[:phone]
 
@@ -99,6 +101,7 @@ class PeopleController < ApplicationController
         page << "Person.update_text('#{@person.element_id}', 'phone', #{j @person.phone});"
       end
       shoot_both js
+      expire_destination_table if need_expire
     end
 
     render :nothing => true
@@ -130,5 +133,13 @@ class PeopleController < ApplicationController
 
   def find_id
     @person = Person.find(params[:id])
+  end
+
+  def expire_destination_table
+    bms = BbsMemo.find(:all, :select => "id")
+    bms.each do |bm|
+      expire_page(:controller => "bbs_memos", :action => "dest_table", :id => bm.id)
+    end
+    expire_page(:controller => "bbs_memos", :action => "dest_table")
   end
 end
