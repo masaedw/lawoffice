@@ -100,7 +100,7 @@ class BbsMemosController < MemosController
 
   def dest_list
     memo = BbsMemo.find(params[:id])
-    render :partial => "dest_table", :object => memo.interested_people.take_split(3)
+    render(:partial => "dest_table", :object => checked_group(memo.interested_people))
   end
 
   private
@@ -129,7 +129,7 @@ class BbsMemosController < MemosController
         obj = {
           :id => memo.element_id, :date => date(memo.created_at),
           :content => memo.content, :color => memo.color, :checked => memo.checked,
-          :dest_list => render(:partial => "dest_table", :object => memo.interested_people.take_split(3))
+          :dest_list => render(:partial => "dest_table", :object => checked_group(memo.interested_people))
         }
         page << "MemoDisplay.find('memo_display_#{i+1}').display(#{obj.to_json});"
       end
@@ -146,4 +146,6 @@ class BbsMemosController < MemosController
   def notice_unread people
     shoot_both render_to_string(:partial => "notice_unread", :object => people)
   end
+
+  include ApplicationHelper # for #checked_group
 end

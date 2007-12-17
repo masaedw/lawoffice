@@ -3,6 +3,7 @@ class Person < ActiveRecord::Base
   has_many :memos
   has_many :interested_people, :dependent => :destroy
   has_many :bbs_memos, :through => :interested_people
+  order_by :fields => ['posy', 'posx']
 
   def bgcolor
     location ? location.color : "#eceef0"

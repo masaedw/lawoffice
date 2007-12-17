@@ -1,5 +1,5 @@
 <table>
-<%- @people.take_split(5,nil).each do |line| -%>
+<%- row_group(@people).each do |line| -%>
 <tr>
 <%- line.each do |person| -%>
 <%- if person -%>

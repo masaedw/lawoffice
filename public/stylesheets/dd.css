@@ -341,10 +341,21 @@ body {
   font-size: 80%;
 }
 
-.memo table {
+.dest_list table {
   width: 405px;
 }
 
-#memo_dest_list table {
-  width: 405px;
+.memo_dest_list table {
+  overflow: scroll;
+}
+
+#memo_dest_list,
+.all_dest_list {
+  width: 100%;
+  overflow: scroll;
+}
+
+#memo_dest_list table td,
+.all_dest_list table td{
+  white-space: nowrap;
 }

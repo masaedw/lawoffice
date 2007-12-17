@@ -3,7 +3,7 @@ require 'json'
 class PeopleController < ApplicationController
   before_filter :find_all, :only => [:list, :edit]
   before_filter :find_id, :only => [:update_message, :update_position, :update_location]
-  after_filter  :expire_destination_table, :only => [:create, :destroy]
+  after_filter  :expire_destination_table, :only => [:create, :destroy, :update_position]
 
   def list
     @list
