@@ -14,20 +14,12 @@ Person.update_text = function(id, klass, content)
 
 Person.update_unread = function(id, content)
 {
-  var unread = $(id).down(".mini .unread");
-  if (content == 0)
-    unread.hide();
-  else
-    unread.show();
-  j$("#"+id+" .standard .unread").html("未読 "+content);
-  console.log("update_unread: "+content);
-  Person.update_text(id, "unread", content);
+  Person.find(id).unread(content);
 };
 
 Person.update_bbs_unread = function(id, content)
 {
-  Person.update_text(id, "bbs_unread", content);
-  $(id).down(".standard .bbs_unread").update("回覧 "+content);
+  Person.find(id).bbs_unread(content);
 };
 
 Person.prototype = {
@@ -77,6 +69,7 @@ Person.prototype = {
 
       Event.observe($(id).down(".closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
       Event.observe($(id).down("a.unread"), "click", this.open_memo_window_handler.bindAsEventListener(this));
+      Event.observe($(id).down("a.bbs_unread"), "click", BBSWindow.open.bind(BBSWindow));
     }
 
     Person.register(id, this);
@@ -205,14 +198,40 @@ Person.prototype = {
     return j$("#"+this.elem_id+" .mini .name").html();
   },
 
-  unread: function()
+  unread_: function(type, msg, arg)
   {
-    return parseInt(j$("#"+this.elem_id+" .mini .unread").html()) || 0;
+    if (Object.isUndefined(arg)) {
+      return parseInt($(this.elem_id+"_"+type).getValue());
+    } else {
+      arg = parseInt(arg);
+      $(this.elem_id).down(".standard a."+type).update(msg+" "+arg);
+      $(this.elem_id+"_"+type).setValue(arg);
+
+      var unread = $(this.elem_id).down(".mini .unread");
+      var all_unread = this.all_unread();
+      unread.update(all_unread);
+      if (all_unread == 0)
+        unread.hide();
+      else
+        unread.show();
+
+      return arg;
+    }
   },
 
-  bbs_unread: function()
+  unread: function(arg)
   {
-    return parseInt(j$("#"+this.elem_id+" .mini .bbs_unread").html()) || 0;
+    return this.unread_("unread", "未読", arg);
+  },
+
+  bbs_unread: function(arg)
+  {
+    return this.unread_("bbs_unread", "回覧", arg);
+  },
+
+  all_unread: function()
+  {
+    return this.unread() + this.bbs_unread();
   },
 
   position: function()

@@ -25,6 +25,10 @@ class Person < ActiveRecord::Base
     interested_people.count(:conditions => ["checked = ?", false])
   end
 
+  def all_unread
+    unread + bbs_unread
+  end
+
   def is_destination_of memo
     InterestedPerson.count(:conditions => ["person_id = ? AND bbs_memo_id = ?", self.id, memo.id]) > 0
   end
