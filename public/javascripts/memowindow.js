@@ -288,7 +288,7 @@ MemoDisplay.prototype = {
     $(this.elem_id+"_button").hide();
     $(this.elem_id+"_check").enable();
     $(this.elem_id+"_edit_dest").hide();
-    $(this.elem_id).down(".dest_list").hide();
+    $(this.elem_id+"_cl").hide();
     $(this.elem_id+"_dl").hide().update("");
   }
 };
@@ -387,10 +387,10 @@ Object.extend(BBSMemo, {
       this.hide_dest_table(display_id);
     }
     var onComplete = function() {
-      new Ajax.Updater($(display_id).down(".dest_list tbody"), '/bbs_memos/dest_list/'+id_number(memo_id),
+      new Ajax.Updater($(display_id+"_cl").down("tbody"), '/bbs_memos/dest_list/'+id_number(memo_id),
                        {onComplete:this.fix_final_check.bind(this).curry(display_id)});
     }.bind(this);
-    $(display_id).down(".dest_list tbody").update("");
+    $(display_id+"_cl").down("tbody").update("");
     new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: params, onComplete:onComplete});
   },
 
@@ -403,9 +403,9 @@ Object.extend(BBSMemo, {
     $(display_id+"_edit_dest").show();
     $(display_id).down("a").writeAttribute("href", memo_window.controller.print_url(params.id));
     $(display_id).down(".footer span").update("最終確認済み");
-    $(display_id).down(".dest_list tbody").update(params.dest_list);
+    $(display_id+"_cl").down("tbody").update(params.dest_list);
     this.fix_final_check(display_id);
-    $(display_id).down(".dest_list").show();
+    $(display_id+"_cl").show();
   },
 
   update_person_checked: function(memo_id, person_id, element)
@@ -449,7 +449,7 @@ Object.extend(BBSMemo, {
 
   fix_final_check: function(display_id)
   {
-    if ($A(j$("#"+display_id+" .dest_list input")).pluck("checked").all()) {
+    if ($A(j$("#"+display_id+"_cl input")).pluck("checked").all()) {
       $(display_id+"_check").enable();
     } else {
       $(display_id+"_check").disable().checked = false;
