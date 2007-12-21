@@ -31,6 +31,7 @@ Person.prototype = {
     this.window.onfocus = this.focus_handler.bindAsEventListener(this);
     this.window.onunfocus = this.unfocus_handler.bindAsEventListener(this);
     this.memo_window_open = false;
+    this.mini__ = true;
 
     if (edit) {
       this.edit = true;
@@ -41,8 +42,6 @@ Person.prototype = {
         new Ajax.Request('/people/update_text/'+this.id_number(), {parameters: value});
       }.bind(this));
     } else {
-      this.minimize();
-
       // メッセージの変更を監視する
       this.message_observer = new Form.Element.Observer(id+'_message_input', 1, function(element, value) {
         new Ajax.Request('/people/update_message/'+this.id_number(), {parameters: 'message='+value});
@@ -53,23 +52,8 @@ Person.prototype = {
         new Ajax.Request('/people/update_location/'+this.id_number(), {parameters: 'location='+value});
       }.bind(this));
 
-      // マウスが来たら色替える。
-      Event.observe(id, "mouseover", function() {
-        if (this.is_memo_window_open()) return;
-        if (this.is_mini())
-          this.highlight(true);
-        else
-          this.highlight(false);
-      }.bindAsEventListener(this));
-
-      Event.observe(id, "mouseout",  function() {
-        if (this.is_memo_window_open()) return;
-        this.highlight(false);
-      }.bindAsEventListener(this));
-
       Event.observe($(id).down(".closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
       Event.observe($(id).down("a.unread"), "click", this.open_memo_window_handler.bindAsEventListener(this));
-      Event.observe($(id).down("a.bbs_unread"), "click", BBSWindow.open.bind(BBSWindow));
     }
 
     Person.register(id, this);
@@ -78,6 +62,21 @@ Person.prototype = {
   id_number: function()
   {
     return this.elem_id.replace(/person_/, '');
+  },
+
+  mouseover_proc: function()
+  {
+    if (this.is_memo_window_open()) return;
+    if (this.is_mini())
+      this.highlight(true);
+    else
+      this.highlight(false);
+  },
+
+  mouseout_proc: function()
+  {
+    if (this.is_memo_window_open()) return;
+    this.highlight(false);
   },
 
   focus_handler: function(event)

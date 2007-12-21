@@ -2,7 +2,9 @@
      style="position: absolute;
             background-color: <%=h person.bgcolor %>;
             left: <%=h person.left %>px;
-            top: <%=h person.top %>px;">
+            top: <%=h person.top %>px;"
+     onmouseover="Person.find('<%= person.element_id %>').mouseover_proc();"
+     onmouseout="Person.find('<%= person.element_id %>').mouseout_proc();">
   <div class="mini" id="<%=h person.element_id %>_mini">
     <%= span_class person, "name" %>
     <span class="unread" <%= person.all_unread == 0 ? 'style="display:none;"' : ""%>><%=h person.all_unread %></span>
@@ -11,7 +13,7 @@
     <br/>
     <%= span_class person, "message" %>
   </div>
-  <div class="standard" id="<%=h person.element_id %>_standard">
+  <div class="standard" id="<%=h person.element_id %>_standard" style="display: none;">
     <input type="hidden" id="<%=h person.element_id %>_unread" class="unread" value="<%= person.unread %>"/>
     <input type="hidden" id="<%=h person.element_id %>_bbs_unread" class="bbs_unread" value="<%= person.bbs_unread %>"/>
     <%= span_class person, "name" %>
@@ -19,7 +21,7 @@
     <%= link_to_function "X", "", :class => "closebutton" %>
     <br/>
     <%= link_to_function "未読 #{person.unread}", "",  :class => "unread" %>
-    <%= link_to_function "回覧 #{person.bbs_unread}", "",  :class => "bbs_unread" %>
+    <%= link_to_function "回覧 #{person.bbs_unread}", "BBSWindow.open()",  :class => "bbs_unread" %>
     <br/>
     <input class="message" id="<%= person.element_id %>_message_input" type="text" value="<%=h person.message %>"/>
     <select id="<%=h person.element_id %>_select">
