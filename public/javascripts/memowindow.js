@@ -261,8 +261,8 @@ MemoDisplay.prototype = {
 
     this.observer = new Form.Element.Observer(id+"_area", 1, this.change_handler.bind(this));
 
-    Event.observe($(id).down(".all_dest_list"), "mousemove", MemoWindow.end_drag.bind(MemoWindow));
-    Event.observe($(id).down(".all_dest_list"), "mouseout",  MemoWindow.start_drag.bind(MemoWindow));
+    Event.observe($(id+"_dl"), "mousemove", MemoWindow.end_drag.bind(MemoWindow));
+    Event.observe($(id+"_dl"), "mouseout",  MemoWindow.start_drag.bind(MemoWindow));
 
     MemoDisplay.register(id, this);
   },
@@ -289,7 +289,7 @@ MemoDisplay.prototype = {
     $(this.elem_id+"_check").enable();
     $(this.elem_id+"_edit_dest").hide();
     $(this.elem_id).down(".dest_list").hide();
-    $(this.elem_id).down(".all_dest_list").hide().update("");
+    $(this.elem_id+"_dl").hide().update("");
   }
 };
 
@@ -382,8 +382,8 @@ Object.extend(BBSMemo, {
 
   update: function(memo_id, display_id) {
     var params = $H({"content": $F(display_id+"_area")});
-    if ($(display_id).down(".all_dest_list").visible()) {
-      params.set("dests", this.get_dest_query($(display_id).down(".all_dest_list")));
+    if ($(display_id+"_dl").visible()) {
+      params.set("dests", this.get_dest_query($(display_id+"_dl")));
       this.hide_dest_table(display_id);
     }
     var onComplete = function() {
@@ -424,27 +424,27 @@ Object.extend(BBSMemo, {
 
   edit_dest: function(memo_id, display_id)
   {
-    if ($(display_id).down(".all_dest_list").visible()) {
+    if ($(display_id+"_dl").visible()) {
       this.hide_dest_table(display_id);
     } else {
       var display = MemoDisplay.find(display_id);
       var change_handler = display.change_handler.bind(display);
       var onComplete = function() {
-        $(display_id).down(".all_dest_list").show();
+        $(display_id+"_dl").show();
         Event.observe($(display_id).down("a.closebutton_bottom"), "click", function(){
           this.hide_dest_table(display_id);
         }.bindAsEventListener(this));
-        j$(".all_dest_list input", $(display_id)).get().each(function(i){
+        j$("input", $(display_id+"_dl")).get().each(function(i){
           Event.observe(i, "click", change_handler);
         });
       }.bind(this);
-      this.update_dest_table($(display_id).down(".all_dest_list"), id_number(memo_id), onComplete);
+      this.update_dest_table($(display_id+"_dl"), id_number(memo_id), onComplete);
     }
   },
 
   hide_dest_table: function(display_id)
   {
-    $(display_id).down(".all_dest_list").hide().update("");
+    $(display_id+"_dl").hide().update("");
   },
 
   fix_final_check: function(display_id)

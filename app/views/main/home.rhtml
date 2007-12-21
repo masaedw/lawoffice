@@ -81,7 +81,7 @@
       <div class="footer">
         <span>確認済み</span><%=check_box_tag "checked", "0", false, {:id => id+"_check"} %>
       </div>
-      <div class="all_dest_list" style="display:none;">
+      <div class="all_dest_list" id="<%= id %>_dl" style="display:none;">
       </div>
     </div>
     <%= javascript_tag "new MemoDisplay('memo_display_#{i}');" %>
