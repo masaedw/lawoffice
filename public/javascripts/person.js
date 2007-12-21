@@ -51,9 +51,6 @@ Person.prototype = {
       this.select_observer = new Form.Element.EventObserver(id+'_select', function(element, value) {
         new Ajax.Request('/people/update_location/'+this.id_number(), {parameters: 'location='+value});
       }.bind(this));
-
-      Event.observe($(id+"_closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
-      Event.observe($(id+"_ur_open"), "click", this.open_memo_window_handler.bindAsEventListener(this));
     }
 
     Person.register(id, this);

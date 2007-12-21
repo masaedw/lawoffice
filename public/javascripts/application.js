@@ -108,6 +108,15 @@ Element.addMethods();
 Object.extend(Element, Element.Methods);
 }
 
+// イベントハンドラをHTMLに直接書くためのしくみ.
+// bindAsEventListenerを使って呼びだすべき関数(handler)をHTMLに直接書く場合に
+// onclick="handler(Event.getEvent(event));"
+// とすることで、eventオブジェクトを適切に引数にわたせる。
+Event.getEvent = function(event)
+{
+  return event || window.event;
+};
+
 //------------------------------------------------------------
 // Window
 // エレメントの外側をクリックされたことの検知をするためのしくみ
