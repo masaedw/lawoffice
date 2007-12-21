@@ -31,7 +31,6 @@ Object.extend(MemoWindow, {
     this.callback = callback;
 
     $('memo_window_name').update(Person.find(id).name());
-    this.clear_display();
     this.clear_search();
 
     this.page();
@@ -43,7 +42,6 @@ Object.extend(MemoWindow, {
   close: function(id) {
     Element.hide('memo_window');
     this.clear_display();
-    this.clear_search();
     if (this.callback) {
       this.callback();
       delete this.callback;
@@ -312,7 +310,6 @@ Object.extend(BBSWindow, {
     this.callback = this.cleanup.bind(this);
 
     $('memo_window_name').update("回覧掲示板");
-    this.clear_display();
     this.clear_search();
 
     $("memo_edit_dest").show();
