@@ -18,9 +18,9 @@
     <input type="hidden" id="<%=h person.element_id %>_bbs_unread" class="bbs_unread" value="<%= person.bbs_unread %>"/>
     <%= span_class person, "name" %>
     <%= span_class person, "phone" %>
-    <%= link_to_function "X", "", :class => "closebutton" %>
+    <%= link_to_function "X", "", :class => "closebutton", :id => person.element_id+"_closebutton" %>
     <br/>
-    <%= link_to_function "未読 #{person.unread}", "",  :class => "unread" %>
+    <%= link_to_function "未読 #{person.unread}", "",  :class => "unread", :id => person.element_id+"_ur_open" %>
     <%= link_to_function "回覧 #{person.bbs_unread}", "BBSWindow.open()",  :class => "bbs_unread" %>
     <br/>
     <input class="message" id="<%= person.element_id %>_message_input" type="text" value="<%=h person.message %>"/>

@@ -52,8 +52,8 @@ Person.prototype = {
         new Ajax.Request('/people/update_location/'+this.id_number(), {parameters: 'location='+value});
       }.bind(this));
 
-      Event.observe($(id).down(".closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
-      Event.observe($(id).down("a.unread"), "click", this.open_memo_window_handler.bindAsEventListener(this));
+      Event.observe($(id+"_closebutton"), "click", this.minimize_handler.bindAsEventListener(this));
+      Event.observe($(id+"_ur_open"), "click", this.open_memo_window_handler.bindAsEventListener(this));
     }
 
     Person.register(id, this);
