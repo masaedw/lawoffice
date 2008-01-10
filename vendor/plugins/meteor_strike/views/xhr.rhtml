@@ -13,7 +13,8 @@
   </form>
   <div id="<%= iframe_id %>-flash"></div>
   <%= javascript_tag %Q{
-    var meteorStrike = meteorStrike || $H();
+    window.meteorStrike_installed = true;
+    window.meteorStrike = window.meteorStrike || new Object;
     meteorStrike.getFlashVersion = function(){
       if(#{options[:noflash].to_json}) return 0;
       var version = 0, ua = navigator.userAgent;
@@ -45,8 +46,11 @@
       ms.getTags = function(){return TAGS};
       ms.getUid = function(){return UID};
       ms.executionQueue = {};
-      ms.executionCounter = 0;
+      ms.executionCounter = null;
       ms.evaluate = function(js, serialId){
+        if(ms.executionCounter == null){
+          ms.executionCounter = serialId;
+        }
         ms.executionQueue[serialId] = js;
         if(serialId == ms.executionCounter){
           while(js = ms.executionQueue[ms.executionCounter]){
@@ -54,6 +58,14 @@
             delete ms.executionQueue[ms.executionCounter];
             ++ms.executionCounter;
           }
+        }else{
+          setTimeout(function(){
+            if(js = ms.executionQueue[this]){
+              eval(js);
+              delete ms.executionQueue[this];
+              ms.executionCounter = null;
+            }
+          }.bind(serialId), 3000);
         }
       };
       ms.event = function(params){
@@ -69,7 +81,7 @@
           channel: channel, uid: uid || UID,
           tag: encodeTags(tags || TAGS), sig: #{sig.to_json}
         }).toQueryString(), asynchronous: true});
-        UID = uid, TAGS = tags;
+        UID = uid || UID, TAGS = tags || TAGS;
       };
       ms.tuneIn = function(tags){
         ms.update(UID, TAGS.concat(tags || []).uniq());
