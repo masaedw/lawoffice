@@ -7,7 +7,7 @@
   <span id="schedule">
     <span class="basic">
       <%= link_to_function "回覧掲示板", "BBSWindow.open()" %>&nbsp;
-      <span class="unread" id="bbs_checked"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="unread" id="bbs_unread"<%= @bbs_unread == 0 ? ' style="display: none"' : ""%>><%= @bbs_unread %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <a href="<%=h @schedules[0].body %>" id="schedule_1">予定表A</a>
       <a href="<%=h @schedules[1].body %>" id="schedule_2">予定表B</a>
     </span>

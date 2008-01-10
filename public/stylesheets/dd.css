@@ -138,6 +138,12 @@ body {
   left: 0;
 }
 
+#control .unread {
+  color: #f00;
+  background-color: #fff;
+  white-space: nowrap;
+}
+
 #edit_menu {
   text-align: left;
   float: left;
