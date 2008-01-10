@@ -464,6 +464,23 @@ Object.extend(BBSMemo, {
   update_dest_table: function(elem, id, callback)
   {
     new Ajax.Updater(elem, '/bbs_memos/dest_table/'+id, {onComplete:callback, method:"get"});
+  },
+
+  unread: function(arg)
+  {
+    if (Object.isUndefined(arg)) {
+      return parseInt($("bbs_unread").innerHTML);
+    } else {
+      arg = parseInt(arg);
+      $("bbs_unread").update(arg);
+
+      if (arg == 0)
+        $("bbs_unread").hide();
+      else
+        $("bbs_unread").show();
+
+      return arg;
+    }
   }
 });
 
