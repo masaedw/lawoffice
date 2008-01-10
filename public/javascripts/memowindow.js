@@ -373,6 +373,7 @@ Object.extend(BBSMemo, {
   },
 
   update_checked: function(display_id, memo_id, checked) {
+    BBSMemo.unread(BBSMemo.unread() + (checked ? -1 : 1));
     new Ajax.Request('/bbs_memos/check_or_reset/'+id_number(memo_id), {parameters: {flag:checked}});
   },
 
@@ -419,7 +420,15 @@ Object.extend(BBSMemo, {
     console.log(person_id);
     Person.update_bbs_unread(person_id, Person.find(person_id).bbs_unread()+diff);
     new Ajax.Request('/bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
-    this.fix_final_check(display_id);
+
+    if ($A(j$("#"+display_id+"_cl input")).pluck("checked").all()) {
+      $(display_id+"_check").enable();
+      BBSMemo.unread(BBSMemo.unread() + 1);
+    } else {
+      if (!$(display_id+"_check").disabled && $(display_id+"_check").checked == false)
+        BBSMemo.unread(BBSMemo.unread() - 1);
+      $(display_id+"_check").disable().checked = false;
+    }
   },
 
   edit_dest: function(memo_id, display_id)
