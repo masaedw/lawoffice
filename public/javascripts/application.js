@@ -248,3 +248,63 @@ function sid_is(sid)
 {
   return sid__ == sid;
 }
+
+
+//------------------------------------------------------------
+// 自動的にリサイズする textarea
+//
+var ResizingTextArea = Class.create({
+  initialize: function(field, callback)
+  {
+    field = $(field);
+    this.defaultRows = Math.max(field.rows, 1);
+    this.defaultCols = Math.max(field.cols, 1);
+    this.resizeNeeded = this.resizeNeeded.bindAsEventListener(this);
+    Event.observe(field, "click", this.resizeNeeded);
+    Event.observe(field, "keyup", this.resizeNeeded);
+    this.callback = callback;
+  },
+
+  resizeNeeded: function(event)
+  {
+    var t = Event.element(event);
+    var lines = t.value.split('\n');
+    var newRows = lines.length + 1;
+    var newCols = lines.map(strWidth).max()+1;
+    if (newCols > t.cols) { t.cols = newCols; }
+    if (newCols < t.cols) { t.cols = Math.max(this.defaultCols, newCols); }
+    if (newRows > t.rows) { t.rows = newRows; }
+    if (newRows < t.rows) { t.rows = Math.max(this.defaultRows, newRows); }
+    if (Object.isFunction(this.callback)) this.callback();
+  }
+});
+
+function strWidth(str)
+{
+  var width = 0;
+  for (var i = 0; i < str.length; i++) {
+    var code = str.charCodeAt(i);
+    if (code < 0xff || (0xff61 <= code && code <= 0xff91)) /* 半角カナ */
+      width++;
+    else
+      width += 2;
+  }
+  return width;
+}
+
+
+//------------------------------------------------------------
+// ノートパッド機能
+//
+function resizeNotepad()
+{
+  var width = $("notepad_area").getWidth();
+  $("notepad").setStyle({"width": width+"px"});
+}
+
+function initNotepad()
+{
+  new ResizingTextArea('notepad_area', resizeNotepad);
+  new Draggable('notepad', {scroll: document.body});
+  resizeNotepad();
+}

@@ -365,3 +365,15 @@ body {
 .all_dest_list table td{
   white-space: nowrap;
 }
+
+#notepad {
+  border: 1px solid #888;
+  background-color: #ECEEF0;
+  padding: 10px 0 0 0;
+  width: 150px;
+  cursor: move;
+}
+
+#notepad textarea {
+  border: none;
+}
