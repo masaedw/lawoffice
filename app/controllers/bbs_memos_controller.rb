@@ -80,7 +80,15 @@ class BbsMemosController < MemosController
 
     notice_unread([assoc.person])
 
-    render :nothing => true
+    need_check = BbsMemo.num_of_need_check
+    js = render_to_string :update do |page|
+      page << "BBSMemo.unread(#{need_check});"
+    end
+    shoot_both(js)
+
+    render :update do |page|
+      page << "BBSMemo.unread(#{need_check});"
+    end
   end
 
   def check_or_reset
@@ -88,7 +96,15 @@ class BbsMemosController < MemosController
     memo.checked = params[:flag] == "true"
     memo.save
 
-    render :nothing => true
+    need_check = BbsMemo.num_of_need_check
+    js = render_to_string :update do |page|
+      page << "BBSMemo.unread(#{need_check});"
+    end
+    shoot_both(js)
+
+    render :update do |page|
+      page << "BBSMemo.unread(#{need_check});"
+    end
   end
 
   def dest_table
