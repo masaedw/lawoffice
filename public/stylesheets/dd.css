@@ -159,8 +159,6 @@ body {
   top: 2em;
   left: 10px;
   width: 14em;
-  border-top: 1px solid #888;
-  border-bottom: 1px solid #888;
 }
 
 #locations.edit {
@@ -191,7 +189,7 @@ body {
 
 #locations table {
   width: 100%;
-  border-spacing: 1px 0;
+  border-spacing: 1px 1px;
   background-color: #888;
 }
 
