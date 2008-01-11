@@ -4,6 +4,7 @@ class MainController < ApplicationController
     @schedules = Schedule.find(:all)
     @templates = Template.find(:all, :order => "name")
     @bbs_unread = BbsMemo.num_of_need_check
+    @notepad    = NotepadContent.get
   end
 
   def edit

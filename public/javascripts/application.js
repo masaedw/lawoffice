@@ -268,6 +268,12 @@ var ResizingTextArea = Class.create({
   resizeNeeded: function(event)
   {
     var t = Event.element(event);
+    this.resize(t);
+    if (Object.isFunction(this.callback)) this.callback();
+  },
+
+  resize: function(t)
+  {
     var lines = t.value.split('\n');
     var newRows = lines.length + 1;
     var newCols = lines.map(strWidth).max()+1;
@@ -275,7 +281,6 @@ var ResizingTextArea = Class.create({
     if (newCols < t.cols) { t.cols = Math.max(this.defaultCols, newCols); }
     if (newRows > t.rows) { t.rows = newRows; }
     if (newRows < t.rows) { t.rows = Math.max(this.defaultRows, newRows); }
-    if (Object.isFunction(this.callback)) this.callback();
   }
 });
 
@@ -290,21 +295,4 @@ function strWidth(str)
       width += 2;
   }
   return width;
-}
-
-
-//------------------------------------------------------------
-// ノートパッド機能
-//
-function resizeNotepad()
-{
-  var width = $("notepad_area").getWidth();
-  $("notepad").setStyle({"width": width+"px"});
-}
-
-function initNotepad()
-{
-  new ResizingTextArea('notepad_area', resizeNotepad);
-  new Draggable('notepad', {scroll: document.body});
-  resizeNotepad();
 }

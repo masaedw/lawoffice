@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 16) do
+ActiveRecord::Schema.define(:version => 17) do
 
   create_table "bbs_memos", :force => true do |t|
     t.integer  "template_id"
@@ -51,6 +51,10 @@ ActiveRecord::Schema.define(:version => 16) do
     t.text     "javascript"
     t.integer  "limit"
     t.datetime "created_at"
+  end
+
+  create_table "notepad_contents", :force => true do |t|
+    t.text "body"
   end
 
   create_table "people", :force => true do |t|
