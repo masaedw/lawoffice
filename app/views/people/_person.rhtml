@@ -20,7 +20,7 @@
     <%= span_class person, "phone" %>
     <%= link_to_function "X", "Person.find('#{person.element_id}').minimize_handler(Event.getEvent(event))", :class => "closebutton" %>
     <br/>
-    <%= link_to_function "未読 #{person.unread}", "Person.find('#{person.element_id}').open_memo_window_handler(Event.getEvent(event))",  :class => "unread" %>
+    <%= link_to_function "伝言 #{person.unread}", "Person.find('#{person.element_id}').open_memo_window_handler(Event.getEvent(event))",  :class => "unread" %>
     <%= link_to_function "回覧 #{person.bbs_unread}", "BBSWindow.open()",  :class => "bbs_unread" %>
     <br/>
     <input class="message" id="<%= person.element_id %>_message_input" type="text" value="<%=h person.message %>"/>

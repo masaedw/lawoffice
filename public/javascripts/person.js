@@ -217,7 +217,7 @@ Person.prototype = {
 
   unread: function(arg)
   {
-    return this.unread_("unread", "未読", arg);
+    return this.unread_("unread", "伝言", arg);
   },
 
   bbs_unread: function(arg)
