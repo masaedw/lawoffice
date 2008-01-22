@@ -290,6 +290,7 @@ MemoDisplay.prototype = {
     $(this.elem_id+"_edit_dest").hide();
     $(this.elem_id+"_cl").hide();
     $(this.elem_id+"_dl").hide().update("");
+    $(this.elem_id+"_all_checked").hide();
   }
 };
 
@@ -424,10 +425,12 @@ Object.extend(BBSMemo, {
     if ($A(j$("#"+display_id+"_cl input")).pluck("checked").all()) {
       $(display_id+"_check").enable();
       BBSMemo.unread(BBSMemo.unread() + 1);
+      $(display_id+"_all_checked").show();
     } else {
       if (!$(display_id+"_check").disabled && $(display_id+"_check").checked == false)
         BBSMemo.unread(BBSMemo.unread() - 1);
       $(display_id+"_check").disable().checked = false;
+      $(display_id+"_all_checked").hide();
     }
   },
 
@@ -460,8 +463,10 @@ Object.extend(BBSMemo, {
   {
     if ($A(j$("#"+display_id+"_cl input")).pluck("checked").all()) {
       $(display_id+"_check").enable();
+      $(display_id+"_all_checked").show();
     } else {
       $(display_id+"_check").disable().checked = false;
+      $(display_id+"_all_checked").hide();
     }
   },
 
