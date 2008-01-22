@@ -16,6 +16,9 @@ Object.extend(MemoWindow, {
     Element.observe("memo_template_select", "change", function(event) {
       memo_window.template_select_handler(event);
     }.bindAsEventListener(window));
+
+    Event.observe("memo_dest_list", "mousemove", MemoWindow.end_drag.bind(MemoWindow));
+    Event.observe("memo_dest_list", "mouseout",  MemoWindow.start_drag.bind(MemoWindow));
   },
 
   open: function(id, callback) {
