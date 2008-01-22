@@ -36,14 +36,19 @@ class PeopleController < ApplicationController
   end
 
   def update_message
+    locations = Location.find(:all, :order => 'position')
     @person.message = params[:message]
     if @person.save
       js = render_to_string :update do |page|
+        page << "if (!edit_mode) {"
+        page.replace_html 'locations-table', render(:partial => 'locations/item', :collection => locations)
+        page << "}"
         page << "Person.update_text('#{@person.element_id}', 'message', #{j @person.message});"
       end
       shoot_both(js)
 
       render :update do |page|
+        page.replace_html 'locations-table', render(:partial => 'locations/item', :collection => locations)
         page << "j$('##{@person.element_id} span.message').html(#{j @person.message});"
       end
     else
