@@ -16,7 +16,6 @@ Object.extend(Notepad, {
     if (!edit_mode) {
       $("notepad_area").setValue(content);
       Notepad.observer.updateLastValue();
-      Notepad.resize();
     }
   },
 
