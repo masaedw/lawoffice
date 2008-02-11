@@ -17,8 +17,7 @@ Object.extend(MemoWindow, {
       memo_window.template_select_handler(event);
     }.bindAsEventListener(window));
 
-    Event.observe("memo_dest_list", "mousemove", MemoWindow.end_drag.bind(MemoWindow));
-    Event.observe("memo_dest_list", "mouseout",  MemoWindow.start_drag.bind(MemoWindow));
+    this.draggable.exclude("memo_dest_list");
   },
 
   open: function(id, callback) {
@@ -175,22 +174,6 @@ Object.extend(MemoWindow, {
       $("memo_window_new_area").setValue(template.content);
       $("memo_window_new_area").setStyle({backgroundColor: template.color});
     }
-  },
-
-  start_drag: function() {
-    if (!this.is_dragging())
-      this.draggable = new Draggable('memo_window');
-  },
-
-  end_drag: function() {
-    if (this.is_dragging()) {
-      this.draggable.destroy()
-      delete this.draggable;
-    }
-  },
-
-  is_dragging: function() {
-    return !!this.draggable;
   }
 });
 
@@ -264,8 +247,7 @@ MemoDisplay.prototype = {
 
     this.observer = new Form.Element.Observer(id+"_area", 1, this.change_handler.bind(this));
 
-    Event.observe($(id+"_dl"), "mousemove", MemoWindow.end_drag.bind(MemoWindow));
-    Event.observe($(id+"_dl"), "mouseout",  MemoWindow.start_drag.bind(MemoWindow));
+    MemoWindow.draggable.exclude(id+"_dl");
 
     MemoDisplay.register(id, this);
   },

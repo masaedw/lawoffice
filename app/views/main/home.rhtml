@@ -93,13 +93,16 @@
       <div class="all_dest_list" id="<%= id %>_dl" style="display:none;">
       </div>
     </div>
-    <%= javascript_tag "new MemoDisplay('memo_display_#{i}');" %>
     <%- end -%>
     <div id="memo_paginate"></div>
   </div>
 </div>
 <%= javascript_tag "MemoWindow.init();" %>
 <%= javascript_tag @templates.map{|i|"new MemoTemplate(#{i.element_id.to_json}, #{i.name.to_json}, #{i.color.to_json}, #{i.content.to_json});"}.join($/) %>
+
+<%- for i in 1..MemosController.view_num -%>
+<%= javascript_tag "new MemoDisplay('memo_display_#{i}');" %>
+<%- end -%>
 
 <div id="notepad" onclick="Element.popup(this);" style="top: 600px; left: 50px;">
   <p> notepad </p>
