@@ -274,6 +274,7 @@ var ResizingTextArea = Class.create({
 
   resize: function(t)
   {
+    t = $(t);
     var lines = t.value.split('\n');
     var newRows = lines.length + 1;
     var newCols = lines.map(strWidth).max()+1;
@@ -281,6 +282,7 @@ var ResizingTextArea = Class.create({
     if (newCols < t.cols) { t.cols = Math.max(this.defaultCols, newCols); }
     if (newRows > t.rows) { t.rows = newRows; }
     if (newRows < t.rows) { t.rows = Math.max(this.defaultRows, newRows); }
+    console.log("newcols: " + newCols + ",  newrows: " + newRows);
   }
 });
 
@@ -296,3 +298,39 @@ function strWidth(str)
   }
   return width;
 }
+
+
+//------------------------------------------------------------
+// 条件によってドラッグを中断するための仕組み(IE対策)
+//
+Object.extend(Draggables, {
+  include: function(draggable)
+  {
+    return this.drags.include(draggable);
+  }
+});
+
+Object.extend(Draggable.prototype, {
+  exclude: function(elements)
+  {
+    if (!Object.isArray(elements))
+      elements = [elements];
+
+    var end_drag = function() {
+      if (Draggables.include(this))
+        this.destroy();
+    }.bindAsEventListener(this);
+
+    var start_drag = function() {
+      if (!Draggables.include(this)) {
+        Event.observe(this.handle, "mousedown", this.eventMouseDown);
+        Draggables.register(this);
+      }
+    }.bindAsEventListener(this);
+
+    for (var i = 0; i < elements.length; i++) {
+      Event.observe($(elements[i]), "mousemove", end_drag);
+      Event.observe($(elements[i]), "mouseout",  start_drag);
+    }
+  }
+});

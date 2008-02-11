@@ -103,7 +103,9 @@
 
 <div id="notepad" onclick="Element.popup(this);" style="top: 600px; left: 50px;">
   <p> notepad </p>
-  <textarea cols="30" rows="5" id="notepad_area"><%=h @notepad %></textarea>
+  <div class="box" id="notepad_box">
+    <textarea cols="30" rows="5" id="notepad_area"><%=h @notepad %></textarea>
+  </div>
 </div>
 <%= javascript_tag "Notepad.init();" %>
 

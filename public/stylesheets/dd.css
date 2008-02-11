@@ -370,13 +370,17 @@ body {
   border: 1px solid #888;
   background-color: #ECEEF0;
   padding: 10px 0 0 0;
-  width: 380px;
-  height: 300px;
+  width: 190px;
   cursor: move;
 }
 
+#notepad .box {
+  width: 100%;
+  height: 300px;
+  overflow: auto;
+}
+
 #notepad textarea {
-  border: none;
-  width: 380px;
-  height: 260px;
+  border: 0;
+  overflow: visible;
 }
