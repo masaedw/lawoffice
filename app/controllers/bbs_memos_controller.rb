@@ -26,14 +26,6 @@ class BbsMemosController < MemosController
     render_list(people)
   end
 
-  def update
-    memo = BbsMemo.find(params[:id])
-    memo.content = params[:content]
-    memo.save
-
-    render :nothing => true
-  end
-
   def print
     @memo = BbsMemo.find(params[:id], :include => "interested_people")
     render :layout => false
@@ -45,6 +37,7 @@ class BbsMemosController < MemosController
     memo.save
 
     if !params[:dests].blank?
+      need_check_old = BbsMemo.num_of_need_check
       ids = params[:dests].split(",").map{|i| i.to_i}
       people = Person.find(:all)
 
@@ -67,7 +60,21 @@ class BbsMemosController < MemosController
       end
 
       notice_unread(changes)
-      render(:partial => "notice_unread", :object => changes)
+
+      need_check = BbsMemo.num_of_need_check
+
+      if need_check != need_check_old
+        js = render_to_string :update do |page|
+          page << "BBSMemo.unread(#{need_check});"
+        end
+        shoot_both(js)
+        render :update do |page|
+          page << render(:partial => "notice_unread", :object => changes)
+          page << "BBSMemo.unread(#{need_check});"
+        end
+      else
+        render(:partial => "notice_unread", :object => changes)
+      end
     else
       render :nothing => true
     end
