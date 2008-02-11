@@ -3,13 +3,11 @@
 <%- dest_line.each do |item| -%>
 <%- if item -%>
 <td class="dest">
-  <%- if !item.person.name.empty? -%>
   <label>
     <%=h item.person.name %>
     <input type="checkbox"<%= item.checked ? 'checked="checked"' : "" %>
            onclick="BBSMemo.update_person_checked('<%= item.bbs_memo.element_id %>', '<%= item.person.element_id %>', this);"/>
   </label>
-  <%- end -%>
 </td>
 <%- else -%>
 <td></td>
