@@ -43,7 +43,9 @@
     検索 <input type="text" name="search" id="memo_window_search"/>
     <br/>
     <form id="memo_window_date">
-      日付<input type="checkbox" id="memo_window_date_enable" name="enable"/>
+      <label>
+        日付<input type="checkbox" id="memo_window_date_enable" name="enable"/>
+      </label>
       <input type="text" id="memo_window_year"  name="year"  size="4"/>年
       <input type="text" id="memo_window_month" name="month" size="2"/>月
       <input type="text" id="memo_window_day"   name="day"   size="2"/>日
@@ -80,7 +82,9 @@
         </table>
       </div>
       <div class="footer">
-        <span>確認済み</span><%=check_box_tag "checked", "0", false, {:id => id+"_check"} %>
+        <label>
+          <span>確認済み</span><%=check_box_tag "checked", "0", false, {:id => id+"_check"} %>
+        </label>
       </div>
       <div class="all_dest_list" id="<%= id %>_dl" style="display:none;">
       </div>
