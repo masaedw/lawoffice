@@ -360,8 +360,10 @@ body {
 }
 
 #memo_dest_list table td,
-.all_dest_list table td{
+.dest_list table td,
+.all_dest_list table td {
   white-space: nowrap;
+  text-align: right;
 }
 
 #notepad {

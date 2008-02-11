@@ -1,7 +1,7 @@
 require 'take_split'
 
 class BbsMemosController < MemosController
-  caches_page :dest_table
+#  caches_page :dest_table
 
   def create
     memo = BbsMemo.new
