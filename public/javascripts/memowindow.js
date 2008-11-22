@@ -120,7 +120,7 @@ Object.extend(MemoWindow, {
     var params = $H({page: n, unread: this.unchecked, query: this.query});
     if ($("memo_window_date_enable").checked)
       params.update(this.date);
-    new Ajax.Request('/memos/view/#{person_id}?#{params}'.interpolate({person_id: id_number(this.person_id), params: params.toQueryString()}));
+    new Ajax.Request('memos/view/#{person_id}?#{params}'.interpolate({person_id: id_number(this.person_id), params: params.toQueryString()}));
   },
 
   unchecked_set: function(param) {
@@ -183,7 +183,7 @@ var Memo = new Object;
 Object.extend(Memo, {
   create: function(content, template_id) {
     var pid = MemoWindow.person_id;
-    new Ajax.Request('/memos/create/'+id_number(pid), {parameters: {"content": content, "template": template_id, unread: true}});
+    new Ajax.Request('memos/create/'+id_number(pid), {parameters: {"content": content, "template": template_id, unread: true}});
     Person.update_unread(pid, Person.find(pid).unread()+1);
   },
 
@@ -197,15 +197,15 @@ Object.extend(Memo, {
       var method = "reset/"
     }
     Person.update_unread(person_id, Person.find(person_id).unread()+diff);
-    new Ajax.Request('/memos/'+method+id_number(memo_id));
+    new Ajax.Request('memos/'+method+id_number(memo_id));
   },
 
   print_url: function(id) {
-    return "/memos/print/"+id_number(id);
+    return "memos/print/"+id_number(id);
   },
 
   update: function(memo_id, display_id) {
-    new Ajax.Request('/memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
+    new Ajax.Request('memos/update/'+id_number(memo_id), {parameters: {"content": $F(display_id+"_area")}});
   },
 
   display: function(display_id, params) {
@@ -314,7 +314,7 @@ Object.extend(BBSWindow, {
     var params = $H({page: n, unread: this.unchecked, query: this.query});
     if ($("memo_window_date_enable").checked)
       params.update(this.date);
-    new Ajax.Request('/bbs_memos/view/', {parameters: params});
+    new Ajax.Request('bbs_memos/view/', {parameters: params});
   },
 
   cleanup: function() {
@@ -343,7 +343,7 @@ Object.extend(BBSWindow, {
 
   update_dest_table: function(elem, callback)
   {
-    new Ajax.Updater(elem, '/bbs_memos/dest_table', {onComplete:callback, method:"get"});
+    new Ajax.Updater(elem, 'bbs_memos/dest_table', {onComplete:callback, method:"get"});
   }
 
 });
@@ -355,16 +355,16 @@ Object.extend(BBSMemo, {
   create: function(content, template_id) {
     var params = $H({"content": content, "template": template_id, unread: true});
     params.set("dests", this.get_dest_query("memo_dest_list"));
-    new Ajax.Request('/bbs_memos/create/', {parameters: params});
+    new Ajax.Request('bbs_memos/create/', {parameters: params});
   },
 
   update_checked: function(display_id, memo_id, checked) {
     BBSMemo.unread(BBSMemo.unread() + (checked ? -1 : 1));
-    new Ajax.Request('/bbs_memos/check_or_reset/'+id_number(memo_id), {parameters: {flag:checked}});
+    new Ajax.Request('bbs_memos/check_or_reset/'+id_number(memo_id), {parameters: {flag:checked}});
   },
 
   print_url: function(id) {
-    return "/bbs_memos/print/"+id_number(id);
+    return "bbs_memos/print/"+id_number(id);
   },
 
   update: function(memo_id, display_id) {
@@ -374,11 +374,11 @@ Object.extend(BBSMemo, {
       this.hide_dest_table(display_id);
     }
     var onComplete = function() {
-      new Ajax.Updater($(display_id+"_cl").down("tbody"), '/bbs_memos/dest_list/'+id_number(memo_id),
+      new Ajax.Updater($(display_id+"_cl").down("tbody"), 'bbs_memos/dest_list/'+id_number(memo_id),
                        {onComplete:this.fix_final_check.bind(this).curry(display_id)});
     }.bind(this);
     $(display_id+"_cl").down("tbody").update("");
-    new Ajax.Request('/bbs_memos/update/'+id_number(memo_id), {parameters: params, onComplete:onComplete});
+    new Ajax.Request('bbs_memos/update/'+id_number(memo_id), {parameters: params, onComplete:onComplete});
   },
 
   display: function(display_id, params) {
@@ -405,7 +405,7 @@ Object.extend(BBSMemo, {
     var display_id = $(element).up(".memo").readAttribute("id");
     console.log(person_id);
     Person.update_bbs_unread(person_id, Person.find(person_id).bbs_unread()+diff);
-    new Ajax.Request('/bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
+    new Ajax.Request('bbs_memos/person_check_or_reset/'+id_number(memo_id), {parameters: {"flag": val, "person_id": id_number(person_id)}});
 
     if ($A(j$("#"+display_id+"_cl input")).pluck("checked").all()) {
       $(display_id+"_check").enable();
@@ -462,7 +462,7 @@ Object.extend(BBSMemo, {
 
   update_dest_table: function(elem, id, callback)
   {
-    new Ajax.Updater(elem, '/bbs_memos/dest_table/'+id, {onComplete:callback, method:"get"});
+    new Ajax.Updater(elem, 'bbs_memos/dest_table/'+id, {onComplete:callback, method:"get"});
   },
 
   unread: function(arg)
