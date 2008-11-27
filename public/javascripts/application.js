@@ -51,6 +51,15 @@ function is_valid_color(color)
   return !!color.match(/^#([a-f0-9]{3}){1,2}$/i);
 }
 
+// relative_url_root 対応
+Ajax.Request.prototype._request = Ajax.Request.prototype.request;
+Ajax.Request.prototype.request = function(url)
+{
+  if (url.match(/^\//)) {
+    url = relative_url_root + url;
+  }
+  this._request(url);
+};
 
 //------------------------------------------------------------
 // IE のバグ対策

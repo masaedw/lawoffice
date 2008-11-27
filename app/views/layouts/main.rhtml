@@ -13,7 +13,8 @@
   <%= javascript_include_tag "templatewindow.js" %>
   <%= javascript_include_tag "schedule.js" %>
   <%= javascript_include_tag "notepad.js" %>
-  <%= javascript_tag "var sid__ = \"#{session.session_id}\";" %>
+  <%= javascript_tag %Q|var sid__ = "#{session.session_id}";| %>
+  <%= javascript_tag %Q|var relative_url_root = "#{relative_url_root}";| %>
 </head>
 <body>
 
