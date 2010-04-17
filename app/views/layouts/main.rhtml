@@ -14,7 +14,7 @@
   <%= javascript_include_tag "schedule.js" %>
   <%= javascript_include_tag "notepad.js" %>
   <%= javascript_tag %Q|var sid__ = "#{session.session_id}";| %>
-  <%= javascript_tag %Q|var relative_url_root = "#{relative_url_root}";| %>
+  <%= javascript_tag %Q|var relative_url_root = "#{controller.request.relative_url_root}";| %>
 </head>
 <body>
 
